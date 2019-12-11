@@ -1,0 +1,410 @@
+<% if @contract.present? %>
+  <div class="single_top-block">
+    <div class="back-arrow_wrapper noprint">
+      <img class="back-arrow_image" src="/img/icons/arrow-back.png" alt="arrow-back">
+      <% if @contract.status == "approved" %>
+        <a class="back-arrow" href="/admin/contracts_approved">RETURN</a>
+      <% elsif @contract.status == "archive" %>
+        <a class="back-arrow" href="/admin/contracts_archive">RETURN</a>
+      <% else %>
+        <a class="back-arrow" href="/admin/contracts">RETURN</a>
+      <% end %>
+    </div>
+    <div class="current-category-block single-current-category-block">
+      <div class="current-category-block_text text-left">
+        <span>Current Category: </span>
+        <span class="current-category-block_value"><%= @contract.type_work %></span>
+      </div>
+      <div class="current-category-block_text applicant text-right">
+        <span>Current Applicant:</span>
+        <span class="current-category-block_applicant"><%= @contract.legal_title %></span>
+      </div>
+    </div>
+    <% unless @contract.status == "approved" %>
+      <div class="current-category-block current-category-block__accept noprint">
+        <a href="/admin/new_change_status/<%= @contract.id %>?status=approved">ACCEPT</a>
+      </div>
+    <% end %>
+    <% unless @contract.status == "archive" %>
+      <div class="current-category-block current-category-block__decline noprint">
+        <a href="/admin/new_change_status/<%= @contract.id %>?status=archive">DECLINE</a>
+      </div>
+    <% end %>
+  </div>
+  <div class="single_table-block block1 col-xs-6">
+    <div class="single_table-block_title-line">
+      <h3 class="single_table-block_title">
+        SUBMITTED BY
+      </h3>
+    </div>
+    <div class="info-table_wrapper">
+      <div class="info-table_vline info-table_vline1"></div>
+      <div class="info-table_vline info-table_vline2"></div>
+      <table class="info-table info-table_cols3 info-table_block1">
+        <tr>
+          <td>Legal Title of Organization</td>
+          <td><span class="submittedby_legal-title"><%= best_in_place [:admin, @contract], :legal_title %></span></td>
+          <td>Contact Name</td>
+          <td><span class="submittedby_contact-name"><%= @contract.contact_name %></span></td>
+          <td>GST #</td>
+          <td><span class="submittedby_gst"><%= @contract.gst %></span></td>
+        </tr>
+        <tr>
+          <td>Mailing Address</td>
+          <% mailing = @contract.mailing_address %>
+          <td>
+            <span class="submittedby_mailing-address"><%= "#{mailing.street}, #{mailing.city}, #{mailing.province}, #{mailing.postal_code}" %></span>
+          </td>
+          <td>Email Address</td>
+          <td><span class="submittedby_email-address"><%= @contract.email %></span></td>
+          <td>Questions Contact</td>
+          <td><span class="submittedby_quest-contact"><%= @contract.authority_person_name %></span></td>
+        </tr>
+        <tr>
+          <td>Remittance Address</td>
+          <% remittance = @contract.remittance_address %>
+          <td>
+            <span class="submittedby_remittance-address"><%= "#{remittance.street}, #{remittance.city}, #{remittance.province}, #{remittance.postal_code}" %></span>
+          </td>
+          <td>Phone #</td>
+          <td><span class="submittedby_phone"><%= @contract.telephone %></span></td>
+          <td>Phone #</td>
+          <td><span class="submittedby_phone2"><%= @contract.authority_person_phone %></span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="single_table-block block2">
+    <div class="single_table-block_title-line">
+      <h3 class="single_table-block_title">
+        FINANCIAL INFORMATION
+      </h3>
+    </div>
+    <% financial = @contract.financial %>
+    <div class="info-table_wrapper">
+      <div class="info-table_vline info-table_vline1"></div>
+      <div class="info-table_vline info-table_vline2"></div>
+      <table class="info-table info-table_cols3 info-table_block2">
+        <tr>
+          <td>Bank</td>
+          <td><span class="financial_bank">  <%= financial.bank %></span></td>
+          <td>Account #</td>
+          <td><span class="financial_account"><%= financial.acct %></span></td>
+          <td>Contact</td>
+          <td><span class="financial_contact"><%= financial.contact %></span></td>
+        </tr>
+        <tr>
+          <td>Mailing Address</td>
+          <td><span class="financial_mailing-address"><%= financial.addressc %></span></td>
+          <td>Routing #</td>
+          <td><span class="financial_routing"><%= financial.transist %></span></td>
+          <td>Email Address</td>
+          <td><span class="financial_email-address"><%= financial.email %></span></td>
+        </tr>
+        <tr>
+          <td>Phone #</td>
+          <td><span class="financial_phone"><%= financial.phone %></span></td>
+          <td>Institution #</td>
+          <td><span class="financial_institution"><%= financial.institution %></span></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <% business = @contract.business %>
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="single_table-block block3">
+        <div class="single_table-block_title-line">
+          <h3 class="single_table-block_title">
+            BUSINESS INFORMATION
+          </h3>
+        </div>
+        <div class="info-table_wrapper">
+          <div class="info-table_vline_col2"></div>
+          <table class="info-table info-table_cols2 info-table_block3">
+            <tr>
+              <td>Business Type</td>
+              <td><span class="business_type"><%= business.type_one %></span></td>
+              <td>Principal Officer</td>
+              <td><span class="business_officer"><%= business.name %></span></td>
+            </tr>
+            <tr>
+              <td>Date of Corporation</td>
+              <td><span class="business_date"><%= business.date_corporation %></span></td>
+              <td>Title</td>
+              <td><span class="business_title"><%= @contract.title %></span></td>
+            </tr>
+            <tr>
+              <td>Number of Employees</td>
+              <td><span class="business_num-employees"><%= business.number_employees %></span></td>
+              <td>Union Affiliated</td>
+              <td><span class="business_union"><%= business.union_text %></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="single_table-block block4">
+        <div class="single_table-block_title-line">
+          <h3 class="single_table-block_title">
+            CONTACT INFORMATION
+          </h3>
+        </div>
+        <div class="info-table_wrapper">
+          <div class="info-table_vline_col2"></div>
+          <table class="info-table info-table_cols2 info-table_block4">
+            <tr>
+              <td>Billing Requests</td>
+              <td><span class="contact_billingname"><%= @contract.bil_req_name %></span></td>
+              <td>Service Requests</td>
+              <td><span class="contact_servicename"><%= @contract.serv_req_name %></span></td>
+            </tr>
+            <tr>
+              <td>Email Address</td>
+              <td><span class="contact_email1"><%= @contract.serv_req_email %></span></td>
+              <td>Email Address</td>
+              <td><span class="contact_email2"><%= @contract.bil_req_email %></span></td>
+            </tr>
+            <tr>
+              <td>After Hours Contact</td>
+              <td><span class="contact_afterhours1"><%= @contract.serv_req_phone %></span></td>
+              <td>After Hours Contact</td>
+              <td><span class="contact_afterhours2"><%= @contract.bil_req_phone %></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="single_table-block block5">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                INSURANCE INFORMATION
+              </h3>
+            </div>
+            <div class="info-table_wrapper">
+              <table class="info-table info-table_rows2 info-table_block5_1">
+                <tr>
+                  <td>Company</td>
+                  <td><span class="insurance_company"><%= financial.insurance_company %></span></td>
+                </tr>
+                <tr>
+                  <td>Limit</td>
+                  <td><span class="insurance_limit"><%= financial.ic_general_laibility %></span></td>
+                </tr>
+                <tr>
+                  <td>Address</td>
+                  <td><span class="insurance_address"><%= financial.ic_address %></span></td>
+                </tr>
+              </table>
+              <div class="info-table_hrline"></div>
+              <table class="info-table info-table_rows2 info-table_block5_2">
+                <tr>
+                  <td>Expiry</td>
+                  <td><span class="insurance_expiry"><%= financial.ic_expiry %></span></td>
+                </tr>
+                <tr>
+                  <td>Phone #</td>
+                  <td><span class="insurance_phone"><%= financial.ic_phone %></span></td>
+                </tr>
+                <tr>
+                  <td>Email Address</td>
+                  <td><span class="insurance_address"><%= financial.ic_email %></span></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="single_table-block block6">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                BONDING INFORMATION
+              </h3>
+            </div>
+            <div class="info-table_wrapper">
+              <table class="info-table info-table_rows2 info-table_block6_1">
+                <tr>
+                  <td>Company</td>
+                  <td><span class="bonding_company"><%= financial.bonding_company %></span></td>
+                </tr>
+                <tr>
+                  <td>Limit</td>
+                  <td><span class="bonding_limit"><%= financial.bc_limit %></span></td>
+                </tr>
+                <tr>
+                  <td>Address</td>
+                  <td><span class="bonding_address"><%= financial.bc_address %></span></td>
+                </tr>
+              </table>
+              <div class="info-table_hrline"></div>
+              <table class="info-table info-table_rows2 info-table_block6_2">
+                <tr>
+                  <td>Contact</td>
+                  <td><span class="bonding_contact"><%= financial.bc_contact %></span></td>
+                </tr>
+                <tr>
+                  <td>Phone #</td>
+                  <td><span class="bonding_phone"><%= financial.bc_phone %></span></td>
+                </tr>
+                <tr>
+                  <td>Email Address</td>
+                  <td><span class="bonding_email"><%= financial.bc_email %></span></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="single_table-block block7 block8">
+        <div class="single_table-block_title-line">
+          <h3 class="single_table-block_title">
+            DESIRED WORK
+          </h3>
+        </div>
+        <% financial.trades.each_slice(2) do |array| %>
+          <div class="info-table_wrapper">
+            <div class="info-table_vline_col2"></div>
+            <table class="info-table info-table_cols2 info-table_block7">
+
+              <tr>
+                <% n = 0 %>
+                <% array.each do |item| %>
+                  <td>Category <%= n += 1 %></td>
+                  <td><span class="desiredwork_cat1"><%= item.name %></span></td>
+                <% end %>
+              </tr>
+              <tr>
+                <% array.each do |item| %>
+                  <td>Value Range</td>
+                  <td><span class="desiredwork_val1"><%= item.range %></span></td>
+                <% end %>
+              </tr>
+
+            </table>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="single_table-block block9">
+        <div class="single_table-block_title-line">
+          <h3 class="single_table-block_title">
+            CERTIFICATION
+          </h3>
+        </div>
+        <div class="info-table_wrapper">
+          <table class="info-table info-table_cols3 info-table_block9">
+            <tr>
+              <td>Insurance Cert.</td>
+              <% unless financial.ins_cert.url == '/ins_certs/original/missing.png' %>
+                <td><a class="certification_insurance-crt" target="_blank" href="<%= financial.ins_cert.url %>">View</a>
+                </td>
+              <% else %>
+                <td><a class="certification_insurance-crt">None</a></td>
+              <% end %>
+              <td>WSIB Cert.</td>
+              <% unless financial.wcb_cert.url == '/wcb_certs/original/missing.png' %>
+                <td><a class="certification_wsib-crt" target="_blank" href="<%= financial.wcb_cert.url %>">View</a></td>
+              <% else %>
+                <td><a class="certification_insurance-crt">None</a></td>
+              <% end %>
+              <td>WCB #</td>
+              <td><span class="certification_wcb"><%= financial.ic_wcb %></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="single_table-block block10">
+        <div class="single_table-block_title-line">
+          <h3 class="single_table-block_title">
+            EXPERIENCE WITH ASTRA
+          </h3>
+        </div>
+        <div class="info-table_wrapper">
+          <div class="info-table_vline_col2"></div>
+          <table class="info-table info-table_cols2 info-table_block10">
+            <tr>
+              <td>Property Name</td>
+              <td><span class="astraexperience_propname"><%= financial.other_property_name %></span></td>
+              <td>Contact(s)</td>
+              <td><span class="astraexperience_contact"><%= financial.other_contact %></span></td>
+            </tr>
+            <tr>
+              <td>Property Address</td>
+              <td><span class="astraexperience_propaddress"><%= financial.other_property_address %></span></td>
+              <td>Phone #</td>
+              <td><span class="astraexperience_phone"><%= financial.other_phone %></span></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>Alt Phone #</td>
+              <td><span class="astraexperience_altphone"><%= financial.other_phone_alt %></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="single_table-block_title-line">
+    <h3 class="single_table-block_title">
+      PAST EXPERIENCE
+    </h3>
+  </div>
+  <div class="experience-blocks_wrapper">
+    <% n = 0 %>
+    <% @contract.projects.each do |project| %>
+      <div class="single_table-block block11">
+        <div class="info-table_wrapper clearfix">
+          <div class="info-table_vline info-table_vline1"></div>
+          <div class="info-table_vline info-table_vline2"></div>
+          <div class="experience-block_number"><%= n += 1 %></div>
+          <table class="info-table experience-block_table info-table_cols3 info-table_block11">
+            <tr>
+              <td>Project Description</td>
+              <td><span class="experience_project-descr"><%= project.description %></span></td>
+              <td>Owner</td>
+              <td><span class="experience_owner"><%= project.owner_name %></span></td>
+              <td>Consultant</td>
+              <td><span class="experience_consult"><%= project.consultant_two %></span></td>
+            </tr>
+            <tr>
+              <td>Year of Completion</td>
+              <td><span class="experience_year"><%= project.year_completion %></span></td>
+              <td>Email</td>
+              <td><span class="experience_owner-email"><%= project.email_one %></span></td>
+              <td>Email Address</td>
+              <td><span class="experience_consult-email"><%= project.email_two %></span></td>
+            </tr>
+            <tr>
+              <td>Project Value</td>
+              <td><span class="experience_project-value"><%= project.value %></span></td>
+              <td>Phone #</td>
+              <td><span class="experience_owner-phone"><%= project.phone_one %></span></td>
+              <td>Phone #</td>
+              <td><span class="experience_consult-phone"><%= project.phone_two %></span></td>
+            </tr>
+            <tr>
+              <% project_address = project.project_address %>
+              <td>Project Address</td>
+              <td><span class="experience_project-address"><%= project_address.street %> <%= project_address.city %>
+                , <%= project_address.province %>  <%= project_address.postal_code %></span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

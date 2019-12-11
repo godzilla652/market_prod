@@ -1,0 +1,197 @@
+<section class="tab-section">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" id="task-item" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="workOrder-tab" data-toggle="tab" href="#workOrder" role="tab" aria-controls="workOrder" aria-selected="true">Work
+        order</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="changeOrders-tab" data-toggle="tab" href="#changeOrders" role="tab" aria-controls="changeOrders" aria-selected="false">Change
+        orders</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="backChargers-tab" data-toggle="tab" href="#backChargers" role="tab" aria-controls="backChargers" aria-selected="false">Back
+        chargers</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="invoices-tab" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">Invoices</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
+    </li>
+<% if @entity.lines.present? %>
+    <li class="nav-item">
+      <a class="nav-link" id="history-tab" data-toggle="tab" href="#quotes" role="tab" aria-controls="history" aria-selected="false">Line Quotes</a>
+    </li>
+<% end %>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <%= render 'admin/tasks/show/history', entity: @entity %>
+    <%= render 'admin/tasks/show/quotes', entity: @entity %>
+
+    <!-- Tab 1 -->
+    <div class="tab-pane active" id="workOrder" role="tabpanel" aria-labelledby="workOrder-tab">
+      <table class="project-table">
+        <thead>
+        <tr>
+          <th class="sort__title">Title <i class="sort__icon"></i></th>
+          <th class="sort__title">Type<i class="sort__icon"></i></th>
+          <th class="sort__title">Date (UTC)<i class="sort__icon"></i></th>
+          <th class="fixed-width-140">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if is_accepted?(@entity) %>
+          <tr>
+            <td><span class="td__project-title"><%= @entity.title %></span></td>
+            <td>Work order</td>
+            <td><%= file_date(@entity.work_order_pdf_path) %></td>
+            <td>
+              <a class="td__pdf" href="<%= @entity.work_order_pdf_path %>" target="_blank" title="Download purchase order"> 
+                <i class="pdf-project__icon"></i>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab 2 -->
+    <div class="tab-pane" id="changeOrders" role="tabpanel" aria-labelledby="changeOrders-tab">
+      <table class="project-table">
+        <thead>
+        <tr>
+          <th class="sort__title">Title<i class="sort__icon"></i></th>
+          <th class="sort__title">Type<i class="sort__icon"></i></th>
+          <th class="sort__title">Status<i class="sort__icon"></i></th>
+          <th class="sort__title">Change Budget (C$)<i class="sort__icon"></i></th>
+          <th class="sort__title">GST OR HST TAX<i class="sort__icon"></i></th>
+          <th class="sort__title">Sales Tax’s<i class="sort__icon"></i></th>
+          <th class="sort__title">Date (UTC)<i class="sort__icon"></i></th>
+          <th class="fixed-width-140">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if is_accepted?(@entity) %>
+          <% @entity.line_tasks.change_orders.each do |line| %>
+            <tr>
+              <td><span class="td__project-title edit-change-order__title"><%= line.title %></span></td>
+              <td><%= line.type_line %></td>
+              <td><%= line.status&.capitalize %></td>
+              <td><%= sprintf('%.2f', line.budget) %></td>
+              <td><%= line.task&.gst_calc %>%</td>
+              <td>0%</td>
+              <td><%= file_date(line.invoice_pdf_path) %></td>
+              <td>
+                <a class="td__pdf" href="<%= line.invoice_pdf_path %>" target="_blank" title="Download invoice">
+                  <i class="pdf-project__icon"></i>
+                </a>
+
+                <a data-deleting_resource="delete_order_<%= line.id %>" data-toggle="modal" data-target="#confirm-delete" class="td__delete" rel="nofollow" title="Delete"><i class="delete-project__icon"></i></a>
+
+                <a href="<%= admin_line_task_path(line) %>" data-method="delete" id="delete_order_<%= line.id %>" data-toggle="modal" data-target="#confirm-delete" class="td__delete" rel="nofollow" title="Delete"></a>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab 3 -->
+    <div class="tab-pane" id="backChargers" role="tabpanel" aria-labelledby="backChargers-tab">
+      <table class="project-table">
+        <thead>
+        <tr>
+          <th class="sort__title">Title <i class="sort__icon"></i></th>
+          <th class="sort__title">Type<i class="sort__icon"></i></th>
+          <th class="sort__title">Budget (C$)<i class="sort__icon"></i></th>
+          <th class="fixed-width-140">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if is_accepted?(@entity) %>
+          <% @entity.line_tasks.back_charges.each do |line| %>
+            <tr>
+              <td><span class="td__project-title edit-back-charge__title"><%= line.title %></span></td>
+              <td><%= line.type_line %></td>
+              <td class="edit-back-charge__budget"><%= sprintf('%.2f', line.budget) %></td>
+              <td>
+                <a class="td__pdf" href="<%= line.invoice_pdf_path %>" target="_blank" title="Download invoice">
+                  <i class="pdf-project__icon"></i>
+                </a>
+
+                <a data-deleting_resource="delete_order_<%= line.id %>" data-toggle="modal" data-target="#confirm-delete" class="td__delete" rel="nofollow" title="Delete"><i class="delete-project__icon"></i></a>
+
+                <a href="<%= admin_line_task_path(line) %>" data-method="delete" id="delete_order_<%= line.id %>" data-toggle="modal" data-target="#confirm-delete" class="td__delete" rel="nofollow" title="Delete"></a>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab 4 -->
+    <div class="tab-pane" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+      <table class="project-table">
+        <thead>
+        <tr>
+          <th class="sort__title">Title<i class="sort__icon"></i></th>
+          <th class="sort__title">Type<i class="sort__icon"></i></th>
+          <th class="sort__title">Budget (C$)<i class="sort__icon"></i></th>
+          <th class="sort__title">GST OR HST TAX<i class="sort__icon"></i></th>
+          <th class="sort__title">Sales Tax’s<i class="sort__icon"></i></th>
+          <th class="sort__title">Date (UTC)<i class="sort__icon"></i></th>
+          <th class="fixed-width-140">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @entity.done_confirmed? %>
+          <tr>
+            <td><span class="td__project-title"><%= @entity.title %></span></td>
+            <td>Invoice</td>
+            <td><%= @entity.budget_round %></td>
+            <td><%= @entity.gst_calc %>%</td>
+            <td>0%</td>
+            <td><%= file_date(@entity.invoice_pdf_path) %></td>
+            <td>
+              <a class="td__pdf" href="<%= @entity.invoice_pdf_path %>" target="_blank" title="Download invoice">
+                <i class="pdf-project__icon"></i>
+              </a>
+            </td>
+          </tr>
+
+          <% @entity.order_changes_confirmed.each do |line| %>
+            <tr>
+              <td><span class="td__project-title"><%= line.title %></span></td>
+              <td>Change Invoice</td>
+              <td><%= sprintf('%.2f', line.budget) %></td>
+              <td><%= @entity.gst_calc %>%</td>
+              <td>0%</td>
+              <td><%= file_date(line.invoice_order_pdf_path) %></td>
+              <td>
+                <a class="td__pdf" href="<%= line.invoice_order_pdf_path %>" target="_blank" title="Download invoice">
+                  <i class="pdf-project__icon"></i>
+                </a>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style type="text/css">
+  .history-change b {
+    min-width: 150px;
+    display: inline-block;
+    font-weight: 600;
+  }
+</style>

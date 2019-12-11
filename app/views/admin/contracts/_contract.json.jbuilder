@@ -1,0 +1,2 @@
+json.extract! contract, :id, :contractor_name, :type_work, :legal_title, :mailing_address_id, :remittance_address_id, :contact_name, :email, :password, :telephone, :gst, :authority_person_name, :authority_person_phone, :serv_req_name, :serv_req_email, :serv_req_phone, :bil_req_name, :bil_req_email, :bil_req_phone, :full_name, :title, :date_submitted, :created_at, :updated_at
+json.url contract_url(contract, format: :json)

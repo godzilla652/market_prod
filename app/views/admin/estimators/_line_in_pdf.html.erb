@@ -1,0 +1,8 @@
+<% line = @estimator.lines.find_by(field_estimator_id: @field.id) %>
+
+<tr>
+  <td width="10%"> <%= number_format(@estimator.body_qty_clear(line)) %></td>
+  <td width="58%"><%= @field.name %></td>
+  <td width="12%" class="text-right"> <%= price_format(@field.astra_price) %></td>
+  <td width="20%" class="text-right"> <%= price_format(line.astra_total) if line.present? %></td>
+</tr>

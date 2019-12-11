@@ -1,0 +1,40 @@
+<div class="task-detail">
+  <ul class="file-list">
+    <% if @entity.photo.exists? %>
+      <li class="file-list__item">
+        <figure class="thumbnail-wrap" id="thumbnail_wrap">
+          <a data-fancybox="gallery" href="<%= @entity.photo.url %>" id="task_gallery">
+            <img class="thumbnail" id="task_thumbnail" src="<%= @entity.photo.url(:thumb) %>">
+          </a>
+        </figure>
+      </li>
+    <% end %>
+    <% if @entity.photo1.exists? %>
+      <li class="file-list__item">
+        <figure class="thumbnail-wrap" id="thumbnail_wrap">
+          <a data-fancybox="gallery" href="<%= @entity.photo1.url %>" id="task_gallery">
+            <img class="thumbnail" id="task_thumbnail" src="<%= @entity.photo1.url(:thumb) %>">
+          </a>
+        </figure>
+      </li>
+    <% end %>
+    <% if @entity.photo2.exists? %>
+      <li class="file-list__item">
+        <figure class="thumbnail-wrap" id="thumbnail_wrap">
+          <a data-fancybox="gallery" href="<%= @entity.photo2.url %>" id="task_gallery">
+            <img class="thumbnail" id="task_thumbnail" src="<%= @entity.photo2.url(:thumb) %>">
+          </a>
+        </figure>
+      </li>
+    <% end %>
+    <% if @entity.photo3.exists? %>
+      <li class="file-list__item">
+        <figure class="thumbnail-wrap" id="thumbnail_wrap">
+          <a data-fancybox="gallery" href="<%= @entity.photo3.url %>" id="task_gallery">
+            <img class="thumbnail" id="task_thumbnail" src="<%= @entity.photo3.url(:thumb) %>">
+          </a>
+        </figure>
+      </li>
+    <% end %>
+  </ul>
+</div>

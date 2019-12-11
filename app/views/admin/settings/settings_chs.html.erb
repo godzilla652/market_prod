@@ -1,0 +1,63 @@
+<!-- <div class="page__title"><h1>Settings</h1></div> -->
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a href="/admin/settings" class="nav-link " role="tab">Emails</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/settings_estimator" class="nav-link active" role="tab">Estimator</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/categories" class="nav-link " role="tab">Categories</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a href="/admin/settings_estimator" class="nav-link " role="tab" style="font-size: 16px">Avenue Living</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/settings_chs" class="nav-link active " role="tab" style="font-size: 16px">CHS</a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+<% @settings.to_h["chs"].map { |key, value| [[key, value], t("settings.chs.#{key}.description")] }.group_by { |e| e[1] }.each do |keys| %>
+  <h2 style="margin: 24px 0 8px 0; font-size: 16px"><%= keys[0] %></h2>
+  <table class="project-table">
+    <thead>
+    <tr>
+      <th class="sort__title" width="45%">Title <i class="sort__icon"></i></th>
+      <th class="sort__title" width="30%">Type <i class="sort__icon"></i></th>
+      <th class="sort__title" width="15%">Unit price <i class="sort__icon"></i></th>
+      <th class="fixed-width-140" width="10%">Actions</th>
+    </tr>
+    </thead>
+    <% keys[1].each do |key, value| %>
+
+      <tr>
+        <td>
+          <%= t("settings.chs.#{key[0]}.title") %>
+        </td>
+        <td><%= t("settings.chs.#{key[0]}.description") %></td>
+        <td>
+          <%= key[1] %>
+        </td>
+        <td>
+          <%= link_to edit_admin_setting_path("chs.#{key[0]}") do %>
+            <i class="edit-project__icon"></i>
+          <% end %>
+        </td>
+      </tr>
+
+    <% end %>
+  </table>
+<% end %>

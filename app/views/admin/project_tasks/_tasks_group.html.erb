@@ -1,0 +1,40 @@
+<h2 style="margin: 24px 0 0 0; font-size: 16px; font-weight: bold;"><%= task_type || 'Without category' %></h2>
+<table class="project-table">
+  <thead>
+  <tr>
+    <th width="4%" class="sort__title"># <i class="sort__icon"></i></th>
+    <th width="8%" class="sort__title">Title <i class="sort__icon"></i></th>
+    <th width="12%" class="sort__title">Category <i class="sort__icon"></i></th>
+    <th width="7%" class="sort__title">Budget (C$) <i class="sort__icon"></i></th>
+    <th width="10%" class="sort__title">Owner <i class="sort__icon"></i></th>
+    <th width="12%" class="sort__title">Contractor <i class="sort__icon"></i></th>
+    <th width="7%" class="sort__title">Status <i class="sort__icon"></i></th>
+    <th width="8%" class="sort__title">Plan start <i class="sort__icon"></i></th>
+    <th width="8%" class="sort__title">Plan end <i class="sort__icon"></i></th>
+    <th width="8%" class="sort__title">Actual start <i class="sort__icon"></i></th>
+    <th width="8%" class="sort__title">Actual end <i class="sort__icon"></i></th>
+    <th width="8%">Actions</th>
+  </tr>
+  </thead>
+  <% tasks.each do |task| %>
+    <tr>
+      <td><%= task.id %></td>
+      <td><span class="td__project-title"><%= link_to task.title, admin_task_path(task) %></span></td>
+      <td><%= task.task_type %></td>
+      <td><%= task.budget_round %></td>
+      <td><%= task.owner.full_name if task.owner %></td>
+      <td><%= task.concierge.legal_title if task.concierge %></td>
+      <td><%= task.status.humanize %></td>
+      <td><span class="td__project-date"><%= date_full(task.date_start) %></span></td>
+      <td><span class="td__project-date"><%= date_full(task.date_limit) %></span></td>
+      <td><span class="td__project-date"><%= date_full(task.fact_start) %></span></td>
+      <td><span class="td__project-date"><%= date_full(task.fact_end) %></span></td>
+      <td>
+        <%= link_to '<i class="edit-project__icon"></i>'.html_safe, edit_admin_task_path(task), :title => "Edit", class: "td__edit" if policy(Task).edit? %>
+
+        <%= link_to '<i class="delete-project__icon"></i>'.html_safe, admin_task_path(task),
+                    :method => :delete, data: { confirm: 'Are you sure want to delete this task?' }, :title => "Delete", class: "td__delete" if policy(Task).destroy? %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,273 @@
+<script>
+    $(document).ready(function () {
+        $('.phone-mask').mask('(999) 999-9999');
+    });
+
+    $('.check-email').blur(function () {
+        var reVal = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var emailVal = $(this).val();
+
+        if (!reVal.test(emailVal)) {
+            $(this).next('.error-msg-general').remove();
+            $(this).val('');
+            $(this).after('<p class="fw300 italic error-msg-general">Please enter valid email address (for example mail@example.com)</p>');
+            $('#form-submit-btn').prop('disabled', true);
+        } else {
+            $(this).next('.error-msg-general').remove();
+        }
+    });
+
+    $(document).ready(function () {
+
+        $('input[type=number][max]:not([max=""])').on('input', function (ev) {
+            var $this = $(this);
+            var maxlength = $this.attr('max').length;
+            var value = $this.val();
+            if (value && value.length >= maxlength) {
+                $this.val(value.substr(0, maxlength));
+            }
+        });
+
+    });
+
+    $('.check-number').keypress(function (event) {
+        $(this).val($(this).val().replace(/[^\d].+/, ""));
+        if ((event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    })
+
+    $(document).ready(function () {
+        $('.check-number').click(function () {
+            if ($(this).val() == 0) {
+                $(this).val('')
+            }
+        })
+        $('.check-number').focusout(function () {
+            if ($(this).val() == '') {
+                $(this).val('0')
+            }
+        })
+    });
+
+    function checkReqFields() {
+
+        $('.required-field').each(function () {
+            if (!$(this).val()) {
+                $('#form-submit-btn').prop('disabled', true);
+                return false;
+            } else {
+                $('#form-submit-btn').prop('disabled', false);
+            }
+        });
+    }
+
+    $('input').change(function () {
+        checkReqFields();
+
+    })
+    $(document).ready(function () {
+        checkReqFields();
+    })
+
+
+    $('.check-section').change(function () {
+        switch ($(this).val()) {
+            case 'true':
+                $(this).closest('.form-title-section').next('.form-inner-section').fadeIn('fast');
+                break;
+            case 'false':
+                $(this).closest('.form-title-section').next('.form-inner-section').fadeOut('fast');
+                break;
+        }
+    });
+
+    $(document).ready(function () {
+        $('.check-section:checked').each(function () {
+            if ($(this).attr('value') == 'false') {
+                $(this).closest('.form-title-section').next('.form-inner-section').hide();
+            }
+        })
+    });
+
+    // $('input[type=radio][name="estimator[body][flooring]"]').change(function() {
+    //     switch ($(this).val()) {
+    //         case 'true':
+    //             $('#flooring-hide').fadeIn('fast');
+    //             break;
+    //         case 'false':
+    //             $('#flooring-hide').fadeOut('fast');
+    //             break;
+    //     }
+    // });
+
+    // $(document).ready(function() {
+    //     if($('#chs-flooring-2').is(':checked')){
+    //         $('#flooring-hide').hide();
+    //     }
+    // });
+
+
+    // $('.check-section').change(function(){
+    //     if($(this).eq(0).is(':checked')){
+    //         $(this).parent('.form-title-section').next('.form-inner-section').fadeIn('fast');
+    //         console.log('test')
+    //     }
+    //     else if($(this).eq(1).is(':checked')){
+    //         $(this).parent('.form-title-section').next('.form-inner-section').fadeOut('fast');
+    //     }
+    // })
+
+    // $('input[type=radio][name="estimator[body][tub_tile]"]').change(function() {
+    //     switch ($(this).val()) {
+    //         case 'true':
+    //             $('#tub-tile-hide').fadeIn('fast');
+    //             break;
+    //         case 'false':
+    //             $('#tub-tile-hide').fadeOut('fast');
+    //             break;
+    //     }
+    // });
+
+    // $(document).ready(function() {
+    //     if($('#chs-tub-tile-2').is(':checked')){
+    //         $('#tub-tile-hide').hide();
+    //     }
+    // });
+
+
+    // $('input[type=radio][name="estimator[body][cabinetry]"]').change(function() {
+    //     switch ($(this).val()) {
+    //         case 'true':
+    //             $('#cabinetry-hide').fadeIn('fast');
+    //             break;
+    //         case 'false':
+    //             $('#cabinetry-hide').fadeOut('fast');
+    //             break;
+    //     }
+    // });
+    // $(document).ready(function() {
+    //     if($('#chs-cabinetry-2').is(':checked')){
+    //         $('#cabinetry-hide').hide();
+    //     }
+    // });
+
+
+    // $('input[type=radio][name="estimator[body][interior]"]').change(function() {
+    //     switch ($(this).val()) {
+    //         case 'true':
+    //             $('#interior-hide').fadeIn('fast');
+    //             break;
+    //         case 'false':
+    //             $('#interior-hide').fadeOut('fast');
+    //             break;
+    //     }
+    // });
+    // $(document).ready(function() {
+    //     if($('#chs-interior-2').is(':checked')){
+    //         $('#interior-hide').hide();
+    //     }
+    // });
+
+
+    // $('input[type=radio][name="estimator[body][paint]"]').change(function() {
+    //     switch ($(this).val()) {
+    //         case 'true':
+    //             $('#paint-hide').fadeIn('fast');
+    //             break;
+    //         case 'false':
+    //             $('#paint-hide').fadeOut('fast');
+    //             break;
+    //     }
+    // });
+    // $(document).ready(function() {
+    //     if($('#chs-paint-2').is(':checked')){
+    //         $('#paint-hide').hide();
+    //     }
+    // });
+
+
+    // $('input[type=radio][name="estimator[body][appliances]"]').change(function() {
+    //     switch ($(this).val()) {
+    //         case 'true':
+    //             $('#appliances-hide').fadeIn('fast');
+    //             break;
+    //         case 'false':
+    //             $('#appliances-hide').fadeOut('fast');
+    //             break;
+    //     }
+    // });
+    // $(document).ready(function() {
+    //     if($('#chs-appliances-2').is(':checked')){
+    //         $('#appliances-hide').hide();
+    //     }
+    // });
+
+
+    $(document).ready(function () {
+        $(document).on('touchstart', '.choose-form__btn', function () {
+            $('.choose-form__btn').removeClass('active');
+            $(this).addClass('active');
+            if ($('#avenue-living__btn').hasClass('active')) {
+                $('#estimator-form').fadeIn('slow');
+                $('#estimator-chs-form').hide();
+            } else if ($('#chs__btn').hasClass('active')) {
+                $('#estimator-form').hide();
+                $('#estimator-chs-form').fadeIn('slow');
+            }
+        })
+    });
+
+    $(document).ready(function () {
+        $(document).on('click', '.choose-form__btn', function () {
+            $('.choose-form__btn').removeClass('active');
+            $(this).addClass('active');
+            if ($('#avenue-living__btn').hasClass('active')) {
+                $('#estimator-form').fadeIn('slow');
+                $('#estimator-chs-form').hide();
+            } else if ($('#chs__btn').hasClass('active')) {
+                $('#estimator-form').hide();
+                $('#estimator-chs-form').fadeIn('slow');
+            }
+        })
+    });
+
+
+
+
+
+    /****/
+    $(document).ready(function () {
+
+        $(document).on('keyup', '.check-size', function () {
+            var Value = $('.check-size').val();
+            $(this).val($(this).val().replace(/[^0-9\/]/g, ""));
+        })
+
+
+        $(document).on('click', '.check-size', function () {
+            if ($(this).val() == 0) {
+                $(this).val('')
+            }
+        })
+        $(document).on('focusout', '.check-size', function () {
+
+            if ($(this).val() == '') {
+                $(this).val('0')
+            }
+        })
+    });
+
+    $('#new_kitch').change(function () {
+        if ($('#new_kitch').is(':checked')) {
+            $('#paint_new_kitch').prop('checked', false);
+            $('#paint_new_kitch2').prop('checked', true);
+        }
+    })
+    $('#paint_new_kitch').change(function () {
+        if ($('#paint_new_kitch').is(':checked')) {
+            $('#new_kitch').prop('checked', false);
+            $('#new_kitch2').prop('checked', true);
+        }
+    })
+</script>

@@ -1,0 +1,73 @@
+.row
+  .welcome.col-md-12
+    %h2 Hi #{current_user.first_name}!
+
+.row
+  .col-md-12
+    %ul.user-menu
+      %li
+        = link_to 'Surveys', root_path
+      %li.active
+        = link_to 'Profile', edit_user_registration_path
+
+.row
+  .wide.tab-page.profile.clearfix
+
+    .col-sm-offset-2.col-sm-8
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal'}) do |f|
+
+        = render "admin/general/form_errors",  object:  resource
+
+        .form-group
+          = f.label :email, "Email*", :class => 'col-sm-3 control-label'
+          .col-sm-8
+            = f.email_field :email, autofocus: true, :class => 'form-control'
+
+        .form-group
+          = f.label :first_name, "First Name*", :class => 'col-sm-3 control-label'
+          .col-sm-8
+            = f.text_field :first_name, :class => 'form-control'
+
+        .form-group
+          = f.label :last_name, "Last Name*", :class => 'col-sm-3 control-label'
+          .col-sm-8
+            = f.text_field :last_name, :class => 'form-control'
+
+        .form-group
+          = f.label :position, 'Position*', :class => 'col-sm-3 control-label'
+          .col-sm-8
+            =f.select :position,  User.positions ,  {:prompt => 'Please select the Position'}, {:class => 'form-control'}
+
+        .form-group
+          = f.label :agent_id, 'Agent ID*', :class => 'col-sm-3 control-label'
+          .col-sm-8
+            = f.text_field :agent_id, :class => 'form-control'
+
+        .form-group
+          = f.label :phone_number, "Cell number", :class => 'col-sm-3 control-label'
+          .col-sm-8
+            = f.text_field :phone_number, :class => 'form-control'
+
+        .form-group
+          = f.label :call_type, "Call Type*", :class => 'col-sm-3 control-label'
+          .col-sm-8
+            =f.fields_for  :call_type do |builder|
+              =collection_select(:user, :call_type_id, CallType.all, :id, :name, {:prompt => 'Please select the Call Type'}, :class => 'form-control')
+
+        .form-group
+          = f.label :site_location, "Site Location*", :class => 'col-sm-3 control-label'
+          .col-sm-8
+            =f.fields_for  :site_location do |builder|
+              =collection_select(:user, :site_location_id, SiteLocation.all, :id, :name, {:prompt => 'Please select the Site Location'}, :class => 'form-control')
+
+        .form-group
+          .col-sm-offset-3.col-sm-8
+            = f.submit "SAVE", :class => 'btn btn-orange'
+            = link_to "LOGOUT", destroy_user_session_path, :method => :delete, :class => 'btn btn-danger hidden-lg hidden-md pull-right'
+
+
+- content_for :footer do
+  .footer.welcome
+    .container
+      .logo.col-sm-6
+        = image_tag("logo_full.png")

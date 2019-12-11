@@ -1,0 +1,61 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contract: one
+  bank: MyString
+  address: MyString
+  contact: MyString
+  phone: MyString
+  email: MyString
+  acct: MyString
+  transist: MyString
+  institution: MyString
+  bonding_company: MyString
+  bc_limit: 1
+  bc_address: MyString
+  bc_contact: MyString
+  bc_phone: MyString
+  bc_email: MyString
+  insurance_company: MyString
+  ic_address: MyString
+  ic_general_laibility: 1
+  ic_expiry: 2018-08-18
+  ic_phone: 2018-08-18
+  ic_email: MyString
+  ic_wcb: MyString
+  other_work_astra: false
+  other_property_name: MyString
+  other_property_address: MyString
+  other_contact: MyString
+  other_phone: MyString
+  other_phone_alt: MyString
+
+two:
+  contract: two
+  bank: MyString
+  address: MyString
+  contact: MyString
+  phone: MyString
+  email: MyString
+  acct: MyString
+  transist: MyString
+  institution: MyString
+  bonding_company: MyString
+  bc_limit: 1
+  bc_address: MyString
+  bc_contact: MyString
+  bc_phone: MyString
+  bc_email: MyString
+  insurance_company: MyString
+  ic_address: MyString
+  ic_general_laibility: 1
+  ic_expiry: 2018-08-18
+  ic_phone: 2018-08-18
+  ic_email: MyString
+  ic_wcb: MyString
+  other_work_astra: false
+  other_property_name: MyString
+  other_property_address: MyString
+  other_contact: MyString
+  other_phone: MyString
+  other_phone_alt: MyString

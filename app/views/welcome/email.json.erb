@@ -1,0 +1,16 @@
+{
+  <% user = Contract.all %>
+  <% count = user.count %>
+  <% n=0 %>
+  "users": [
+    <% user.each do |u| %>
+    <% n+=1 %>
+    {
+      "id": "<%= u.id %>",
+      "email": "<%= u.email %>"
+    }
+    <% unless n == count %>,
+    <% end %>
+    <% end %>
+  ]
+}

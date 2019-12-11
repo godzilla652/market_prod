@@ -1,0 +1,15 @@
+= form_for [:admin, @entity], html: { class: 'form-horizontal col-sm-offset-2 col-sm-8', :multipart => true } do |f|
+
+  = render "admin/general/form_errors",  object:  @entity
+
+  .form-group
+    = f.label :blocked_to, "blocked on days", :class => 'col-sm-4 control-label'
+    .col-sm-6
+      = f.text_field :blocked_to, :class => 'form-control'
+  .form-group
+    = f.label :blocked_to, "unblock", :class => 'col-sm-4 control-label'
+    .col-sm-6
+      = check_box_tag "unblock"
+  .form-group
+    .col-sm-offset-4.col-sm-8
+      = f.submit 'Save', :class => "btn btn-primary"

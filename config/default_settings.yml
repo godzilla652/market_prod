@@ -1,0 +1,13 @@
+defaults: &defaults
+  email.invoices: 'admin@astra-group.ca'
+  email.work_order: 'admin@astra-group.ca'
+  email.sender: 'admin@astra-group.ca'
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

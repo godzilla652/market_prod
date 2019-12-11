@@ -1,0 +1,142 @@
+<header class="header">
+  <div class="page__container clearfix">
+    <div class="header-logo">
+      <a href="<%= admin_project_tasks_path %>" class="logo__link">
+        <div class="logo" style="background-image: url(/assets/img/logo.png)"></div>
+      </a>
+    </div>
+    <div class="delimiter"></div>
+    <ul class="menu">
+
+    <% if policy(Project).index? %>
+          <li class="menu__item  <% if controller_name == 'project_tasks' || controller_name == 'tasks'%>current<% end %> menu-item-has-children">
+
+            <a class="menu__link" >
+						<span class="menu__icon-holder">
+                            <i class="mi-project"></i>
+                        </span>
+              <span class="menu__title">Projects</span>
+            </a>
+
+            <ul class="sub-menu">
+              <li class="menu-subitem"><a href="<%= admin_project_tasks_path %>">Projects</a></li>
+              <% if policy(Invoice).index? %>
+                <li class="menu-subitem"><a href="<%= admin_invoices_path %>">Invoices</a></li>
+              <% end %>
+            </ul>
+
+          </li>
+        <% end %>
+        <% if policy(:Quote).index? %>
+          <li class="menu__item
+            <% if controller_name == 'estimators' %>current
+            <% end %>  menu-item-has-children">
+            <a class="menu__link">
+  						<span class="menu__icon-holder">
+                              <i class="mi-quotes"></i>
+                          </span>
+              <span class="menu__title">Quotes</span>
+            </a>
+            <ul class="sub-menu">
+                <li class="menu-subitem"><a href="<%= admin_estimators_path %>">Pending</a></li>
+
+              <li class="menu-subitem"><a href="/admin/estimators_approved">Approved</a></li>
+              <li class="menu-subitem"><a href="/admin/estimators_finished">Finished</a></li>
+              <li class="menu-subitem"><a href="/admin/estimators_archive">Archive</a></li>
+            </ul>
+          </li>
+        <% end %>
+        <% if policy(:Tracker).index? %>
+          <li class="menu__item
+            <% if controller_name == 'work_zones' || action_name == 'tracker' || action_name == 'time_tracker' %>current
+            <% end %>">
+            <a class="menu__link" href="<%= admin_tracker_path %>">
+						<span class="menu__icon-holder">
+                            <i class="mi-tracker"></i>
+                        </span>
+              <span class="menu__title">Tracker</span>
+            </a>
+          </li>
+
+        <% end %>
+        <% if policy(Contract).index? || policy(:AstraTeam).index? %>
+          <li class="menu__item
+            <% if controller_name == 'contracts' %>current
+            <% end %> menu-item-has-children">
+            <a class="menu__link">
+						<span class="menu__icon-holder">
+                            <i class="mi-contractors"></i>
+                        </span>
+              <span class="menu__title">Contractors</span>
+              <span class="pending-number"><%= contracts_pending_count %></span>
+            </a>
+            <ul class="sub-menu">
+              <% if policy(Contract).index? %>
+                <li class="menu-subitem"><a href="<%= admin_contracts_path %>">Contractors</a></li>
+              <% end %>
+              <% if policy(:AstraTeam).index? %>
+                <li class="menu-subitem"><a href="/admin/approved_team">Astra Team</a></li>
+              <% end %>
+         <li class="menu-subitem"><a href="<%= admin_vehicles_path %>">Fleet</a></li>
+              <li class="menu-subitem"><a href="<%= admin_equipment_index_path %>">Equipment</a></li>
+            </ul>
+          </li>
+        <% end %>
+        <% if policy(:Property).index? %>
+          <li class="menu__item">
+            <a class="menu__link" href="http://134.209.61.155/astraproperties/public/loginrequest/<%= current_user.email %>/<%= current_user.token_web %>">
+  						<span class="menu__icon-holder">
+                              <i class="mi-properties"></i>
+                          </span>
+              <span class="menu__title">Properties</span>
+            </a>
+          </li>
+        <% end %>
+        <!-- <li class="menu__item">
+          <a class="menu__link" href="/">
+						<span class="menu__icon-holder">
+                            <i class="mi-dispatch"></i>
+                        </span>
+            <span class="menu__title">Dispatch</span>
+          </a>
+        </li> -->
+
+        <% if policy(:Setting).index? %>
+          <li class="menu__item
+            <% if controller_name == 'settings' || controller_name == 'permissions' || controller_name == 'categories' || controller_name == 'estimator_types' %>current
+            <% end %> menu-item-has-children">
+            <a class="menu__link" >
+						<span class="menu__icon-holder">
+              <i class="mi-project"></i>
+            </span>
+              <span class="menu__title">Settings</span>
+            </a>
+            <ul class="sub-menu">
+              <li class="menu-subitem"><a href="<%= admin_permissions_path %>">Permissions</a></li>
+              <li class="menu-subitem"><a href="/admin/settings">Emails</a></li>
+              <!--<li class="menu-subitem"><a href="/admin/settings_estimator">Estimator price</a></li>-->
+              <li class="menu-subitem"><a href="/admin/categories">Categories</a></li>
+              <li class="menu-subitem"><a href="/admin/estimator_types">Estimators</a></li>
+
+            </ul>
+          </li>
+
+        <% end %>
+
+    </ul>
+
+    <div class="header-logout">
+      <a href="/users/sign_out" class="header-logout__icon" title="Sign out"></a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .current .menu__title {
+    font-weight: 700;
+  }
+
+  .menu__link .pending-number {
+    opacity: 1;
+  }
+</style>

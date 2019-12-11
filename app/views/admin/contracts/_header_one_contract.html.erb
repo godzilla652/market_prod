@@ -1,0 +1,53 @@
+<div class="current-applicant-header d-flex align-items-center">
+  <div class="back-btn-wrap">
+    <% if @contract.status == "approved" %>
+      <% if @contract.team? %>
+        <a class="back-arrow" href="/admin/approved_team">RETURN</a>
+      <% else %>
+        <a class="back-arrow" href="/admin/contracts_approved">RETURN</a>
+      <% end %>
+    <% elsif @contract.status == "archive" %>
+      <% if @contract.team? %>
+        <a class="back-arrow" href="/admin/archive_team">RETURN</a>
+      <% else %>
+        <a class="back-arrow" href="/admin/contracts_archive">RETURN</a>
+      <% end %>
+    <% else %>
+      <% if @contract.team? %>
+        <a class="back-arrow" href="/admin/pending_team">RETURN</a>
+      <% else %>
+        <a class="back-arrow" href="/admin/contracts">RETURN</a>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="current-category-block_text applicant">
+    <span>Current Applicant:</span>
+    <span class="current-category-block_applicant"><%= @contract.legal_title %></span>
+  </div>
+  <div class="delimiter"></div>
+  <div class="current-category-block current-category-block__send noprint">
+    <button data-toggle="modal" data-target="#send-message" rel="nofollow" class="click-send">send message</button>
+  </div>
+  <% if policy(Contract).update? %>
+    <% unless @contract.status == "approved" %>
+      <div class="current-category-block current-category-block__acept noprint">
+        <a href="/admin/new_change_status/<%= @contract.id %>?status=approved&url=/admin/contracts/<%= @contract.id %>" class="click-acept">Accept</a>
+      </div>
+    <% end %>
+    <% unless @contract.status == "archive" %>
+      <div class="current-category-block current-category-block__decline noprint">
+        <a href="" data-href="" data-toggle="modal" data-target="#confirm-decline" class="click-decline" rel="nofollow">Decline</a>
+      </div>
+    <% end %>
+  <% end %>
+  <% if policy(Contract).edit? %>
+    <div class="current-category-block current-category-block__edit noprint">
+      <a href="/admin/contracts/<%= @contract.id %>/edit"><i class="edit-project__icon"></i></a>
+    </div>
+  <% end %>
+  <% if policy(Contract).destroy? %>
+    <div class="current-category-block current-category-block__destroy noprint">
+      <a href="" data-href="" data-toggle="modal" data-target="#confirm-delete" class="td__delete" rel="nofollow"><i class="delete-project__icon"></i></a>
+    </div>
+  <% end %>
+</div>

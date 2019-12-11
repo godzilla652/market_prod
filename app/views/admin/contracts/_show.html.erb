@@ -1,0 +1,508 @@
+<% if @contract.present? %>
+
+  <section class="tab-section no-padding-tab-section">
+    <%= render 'tabs_one_contract' %>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Tab 1 -->
+      <div class="tab-pane active" id="pendingApplicants">
+        <%= render 'header_one_contract' %>
+        <div class="detail-info">
+          <% unless @contract.team? %>
+            <div class="single_table-block">
+              <div class="single_table-block_title-line">
+                <h3 class="single_table-block_title">
+                  <label for="check">Current Category</label>
+                </h3>
+              </div>
+              <div class="info-table_wrapper">
+                <div class="info-table">
+                  <div class="approved_info-table_block-item">
+                    <span><%= @contract.type_work %></span>
+                  </div>
+                </div>
+              </div>
+              <div class="approved_info-table_block-item">
+                <h4 class="single_table-block_subtitle">City</h4>
+                <span>      <%= @contract.city %></span>
+              </div>
+            </div>
+          <% end %>
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                <!-- <%= best_in_place [:admin, @contract], :check_sert, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+
+                <label for="check">Submitted by </label>
+              </h3>
+            </div>
+            <div class="info-table_wrapper">
+              <div class="info-table">
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Legal Title of Organization</h4>
+                  <span><%= @contract.legal_title %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Mailing Address</h4>
+                  <span><% mailing = @contract.mailing_address %>
+                    <%= mailing.street %>,
+                    <%= mailing.city %>,
+                    <%= mailing.province %>,
+                    <%= mailing.postal_code %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Remittance Address</h4>
+                  <span>   <% remittance = @contract.remittance_address %>
+                    <% unless remittance&.street.present? %>
+                  <% remittance = @contract.mailing_address %>
+                  <% end %>
+                    <%= "#{remittance.street}, #{remittance.city}, #{remittance.province}, #{remittance.postal_code}" %></span>
+                </div>
+
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Contact Name</h4>
+                  <span>      <%= @contract.contact_name %></span>
+                </div>
+
+                <div class="delimiter-line"></div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Email Address</h4>
+                  <span><%= @contract.email %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Phone #</h4>
+                  <span><%= @contract.telephone %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">GST #</h4>
+                  <span><%= @contract.gst %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">SIN #</h4>
+                  <span><%= @contract.sin %></span>
+                </div>
+                <div class="delimiter-line"></div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Questions Contact</h4>
+                  <span><%= @contract.authority_person_name %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Phone #</h4>
+                  <span><%= @contract.authority_person_phone %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% financial = @contract.financial %>
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                <!--<%= best_in_place [:admin, @contract], :check_sert, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+                <label for="check2">Financial information</label>
+              </h3>
+            </div>
+
+            <div class="info-table_wrapper">
+              <div class="info-table">
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Bank</h4>
+                  <span>  <%= financial&.bank %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Mailing Address</h4>
+                  <span> <%= financial&.addressc %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Phone #</h4>
+                  <span>    <%= financial&.phone %></span>
+                </div>
+                <div class="delimiter-line"></div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Account #</h4>
+                  <span><%= financial&.acct %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Routing #</h4>
+                  <span><%= financial&.transist %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Institution #</h4>
+                  <span><%= financial&.institution %></span>
+                </div>
+                <div class="delimiter-line"></div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Contact</h4>
+                  <span><%= financial&.contact %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Email Address</h4>
+                  <span><%= financial&.email %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Void Check</h4>
+                  <% unless financial&.void_check&.url == '/void_check/original/missing.png' %>
+                    <span><a class="certification_wsib-crt view-link" target="_blank" href="<%= financial&.void_check&.url %>">View</a></span>
+                  <% else %>
+                    <span><a class="certification_insurance-crt">None</a></span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                <!-- <%= best_in_place [:admin, @contract], :check_sert, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+
+                <label for="check3">Certification</label>
+              </h3>
+            </div>
+
+            <div class="info-table_wrapper">
+              <div class="info-table">
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Insurance Cert.:</h4>
+                  <% unless financial&.ins_cert&.url == '/ins_certs/original/missing.png' %>
+                    <span><a class="certification_insurance-crt" target="_blank" href="<%= financial&.ins_cert&.url %>">View</a></span>
+                  <% else %>
+                    <span><a class="certification_insurance-crt">None</a></span>
+                  <% end %>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">WCB Cert.:</h4>
+                  <% unless financial&.wcb_cert&.url == '/wcb_certs/original/missing.png' %>
+                    <span><a class="certification_wsib-crt" target="_blank" href="<%= financial&.wcb_cert&.url %>">View</a></span>
+                  <% else %>
+                    <span><a class="certification_insurance-crt">None</a></span>
+                  <% end %>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">WCB #:</h4>
+                  <span><%= financial&.ic_wcb %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                <!-- <%= best_in_place [:admin, @contract], :check_ins, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+
+                <label for="check4">Insurance information</label>
+              </h3>
+            </div>
+
+            <div class="info-table_wrapper">
+              <div class="info-table">
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Company:</h4>
+                  <span><%= financial&.insurance_company %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Address:</h4>
+                  <span><%= financial&.ic_address %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Contact:</h4>
+                  <span><%= financial&.bc_contact %></span>
+                </div>
+
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Phone #:</h4>
+                  <span><%= financial&.ic_phone %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Email Address:</h4>
+                  <span><%= financial&.ic_email %></span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                <!--<%= best_in_place [:admin, @contract], :check_bond, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+
+                <label for="check6">Bonding information (N/A)</label>
+              </h3>
+            </div>
+            <% unless financial&.bc_n_a? %>
+
+              <div class="info-table_wrapper">
+                <div class="info-table">
+
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Limit:</h4>
+                    <span><%= financial&.bc_limit %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">General Laibility:</h4>
+                    <span><%= financial&.ic_general_laibility %></span>
+                  </div>
+
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Expiry:</h4>
+                    <span><%= financial&.ic_expiry %></span>
+                  </div>
+                  <!-- <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Address:</h4>
+                    <span><%= financial&.bc_address %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Company:</h4>
+                    <span><%= financial&.bonding_company %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Phone #:</h4>
+                    <span><%= financial&.bc_phone %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Email Address:</h4>
+                    <span><%= financial&.bc_email %></span>
+                  </div>-->
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+
+          <% business = @contract.business %>
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                <!--  <%= best_in_place [:admin, @contract], :check_bus, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+
+                <label for="check5">Business information</label>
+              </h3>
+            </div>
+
+            <div class="info-table_wrapper">
+              <div class="info-table">
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Business Type:</h4>
+                  <span><%= business&.type_one %></span>
+                </div>
+                <div class="delimiter-line"></div>
+                <% unless business&.type_one == "SoleProprietor" %>
+
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Date of Corporation:</h4>
+                    <span><%= business&.datecorp %></span>
+                  </div>
+                  <% if business&.type_one == "Corporation" %>
+
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Number of Employees:</h4>
+                      <span><%= business&.number_employees %></span>
+                    </div>
+                  <% end %>
+                <% end %>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">
+                    <% case business&.type_one %>
+                    <% when "Corporation" %>
+                      Name & Title of Principal Officer
+                    <% when "Partnership" %>
+                      Name of Partnership
+                    <% when "SoleProprietor" %>
+                      Owner’s Full Name
+                    <% end %>:</h4>
+                  <span><%= business&.name_set %></span>
+                </div>
+                <% if business&.type_one == "Partnership" %>
+                  <% business&.business_partners.each do |partner| %>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Name of Partner:</h4>
+                      <span><%= partner.name %></span>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Mailing Address:</h4>
+                      <span><%= partner.views_address %></span>
+                    </div>
+                  <% end %>
+                <% end %>
+                <% if business&.type_one == "Corporation" %>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Union Affiliated:</h4>
+                    <span><% if business&.union_text.present? %><%= business&.union_text %><% else %>N/A<% end %></span>
+                  </div>
+
+                <% end %>
+                <% if business&.type_one == "SoleProprietor" %>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle"> Mailing Address:</h4>
+                    <span><%= business&.views_address %></span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+
+                <!-- <%= best_in_place [:admin, @contract], :check_cont, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+
+                <label for="check7">Contact information</label>
+              </h3>
+            </div>
+
+            <div class="info-table_wrapper">
+              <div class="info-table">
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Billing Requests:</h4>
+                  <span><%= @contract.bil_req_name %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Email Address:</h4>
+                  <span><%= @contract.bil_req_email %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">After Hours Contact:</h4>
+                  <span><%= @contract.bil_req_phone %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Bussiness Hours Contact:</h4>
+                  <span><%= @contract.bussines_bil_req_phone %></span>
+                </div>
+                <div class="delimiter-line"></div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Service Requests:</h4>
+                  <span><%= @contract.serv_req_name %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Email Address:</h4>
+                  <span><%= @contract.serv_req_email %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">After Hours Contact:</h4>
+                  <span><%= @contract.serv_req_phone %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Bussiness Hours Contact:</h4>
+                  <span><%= @contract.bussines_serv_req_phone %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+
+                <!--   <%= best_in_place [:admin, @contract], :check_work, as: :checkbox, collection: {false: raw("&#x2610;"), true: raw("&#x2611;")}, place_holder: raw("&#x2610;"), class: "checkbox-field" %>-->
+
+                <label for="check8">Desired work
+                  <% if financial&.trades&.empty? %>(N/A)
+                  <% end %></label>
+              </h3>
+            </div>
+            <% unless financial&.trades&.empty? %>
+              <div class="info-table_wrapper">
+                <div class="info-table">
+                  <% n = 0 %>
+                  <% financial&.trades&.each do |item| %>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Category <%= n += 1 %>:</h4>
+                      <span><%= item.name %></span>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Value Range:</h4>
+                      <span><%= item.range %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <% n = 0 %>
+          <% @contract.projects.each do |project| %>
+            <div class="single_table-block">
+              <div class="single_table-block_title-line">
+                <h3 class="single_table-block_title">
+                  <label for="check9">Past experience #<%= n += 1 %></label>
+                </h3>
+              </div>
+
+              <div class="info-table_wrapper">
+                <div class="info-table">
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Project Description:</h4>
+                    <span><%= project.description %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Year of Completion:</h4>
+                    <span><%= project.year_completion %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Project Value:</h4>
+                    <span><%= project.value %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Project Address:</h4>
+                    <span>       <% project_address = project.project_address %>
+                      <%= project_address.street %> <%= project_address.city %>
+                      , <%= project_address.province %>  <%= project_address.postal_code %></span>
+                  </div>
+                  <div class="delimiter-line"></div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Owner:</h4>
+                    <span><%= project.owner_name %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Email:</h4>
+                    <span><%= project.email_one %></span>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Phone #:</h4>
+                    <span><%= project.phone_one %></span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          <% end %>
+          <div class="single_table-block">
+            <div class="single_table-block_title-line">
+              <h3 class="single_table-block_title">
+                <label for="check10">Contractor acknowledgment</label>
+              </h3>
+            </div>
+
+            <div class="info-table_wrapper">
+              <div class="info-table">
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Full Name:</h4>
+                  <span><%= @contract.full_name %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Title:</h4>
+                  <span><%= @contract.title %></span>
+                </div>
+                <div class="approved_info-table_block-item">
+                  <h4 class="single_table-block_subtitle">Date Submitted:</h4>
+                  <span><%= @contract.date_submitted %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .no-padding-tab-section {
+      padding-top: 0 !important;
+    }
+  </style>
+  <%= render 'one_contract' %>
+<% end %>

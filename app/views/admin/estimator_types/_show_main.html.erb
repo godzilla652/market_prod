@@ -1,0 +1,23 @@
+<section class="content-section">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="quote-head">
+        <div class="page__title">
+          <h1 class="mr-3"><%= @estimator_type.name %></h1>
+          <% if @estimator_type.active? %>
+          <span class="icon-true"></span>
+        <% else %>
+          <span class="icon-false"></span>
+        <% end %>
+        </div>
+        <a><%= @estimator_type.admin_descr %></a> 
+      </div>
+    </div>
+    <div class="col-md-6 text-right">
+      <%= link_to 'Edit', edit_admin_estimator_type_path(@estimator_type), class: "btn-primary btn-primary-inline mx-sm-4" %>
+
+      <%= link_to 'Back', admin_estimator_types_path, class: "btn-outline-tr" %>
+    </div>
+  </div>
+
+</section>

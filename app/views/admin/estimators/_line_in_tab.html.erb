@@ -1,0 +1,37 @@
+<% line = @lines.find_by(field_estimator_id: @field.id) %>
+<% if line.present? %>
+  <tr>
+    <td>
+      <% if @estimator.status != 'archive' and @estimator.body_qty_clear(line).to_i > 0 %>
+
+      <label class="quote-checkbox-container">
+        <% if line.delivered? %>
+          <input type="checkbox" class="quote-checkbox-field check-one" checked>
+        <% else %>
+          <input type="checkbox" class="quote-checkbox-field check-one" name="line[]" value="<%= line.id %>">
+        <% end %>
+        <span class="checkmark"></span>
+
+      </label>
+        <% end %>
+    </td>
+    <td><strong><%= number_format(@estimator.body_qty_clear(line)) %></strong></td>
+    <td><%= @field.dvname_dinamic %></td>
+    <td><%= price_format(@field.trade_price) %></td>
+    <td><%= price_format(line.trade_total) %></td>
+    <td>
+      <% if line.delivered? %>
+        <a href="<%= admin_task_url(line.task) %>"
+           target="_blank" class="btn-outline-tr">Go to task</a>
+      <% else %>
+        <% if policy(:Quote).update? %>
+          <% if @estimator.status != 'archive' and @estimator.body_qty_clear(line).to_i > 0  %>
+            <a href="<%= "#{new_admin_task_url}?project=#{@estimator.project_task_id}&line=#{line.id}&owner_id=#{@estimator.supervisor_id}" %>"
+               target="_blank" class="make-task__btn">
+              <em class="add-project-btn__icon-blue"></em>Make a task</a>
+          <% end %>
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

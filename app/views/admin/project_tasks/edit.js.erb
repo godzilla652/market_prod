@@ -1,0 +1,4 @@
+$('#modal-container').html("<%= j render 'admin/project_tasks/edit_modal', project_task: @project_task %>")
+setTimeout(function(){
+  $('#editproject<%= @project_task.id %>').modal('show');
+}, 0)

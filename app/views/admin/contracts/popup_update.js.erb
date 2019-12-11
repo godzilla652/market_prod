@@ -1,0 +1,6 @@
+<% if @use_case.failure? %>
+  alert('<%= @use_case.error.full_messages.first %>');
+<% else %>
+  $('#addNewUser').modal('hide');
+  $('[data-id=<%= @use_case.contract.id %>]').replaceWith('<%= j render "admin/contracts/shared/astra_team/table_row", contract: @use_case.contract %>');
+<% end %>

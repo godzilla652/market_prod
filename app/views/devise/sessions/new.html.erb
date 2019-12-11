@@ -1,0 +1,245 @@
+<style type="text/css">
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body{
+  background-color: #14589C !important;
+  padding: 64px 0;
+  font-family: 'Ubuntu', sans-serif !important;
+  color: #444444 !important;
+  font-size: 13px !important;
+}
+.login-full-wrap{
+    min-height: 100vh;
+    height: 100%;
+    background-color: #14589C;
+}
+.loginform-full{
+    width: 420px;
+    padding: 24px 16px 0 16px;
+    margin: 0 auto 64px auto;
+    background: #fff;
+}
+.loginform-full-body{
+    padding: 0 40px;
+    text-align: center;
+}
+.loginform-full-header{
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+.loginform-full-header img{
+    max-width: 60%;
+    padding-bottom: 8px;
+}
+.loginform-full-title{
+    font-size: 24px;
+    font-weight: 600;
+    color: #444444;
+    margin: 24px 0 0 0;
+    padding: 0 0 16px 0;
+    text-align: center;
+}
+.loginform-full-subtitle{
+    font-size: 16px;
+    font-weight: 400;
+    color: #444444;
+    margin: 0 0 24px 0;
+    padding: 0;
+    text-align: center;
+}
+.google-singin__wrap{
+    padding: 24px 0 32px 0;
+}
+.google-singin{
+    width: 100%;
+    padding: 8px;
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: none;
+    border: 2px solid #ccc;
+    font-size: 14px;
+    height: 40px;
+}
+.google-singin img{
+    padding-right: 8px;
+    vertical-align: middle;
+}
+.loginform-divider{
+    position: relative;
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+.loginform-divider:before{
+    content: '';
+    width: 40%;
+    height: 1px;
+    background: #ccc;
+    position: absolute;
+    left: 0;
+    top: 50%;
+}
+.loginform-divider:after{
+    content: '';
+    width: 40%;
+    height: 1px;
+    background: #ccc;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+#new_user{
+    text-align: left;
+}
+#new_user label{
+    color: #444444;
+    font-weight: 400;
+    line-height: normal;
+    font-size: 16px;
+    padding-bottom: 8px;
+    padding-left: 0;
+    text-align: left;
+}
+#new_user .form-control{
+    border: 1px solid #ccc;
+    height: 40px;
+    border-radius: 2px;
+    padding: 0 20px 0 12px;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 16px;
+}
+.singin-btn{
+    width: 100%;
+    height: 40px;
+    background-color: #21a44a;
+    background-image: url(../safe.svg);
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    background-position-x: 40%;
+    border-radius: 2px;
+    color: #fff;
+    font-size: 16px;
+    position: relative;
+    padding-left: 30px;
+    margin: 8px 0 16px 0;
+}
+.singin-btn:hover{
+    color: #fff;
+}
+.new-password{
+    display: block;
+    font-size: 16px;
+    padding-bottom: 24px;
+}
+.loginform-full hr{
+    margin: 16px 0;
+}
+.loginform-full-footer{
+    background: #eceef1;
+    padding: 16px;
+    font-size: 11px;
+    text-align: center;
+}
+.quote-checkbox-container {
+    display: block;
+    position: relative;
+    padding-top: 0 !important;
+    margin-top: -8px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.quote-checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.quote-checkbox-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  border: 1px solid #C4C5D6;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.quote-checkbox-container:hover input ~ .checkmark {
+  border: 1px solid #C4C5D6;
+  background: transparent;
+}
+.quote-checkbox-container input:checked ~ .checkmark {
+  background-color: #14589C;
+    border: 1px solid #14589C;
+}
+.quote-checkbox-container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.quote-checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+.quote-checkbox-container .checkmark:after {
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 1px 1px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.checkmark-label {
+    padding-left: 24px;
+}
+</style>
+<div class="login-full-wrap">
+    <div class="loginform-full">
+      <div class="loginform-full-body">
+        <div class="loginform-full-header">
+          <img src="/logo-singin.png" class="loginform-full-logo">
+        </div>
+        <h2 class="loginform-full-title">Sign In</h2>
+        <h3 class="loginform-full-subtitle">One account for everything Astra</h3>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
+            <%= render "admin/general/form_errors", object: resource %>
+
+            <div class="form-group">
+              <label class="control-label">Email Address</label>
+              <%= f.email_field :email, autofocus: true, :class => 'form-control', placeholder: "" %>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Password</label>
+              <%= f.password_field :password, autocomplete: "off", :class => 'form-control', placeholder: "" %>
+            </div>
+            <div class="form-group">
+              <label class="form-check control-label quote-checkbox-container">
+                <%= f.check_box :remember_me, :class => 'check-field quote-checkbox-field' %>
+                <span class="checkmark"></span>
+                <span class="checkmark-label">Remember Me</span>
+              </label>
+            </div>
+
+            <div class="form-group text-center">
+              <%= f.submit "Sign in", :class => 'btn singin-btn' %>
+            </div>
+          <% end %> 
+        <div class="">By clicking Sign In, you agree to our <br>License Agreement and have read and acknowledge <br>our Privacy Statement.</div> 
+
+        <br>
+        <!-- <hr>
+        <%= link_to "I forgot my password", new_password_path('user'), :class => "new-password" %> -->
+
+      </div>
+    </div>
+  </div>

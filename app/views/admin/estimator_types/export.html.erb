@@ -1,0 +1,39 @@
+<textarea name="import" cols="150" rows="200">
+  {"estimator_type": {
+    "name": "<%= @estimator_type.name %>",
+    "admin_descr": "<%= @estimator_type.admin_descr %>",
+    "active": "<%= @estimator_type.active %>",
+    "widget": "<%= @estimator_type.widget %>",
+    "standard_field": "<%= @estimator_type.standard_field %>",
+    "email": "<%= @estimator_type.email %>",
+    "fields": [
+  <% last = @estimator_type.fields.count %>
+  <% n = 0 %>
+  <% @estimator_type.fields.each do |estimator| %>
+          {
+            "fieldable_type": "<%= estimator.fieldable_type %>",
+            "name": "<%= estimator.name %>",
+            "name_scope": "<%= estimator.name_scope %>",
+            "machine_name": "<%= estimator.machine_name %>",
+            "active": "<%= estimator.active %>",
+            "type_field": "<%= estimator.type_field %>",
+            "desc": "<%= estimator.desc %>",
+            "default_value": "<%= estimator.default_value %>",
+            "astra_price": "<%= estimator.astra_price %>",
+            "trade_price": "<%= estimator.trade_price %>",
+            "ancestry": "<%= estimator.ancestry %>",
+            "required": "<%= estimator.required %>",
+            "multiple": "<%= estimator.multiple %>",
+            "style_cls": "<%= estimator.style_cls %>",
+            "option": "<%= estimator.option.to_s.gsub("\"", "'") unless estimator.option.nil? %>",
+            "position": "<%= estimator.position %>",
+            "field_estimator_id": "<%= estimator.field_estimator_id %>",
+            "depend_id": "<%= estimator.depend_id %>"
+          }
+    <% n += 1 %>
+    <% unless last == n %>,<% end %>
+      <% end %>
+  ]
+  }
+  }
+</textarea>

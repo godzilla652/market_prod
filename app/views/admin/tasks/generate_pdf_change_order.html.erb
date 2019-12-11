@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>ASTRA</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <style type="text/css">
+    html {
+      height: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #333333;
+    }
+
+    .container {
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    header img {
+      max-width: 150px;
+      height: auto;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 40px;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 8px 16px;
+    }
+
+    td {
+      vertical-align: top;
+      padding: 8px 16px;
+    }
+
+    .total-td {
+      border-left: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    .text-strong {
+      font-weight: bold;
+    }
+
+    .text-underline {
+      text-decoration: underline;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      font-weight: bold;
+      text-align: right;
+      padding: 30px 0;
+    }
+  </style>
+
+</head>
+<body>
+<% task = @entity.task %>
+<div class="container">
+  <!-- <header>
+       <img src="https://astra-management.ca/logo.png">
+   </header>-->
+  <table class="top-table">
+    <tbody>
+    <tr>
+      <td width="50%">
+        <p>ASTRA Construction Management<br>
+          888 – 3rd Street SW, 10th Floor<br>
+          Bankers Hall, West Tower<br>
+          Calgary, Alberta, T2P 5C5</p>
+      </td>
+      <td width="50%" class="text-strong">
+        <span style="font-size: 18px;"><b>CHANGE <%= invoice ? 'INVOICE' : 'ORDER' %>
+          NO. <%= task.number_shange_order %> <%= @entity.id %></b></span><br>
+        <p> This number MUST appear on all invoices, <br>
+          packing slips and correspondence.</p>
+        <p>Date: <%= Date.current.strftime("%m/%d/%y") %> <br>
+          Date Required:  <%= task.date_limit.strftime("%m/%d/%y") if task.date_limit %> </p>
+        <p>Project №: <%= task.project_task.number %></p>
+        <p>Project name: <%= task.project_task.name %></p>
+        <p>Category: <%= task.task_type %></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <table class="middle-table">
+    <tbody>
+    <tr>
+      <td width="50%">
+        <p class="text-strong">To</p>
+        <p>       <%= (task.concierge.contract.legal_title if task.concierge.contract) if task.concierge %><br>
+          <%= (task.concierge.contract.views_mailing_address if task.concierge.contract) if task.concierge %></p>
+      </td>
+      <td width="50%">
+        <p>Please submit your invoices electronically to:<br>
+          <span class="text-underline"><%= Settings['email.sender'] %></span></p>
+        <p>One invoice per e-mail, with the service address, indicated in the subject line Ordered by:</p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <table class="bottom-table" border="1">
+    <tbody>
+    <tr class="text-strong">
+      <td colspan="2" width="50%">Ordered by: Astra-Group</td>
+      <td colspan="4" width="50%">Requested by: <%= task.owner.full_name if task.owner %></td>
+    </tr>
+    <tr>
+      <td colspan="2" width="50%">
+        <p class="text-strong">Bill To:</p>
+        <p>ASTRA Construction Management<br>
+          888 – 3rd Street SW, 10th Floor<br>
+          Bankers Hall, West Tower<br>
+          Calgary, Alberta, T2P 5C5</p>
+      </td>
+      <td colspan="4" width="50%">
+        <p class="text-strong">Ship To:</p>
+        <p><%= task.place.address if task.place %></p>
+      </td>
+    </tr>
+    <tr>
+      <th width="10%">Part No.</th>
+      <th width="40%">Description/Details</th>
+      <th width="12.5%">Qty</th>
+      <th width="12.5%">Unit of Measure</th>
+      <th width="12.5%">Unit Price</th>
+      <th width="12.5%">Total Cost</th>
+    </tr>
+    <tr>
+      <td width="10%">1</td>
+      <td width="40%"><%= @entity.title %></td>
+      <td width="12.5%">1.0000</td>
+      <td width="12.5%"></td>
+      <td width="12.5%"><%= @entity.budget %></td>
+      <td width="12.5%"><%= @entity.budget %></td>
+    </tr>
+
+    <tr>
+      <td colspan="5" width="88.5%" class="total-td">Subtotal</td>
+      <td width="12.5%"><%= @entity.budget %></td>
+    </tr>
+    <tr>
+      <td colspan="5" width="88.5%" class="total-td">GST or HST Tax:</td>
+      <td width="12.5%">
+        <% tax = @entity.budget * task.gst_calc / 100 %><%= sprintf('%.2f', tax) %></td>
+    </tr>
+    <tr>
+      <td colspan="5" width="88.5%" class="total-td">Sales Tax<sup>¹</sup>:</td>
+      <td width="12.5%">0.00</td>
+    </tr>
+    <tr>
+      <td colspan="5" width="88.5%" class="total-td">Total:</td>
+      <td width="12.5%"><%= sprintf('%.2f', (@entity.budget + tax)) %></td>
+    </tr>
+    </tbody>
+  </table>
+  <p class="subtitle"><sup>¹</sup>Either PST or QST dependent on the province</p>
+</div>
+</body>
+
+</html>

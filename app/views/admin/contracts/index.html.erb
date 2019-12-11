@@ -1,0 +1,184 @@
+<section class="tab-section no-padding-tab-section">
+  <%= render 'admin/contracts/tabs_one_contract', locale: @active = 'contracts' %>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- Tab 1 -->
+    <div class="tab-pane active" id="approvedContractors">
+      <div class="approved-contractors-wrap clearfix">
+
+        <table class="contractors-table">
+          <thead>
+          <tr>
+            <th class="sort__title" width="14%"><%= sort_link(@q, :gst, 'GST/SIN #<i class="sort__icon"></i>'.html_safe) %></th>
+            <th class="sort__title" width="14%"><%= sort_link(@q, :legal_title, 'Company Name #<i class="sort__icon"></i>'.html_safe) %></th>
+            <th class="sort__title" width="12%"><%= sort_link(@q, :city, 'City #<i class="sort__icon"></i>'.html_safe) %></th>
+            <th class="sort__title" width="14%"><%= sort_link(@q, :contact_name, 'Contact Name<i class="sort__icon"></i>'.html_safe) %></th>
+            <th class="sort__title" width="14%"><%= sort_link(@q, :telephone, 'Phone #<i class="sort__icon"></i>'.html_safe) %></th>
+            <th class="sort__title" width="18%"<%= sort_link(@q, :email, 'Email<i class="sort__icon"></i>'.html_safe) %></th>
+
+            <th class="sort__title" width="14%"><a>Actions</a></th>
+          </tr>
+          </thead>
+          <% if @contracts.empty? %>
+            <tr>
+              <td colspan="7">No items</td>
+            </tr>
+          <% else %>
+            <% @not_nil_contract = @contracts.where.not(type_work: nil) %>
+            <% Category.where(active: true).each do |cat| %>
+
+              <% @con = [] %>
+              <% @not_nil_contract.each do |contr| %>
+                <% @con << contr if contr.type_work.include? cat.name %>
+              <% end %>
+              <% if @con.count > 0 %>
+                <tbody class="research">
+                <tr class="accordion">
+                  <td colspan="4">
+                    <div class="pending-table_category-title"><span class="accordion-icon"></span><%= cat.name %></div>
+                  </td>
+                  <td colspan="3">
+                    <div class="count_contract"><%= @con.count %> contractors</div>
+                  </td>
+                </tr>
+                <% @con.compact.each do |contract| %>
+
+                  <tr class="contract_prew" data-href="">
+                    <td><%= contract.gst_or_sin %></td>
+                    <td><%= contract.legal_title %></td>
+                    <td><%= contract.city %></td>
+                    <td>
+                      <span class="pending-table_category"><%= link_to contract.contact_name, admin_contract_path(contract) %></span>
+                    </td>
+
+                    <td><span class="pending-table_phone"><%= contract.telephone %></span></td>
+                    <td><span class="pending-table_email"><%= contract.email %></span></td>
+                    <td>
+                      <a href="/admin/new_change_status/<%= contract.id %>?status=approved&url=/admin/contracts" class="td__accept" style="margin-right: 16px;">Accept</a>
+                      <a href="" data-href="" data-toggle="modal" data-target="#confirm-decline<%= contract.id %>" class="click-decline" rel="nofollow">Decline</a>
+                    </td>
+                  </tr>
+                  <!--- Decline Modal ---->
+                  <div class="modal fade" id="confirm-decline<%= contract.id %>" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h2 class="modal-title text-center">Are you sure that you want to decline?</h2>
+                        <form action="/admin/new_change_status/<%= contract.id %>" method="get">
+                          <%= hidden_field_tag 'status', 'archive' %>
+                          <%= hidden_field_tag 'url', '/admin/contracts' %>
+                          <div class="form-group">
+                            <label class="control-label">Cause:</label>
+                            <textarea type="textarea" class="form-control" name="cause" rows="5" cols="30" required="required"></textarea>
+                          </div>
+                          <div class="form-group text-center">
+                            <input type="submit" value="Submit" class="btn btn-primary-rectangle">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+                </tbody>
+              <% end %>
+              <% @nil_contract = @contracts.where(type_work: ["", nil]) %>
+              <% if @nil_contract.count > 0 %>
+                <tbody class="research">
+                <tr class="accordion">
+                  <td colspan="4">
+                    <div class="pending-table_category-title"><span class="accordion-icon"></span> No Category</div>
+                  </td>
+                  <td colspan="3">
+                    <div class="count_contract"><%= @con.count %> contractors</div>
+                  </td>
+                </tr>
+                <% @nil_contract.compact.each do |contract| %>
+
+                  <tr class="contract_prew" data-href="">
+                    <td><%= contract.gst_or_sin %></td>
+                    <td>
+                      <span class="pending-table_category"><%= link_to contract.contractor_name, admin_contract_path(contract) %></span>
+                    </td>
+                    <td><span class="pending-table_contractor-name"><%= contract.contact_name %></span></td>
+                    <td><span class="pending-table_contact-name"><%= contract.contact_name %></span></td>
+                    <td><span class="pending-table_phone"><%= contract.telephone %></span></td>
+                    <td><span class="pending-table_email"><%= contract.email %></span></td>
+                    <td>
+                      <a href="/admin/new_change_status/<%= contract.id %>?status=approved&url=/admin/contracts" class="td__accept">Accept</a>
+                      <a href="" data-href="" data-toggle="modal" data-target="#confirm-decline" class="click-decline" rel="nofollow">Decline</a>
+                    </td>
+                  </tr>
+                  <!--- Decline Modal ---->
+                  <div class="modal fade" id="confirm-decline<%= contract.id %>" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h2 class="modal-title text-center">Are you sure that you want to decline?</h2>
+                        <form action="/admin/new_change_status/<%= contract.id %>" method="get">
+                          <%= hidden_field_tag 'status', 'archive' %>
+                          <%= hidden_field_tag 'url', '/admin/contracts' %>
+                          <div class="form-group">
+                            <label class="control-label">Cause:</label>
+                            <textarea type="textarea" class="form-control" name="cause" rows="5" cols="30" required="required"></textarea>
+                          </div>
+                          <div class="form-group text-center">
+                            <input type="submit" value="Submit" class="btn btn-primary-rectangle">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+                </tbody>
+              <% end %>
+            <% end %>
+
+
+          <% end %>
+
+
+        </table>
+
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<style>
+  .contractors-table td {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+
+  .no-padding-tab-section {
+    padding-top: 0 !important;
+  }
+</style>
+<% if params[:success].present? %>
+
+  <div class="modal fade show" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="false" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <a href="/admin/contracts">
+          <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </a>
+        <h2 class="modal-title text-center">Successfully</h2>
+        <div class="modal-body text-center">
+          <p>Action completed successfully!</p>
+          <p class="tmp-id"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+<% end %>
+
+

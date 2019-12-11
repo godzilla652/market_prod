@@ -1,0 +1,26 @@
+.admin-page.show
+  .row
+    %h1{:class => 'col-sm-offset-3 col-sm-6'}
+      = @class_name
+  .row
+    .col-sm-6.col-sm-offset-3
+      %ul
+        %li
+          %span user ID:
+          =@entity.user.id
+        %li
+          %span Email:
+          =@entity.user.email
+
+        %li
+          %span Payment budget:
+          ="$#{@entity.amount}"
+        %li
+          %span Percents:
+          ="$#{@entity.persents}"
+        %li
+          %span Apply:
+          =@entity.apply
+        %li
+          %span Created:
+          =@entity.created_at

@@ -1,0 +1,2 @@
+$('.maintenance-section').html("<%= escape_javascript render('admin/maintenances/maintenances', locals: @maintenances ) %>");
+$('.maintenance-history').html("<%= escape_javascript render('admin/maintenances/history', locals: @maintenances ) %>");

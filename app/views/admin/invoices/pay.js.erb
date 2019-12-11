@@ -1,0 +1,5 @@
+<% if @task.paid? %>
+  $("#invoice-<%= @task.id %>").replaceWith("<%= j render 'task_row', entity: @task %>");
+<% else %>
+  alert("<%= @task.errors.full_messages.first %>");
+<% end %>

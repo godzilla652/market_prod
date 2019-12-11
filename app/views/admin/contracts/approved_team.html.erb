@@ -1,0 +1,55 @@
+<section>
+  <div class="top-subheader">
+    <div class="page__subheader">
+      <div class="delimiter"></div>
+      <form class="project-task-search" id="project_task_search" action="/admin/project_tasks" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+          <div class="form-inline">
+            <input placeholder="Search" class="search-field" type="search" name="q[name_or_address_or_type_pt_cont]" id="q_name_or_address_or_type_pt_cont">
+            <input type="submit" name="" value="" class="search-submit">
+          </div>
+      </form>
+      <div class="add-project-btn">
+        <% if policy(:AstraTeam).create? %>
+          <%= link_to popup_new_admin_contracts_path, class: 'btn-primary', remote: true do %>
+            <i class="add-project-btn__icon"></i>
+            <span>Add New User</span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= render 'admin/contracts/tabs_astra_team' %>
+  </div>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="">
+      <div class="clearfix">
+        <div class="tab-pane-left-col">
+          <%= render 'admin/contracts/shared/astra_team/contract_info' %>
+        </div>
+
+        <div class="tab-pane-right-col">
+          <%= render 'admin/contracts/shared/astra_team/table', contracts: @contracts %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div id="modals-container">
+  <div class="modal fade" id="changeRole" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"></div>
+  <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"></div>
+</div>
+
+<style>
+  .contract_prew {
+    display: block;
+  }
+</style>
+<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
+<link rel="stylesheet" href="/assets/admin/perfect-scrollbar.css">
+<link rel="stylesheet" href="/assets/admin/style.css">
+<script src="/assets/perfect-scrollbar.min.js"></script>
+

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  budget: 1
+  type_line: MyString
+  status: MyString
+  task: one
+
+two:
+  title: MyString
+  budget: 1
+  type_line: MyString
+  status: MyString
+  task: two

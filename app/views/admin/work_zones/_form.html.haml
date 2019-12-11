@@ -1,0 +1,25 @@
+= form_for @work_zone do |f|
+  - if @work_zone.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@work_zone.errors.count, "error")} prohibited this work_zone from being saved:"
+      %ul
+        - @work_zone.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :spot_one
+    = f.text_field :spot_one
+  .field
+    = f.label :spot_two
+    = f.text_field :spot_two
+  .field
+    = f.label :spot_three
+    = f.text_field :spot_three
+  .field
+    = f.label :spot_four
+    = f.text_field :spot_four
+  .actions
+    = f.submit 'Save'

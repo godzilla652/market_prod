@@ -1,0 +1,43 @@
+<header>
+  <div class="header_wrapper">
+    <a href="/">
+      <img src="/img/logo.png" class="img-responsive logo" itemprop="image" alt="General Contractor in Calgary">
+    </a>
+    <div class="tabs-wrapper">
+      <% unless Contract.where(status: :pending).count == 0 %>
+        <span class="pending-number"><%= Contract.where(status: :pending).count %></span>
+      <% end %>
+      <ul class="nav nav-tabs">
+
+        <li role="presentation" class="<%= "active" if (controller.controller_name == 'contracts' && (action_name == 'index' || ((action_name == 'show' || action_name == 'edit') && @contract.status == "pending"))) %>">
+          <a href="<%= admin_contracts_path %>">PENDING APPLICANTS</a></li>
+        <li role="presentation" class="<%= "active" if (controller.controller_name == 'contracts' && (action_name == 'approved' || ((action_name == 'show' || action_name == 'edit') && @contract.status == "approved"))) %>">
+          <a href="/admin/contracts_approved">APPROVED CONTRACTORS</a></li>
+        <li role="presentation" class="<%= "active" if (controller.controller_name == 'contracts' && (action_name == 'archive' || ((action_name == 'show' || action_name == 'edit') && @contract.status == "archive"))) %>">
+          <a href="/admin/contracts_archive">DECLINED CONTRACTORS</a></li>
+      </ul>
+    </div>
+
+    <div class="profile_wrapper">
+      <div class="profile_menu">
+        <a class="profile_menu__button profile_menu__button-edit" href="#">Edit Information</a>
+        <span class="profile_menu__line">|</span>
+        <a class="profile_menu__button profile_menu__button-logout" href="/users/sign_out">Logout</a>
+      </div>
+      <div class="profile_user">
+        <div class="profile_user-icon">
+          <span class="glyphicon glyphicon-user"></span>
+        </div>
+        <div class="profile_user-block">
+          <div class="profile_user-top-block">
+            <span class="">Welcome, </span>
+            <span class="profile_user-name"><%= current_user.full_name %></span>
+          </div>
+          <div class="profile_user-bottom-block">
+            <span class="profile_user-role semibold">SYSTEM ADMIN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

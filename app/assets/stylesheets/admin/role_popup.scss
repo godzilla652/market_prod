@@ -1,0 +1,69 @@
+
+/**** Pop-up ****/
+.modal-role-dialog .modal-content {
+    padding: 24px 0 0 0;
+    border: none;
+    border-radius: 4px;
+}
+.form-group-separator,
+.form-group-separator-padding{
+    display: none;
+}
+.form-group-header{
+    padding: 0 18px;
+    margin-bottom: 15px;
+}
+.role-user-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.role-user-col {
+    width: 33.3%;
+}
+.form-group-body{
+    background: #F2F3F8;
+    padding: 9px 24px 24px 24px;
+    margin-bottom: 0;
+}
+.form-group-footer{
+    margin-bottom: 0;
+    padding: 16px 24px 24px 24px;
+}
+.current-role-user__img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+}
+.current-role-user__name{
+    font-size: 16px;
+    font-weight: 700;
+    padding-left: 8px;
+}
+.modal-available .modal-content {
+    border: none;
+    border-radius: 4px;
+}
+#role-select .dd-selected {
+    padding: 0 12px 0 0;
+}
+.available-box {
+    margin-bottom: 16px;
+}
+.modal-col-left {
+    padding: 24px 4px 12px 16px;
+}
+.modal-col-right {
+    padding: 24px 4px 12px 16px;
+}
+#role-select .dd-option-image,
+#role-select .dd-selected-image {
+    margin-right: 8px;
+}
+#addNewUser .phone-field {
+    background: transparent;
+}
+
+
+

@@ -1,0 +1,202 @@
+<% if @contract.present? %>
+  <% business = @contract.business %>
+  <% financial = @contract.financial %>
+  <span class="noprint">
+  								<div class="preview-top-block d-flex justify-content-between">
+									<div class="preview-top-block_text">Contractor Preview</div>
+									<div class="preview-top-block_button-block">
+								        <a href="javascript:window.print(); void 0;" class="preview-top-block_button-block_print">
+									        <i class="preview-top-block_button-block_icon glyphicon glyphicon-print"></i>
+									    </a>
+                    <%= link_to 'Full View', admin_contract_path(@contract), class: "preview-top-block_button-block_button" %>
+								    </div>
+								</div>
+<div class="preview-content">
+									<div class="single_table-block approved-side-block	approved_block1">
+									    <div class="single_table-block_title-line approved_single_table-block_title-line">
+									        <h3 class="single_table-block_title approved_single_table-block_title">
+									            Company names
+									        </h3>
+									    </div>
+									    <div class="info-table_wrapper">
+									        <div class="info-table approved_info-table_block approved_info-table_block1">
+														<% unless @contract.team? %>
+									        	<div class="approved_info-table_block-item">
+									        		<h4 class="single_table-block_subtitle">Category</h4>
+									        		<span class="company_category"><%= @contract.type_work %></span>
+									        	</div>
+
+                              <div class="approved_info-table_block-item">
+									        		<h4 class="single_table-block_subtitle">City</h4>
+									        		<span class="company_category"> <%= @contract.city %></span>
+									        	</div>
+															<% end %>
+                            <div class="approved_info-table_block-item">
+										        	<h4 class="single_table-block_subtitle">Sub Contractor</h4>
+										        	<span class="company_subcontractor"><%= @contract.contact_name %></span>
+										        </div>
+										        <div class="approved_info-table_block-item">
+										        	<h4 class="single_table-block_subtitle">Desired Value</h4>
+										        	<span class="company_desiredvalue"><%= financial&.ic_general_laibility if financial %></span>
+										        </div>
+										    </div>
+									    </div>
+									</div>
+									<div class="single_table-block approved-side-block	approved_block2">
+									    <div class="single_table-block_title-line approved_single_table-block_title-line">
+									        <h3 class="single_table-block_title approved_single_table-block_title">
+									            Service Requests
+									        </h3>
+									    </div>
+									    <div class="info-table_wrapper">
+									        <div class="info-table info-table_cols2 approved_info-table_block approved_info-table_block2">
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Name</h4>
+									                <span class="service_name"><%= @contract.serv_req_name %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Phone #</h4>
+									                <span class="service_phone"><%= @contract.serv_req_phone %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Email</h4>
+									                <span class="service_email"><%= @contract.serv_req_email %></span>
+									            </div>
+									    	</div>
+									    </div>
+									</div>
+									<div class="single_table-block approved-side-block	approved_block3">
+									    <div class="single_table-block_title-line approved_single_table-block_title-line">
+									        <h3 class="single_table-block_title approved_single_table-block_title">
+									            Billing Requests
+									        </h3>
+									    </div>
+									    <div class="info-table_wrapper">
+									        <div class="info-table info-table_cols2 approved_info-table_block approved_info-table_block3">
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Name</h4>
+									                <span class="billing_name"><%= @contract.bil_req_name %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Phone #</h4>
+									                <span class="billing_phone"><%= @contract.bil_req_phone %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Email</h4>
+									                <span class="billing_email"><%= @contract.bil_req_email %></span>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+									<div class="single_table-block approved-side-block	approved_block4">
+									    <div class="single_table-block_title-line approved_single_table-block_title-line">
+									        <h3 class="single_table-block_title approved_single_table-block_title">
+									            Sub Contractor Details
+									        </h3>
+									    </div>
+									    <div class="info-table_wrapper">
+									        <div class="info-table info-table_cols2 approved_info-table_block approved_info-table_block4">
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Organization Name</h4>
+									                <span class="subcontractor_orgname"><%= @contract.legal_title %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Category</h4>
+									                <span class="subcontractor_category"><%= @contract.type_work %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Applied on</h4>
+									                <span class="subcontractor_appliedon"><%= @contract.date_submitted %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Phone #</h4>
+									                <span class="subcontractor_phone"><%= @contract.telephone %></span>
+									            </div>
+									            <div class="approved_info-table_block-item"><% mailing = @contract.mailing_address %>
+                                <h4 class="single_table-block_subtitle">Address</h4>
+									                <span class="subcontractor_address"><%= "#{mailing.street}, #{mailing.city}, #{mailing.province}, #{mailing.postal_code}" %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Submitted by</h4>
+									                <span class="subcontractor_submittedby"><%= @contract.contact_name %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Business Type</h4>
+									                <span class="subcontractor_businesstype"><%= business&.type_one %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Date of Corporation</h4>
+									                <span class="subcontractor_datecorp"><%= business&.datecorp %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									               	<h4 class="single_table-block_subtitle"># of Employees</h4>
+									                <span class="subcontractor_num-employees"><%= business&.number_employees %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Union Affiliated</h4>
+									                <span class="subcontractor_union"><% if business&.union_text.present? %><%= business&.union_text %><% else %>N/A<% end %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">ID #</h4>
+									                <span class="subcontractor_id"><%= financial&.acct if financial %></span>
+									            </div>
+										        <div class="approved_info-table_block-item">
+										          	<h4 class="single_table-block_subtitle">GST #</h4>
+										            <span class="subcontractor_id"><%= @contract.gst %></span>
+										        </div>
+                             <div class="approved_info-table_block-item">
+										          	<h4 class="single_table-block_subtitle">SIN #</h4>
+										            <span class="subcontractor_id"><%= @contract.sin %></span>
+										        </div>
+									        </div>
+									    </div>
+									</div>
+									<div class="single_table-block approved-side-block	approved_block5">
+									    <div class="single_table-block_title-line approved_single_table-block_title-line">
+									        <h3 class="single_table-block_title approved_single_table-block_title">
+									            Past Work Details
+									        </h3>
+									    </div>
+									    <div class="info-table_wrapper">
+									        <div class="info-table info-table_cols2 approved_info-table_block approved_info-table_block3">
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Worked with Astra:</h4>
+									                <span><%= (financial&.other_work_astra? ? 'YES' : 'NO') if financial %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Property Name:</h4>
+									                <span><%= financial&.other_property_name if financial %></span>
+									            </div>
+									            <div class="approved_info-table_block-item">
+									                <h4 class="single_table-block_subtitle">Property Address:</h4>
+									                <span><%= financial&.other_property_address if financial %></span>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+
+								</div>
+</span>
+
+<% else %>
+  <div class="grey-block preview-top-block clearfix">
+    <p class="preview-top-block_text">Contractor Preview</p>
+    <div class="preview-top-block_button-block">
+
+    </div>
+  </div>
+  <div class="single_table-block approved-side-block	approved_block1">
+    <!-- <div class="single_table-block_title-line approved_single_table-block_title-line">
+        <h3 class="single_table-block_title approved_single_table-block_title">
+            Company Names
+        </h3>
+    </div> -->
+    <div class="info-table_wrapper">
+      <table class="info-table info-table_cols2 approved_info-table_block approved_info-table_block1">
+        <tr>
+          <td>No Item</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+<% end %>

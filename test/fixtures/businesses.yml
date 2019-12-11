@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type_one: MyString
+  date_corporation: 2018-08-18
+  name: MyString
+  number_employees: MyString
+  union_affiliated: false
+  union_text: MyString
+  address: one
+  contract: one
+
+two:
+  type_one: MyString
+  date_corporation: 2018-08-18
+  name: MyString
+  number_employees: MyString
+  union_affiliated: false
+  union_text: MyString
+  address: two
+  contract: two

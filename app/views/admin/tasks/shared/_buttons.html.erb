@@ -1,0 +1,10 @@
+<div class="col-md-5 d-flex justify-content-start">
+  <% if is_accepted?(@entity) %>
+    <% unless @entity.done_confirm? %>
+      <button class="btn-outline mr-4" data-toggle="modal" data-target="#addBackCharge" <%= "disabled='true'" unless is_accepted?(@entity) %> >
+        <i class="add-btn__icon-outline"></i><span>Add back charge</span></button>
+      <button class="btn-primary" data-toggle="modal" data-target="#addChangeOrder" <%= "disabled='true'" unless is_accepted?(@entity) %> >
+        <i class="add-project-btn__icon"></i><span>Add Change Order</span></button>
+    <% end %>
+  <% end %>
+</div>

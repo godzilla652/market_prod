@@ -1,0 +1,135 @@
+<div class="page__header">
+  <div class="page__title"><h1>Invoices</h1></div>
+  <div class="delimiter"></div>
+
+
+  <div class="d-flex align-items-center">
+    <%= search_form_for @q, url: url_for(:action => :invoices) do |f| %>
+      <div class="form-inline">
+
+        <div class="form-group mx-sm-3" style="width:400px;">
+          <div data-placeholder="category" class="chosen-container wide chosen-container-multi" title="">
+            <%= f.select :concierge_id_eq, options_from_collection_for_select(User.with_role(:concierge), 'id', 'legal_title', params.dig(:q, :concierge_id_eq)), { include_blank: 'All Contractors' }, { class: 'chosen-select' } %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input autocomplete="off" id="datepicker-1" data-provide="datepicker" value='<%= params[:q][:fact_end_gteq] if params[:q].present? %>'
+                 data-date-format="yyyy-mm-dd" class="form-control req-field check-field date-field" type="text" name="q[fact_end_gteq]" style="width: 150px;">
+        </div>
+        <div class="form-group mx-sm-3">
+          <input autocomplete="off" id="datepicker-1" data-provide="datepicker" value='<%= params[:q][:fact_end_lteq] if params[:q].present? %>'
+                 data-date-format="yyyy-mm-dd" class="form-control req-field check-field date-field" type="text" name="q[fact_end_lteq]" style="width: 150px;">
+
+        </div>
+        <div class="form-group mx-sm-3">
+          <%= f.submit 'Search', :class => "btn btn-outline-tr" %>
+        </div>
+        <div class="form-group mx-sm-3">
+          <a href="<%= admin_invoices_url %>" class="btn-outline-red" style="margin-left: 0">Clear</a>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-inline">
+      <a href="<%= admin_invoices_url %>?files=true
+        <% if params[:q].present? %>&q[fact_end_lteq]=<%= params[:q][:fact_end_lteq] %>&q[fact_end_gteq]=<%= params[:q][:fact_end_gteq] %>
+        <% end %>">
+        <button class="btn-primary">
+          Download all
+        </button>
+
+      </a>
+    </div>
+  </div>
+</div>
+<form action="/admin/tasks/invoices" method="get">
+  <input hidden name="files" value="true">
+
+  <div style="height: 32px">
+    <button class="btn-primary download-select-btn">Download selected</button>
+  </div>
+
+  <table class="quote-item-section__table">
+
+    <thead>
+    <tr>
+      <th width="1%" style="min-width: 32px;"></th>
+      <th><%= sort_link(@q, :id, '#') %></th>
+      <th><%= sort_link(@q, :title, 'Title') %></th>
+      <th><%= sort_link(@q, :concierge_contract_legal_title, 'Contractor') %></th>
+      <th><%= sort_link(@q, :project_tasks_name, 'Project') %></th>
+      <th> <%= sort_link(@q, :budget, 'Budget') %></th>
+      <th>GST or HST TAX</th>
+      <th>Sales tax's</th>
+      <th> <%= sort_link(@q, :fact_end, 'Date') %></th>
+      <th class="fixed-width-140 quotes-center">Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @tasks.each do |entity| %>
+      <tr>
+        <td>
+          <label class="quote-checkbox-container">
+            <input type="checkbox" name="q[id_in][]" value="<%= entity.id %>" class="quote-checkbox-field">
+            <span class="checkmark"></span>
+          </label>
+        </td>
+        <td>
+          <%= entity.id %>
+        </td>
+        <td>
+          <%= entity.title %>
+        </td>
+        <td>
+          <%= entity.concierge&.legal_title %>
+        </td>
+        <td>
+          <%= entity.project_task.name %>
+        </td>
+
+        <td>
+          $<%= sprintf('%.2f', entity.total_invoice) %>
+        </td>
+
+        <td>
+
+          $<%= sprintf('%.2f', entity.gst_calc) %>
+        </td>
+        <td>
+          $0.00
+        </td>
+        <td>
+          <%= entity.fact_end&.strftime("%Y-%m-%d") %>
+        </td>
+        <td class="action quotes-center">
+          <a class="td__pdf" href="<%= entity.invoice_pdf_path %>" target="_blank" title="Download invoice">
+            <i class="pdf-project__icon"></i>
+          </a>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+</form>
+<section class="pagination">
+  <div class="page-item__amount">Showing <span><%= @tasks.count %></span> of <span><%= @tasks_no_pagerer.count %></span>
+    entries
+  </div>
+  <div class="delimiter"></div>
+  <%= paginate @tasks, :theme => 'bootstrap' %>
+
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('.download-select-btn').hide()
+    })
+    $('input[type=checkbox]').change(function () {
+        if ($('input[type=checkbox]').is(':checked')) {
+            $('.download-select-btn').show()
+        } else {
+            $('.download-select-btn').hide()
+        }
+    })
+</script>

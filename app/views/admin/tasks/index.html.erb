@@ -1,0 +1,77 @@
+<div class="admin-page index">
+  <div class="row">
+    <div class="col-sm-4">
+      <%= search_form_for @q, url: url_for(:action => :index) do |f| %>
+        <div class="form-group">
+          <div class="input-group">
+            <%= f.search_field :title_cont, :class => "form-control", :placeholder => "Search by Title" %>
+            <span class="input-group-append">
+              <%= f.submit 'Search', :class => "btn btn-default" %>
+            </span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>
+        <%= sort_link @q, :title, "Title" %>
+      </th>
+      <th>
+        <%= sort_link @q, :budget, "Budget" %>
+      </th>
+      <th>
+        <%= sort_link @q, :owner, "Owner" %>
+      </th>
+      <th>
+        <%= sort_link @q, :concierge, "Contractor" %>
+      </th>
+      <th>
+        <%= sort_link @q, :created_at, "Created" %>
+      </th>
+      <th>
+        <%= sort_link @q, :updated_at, "Updated" %>
+      </th>
+      <th></th>
+    </tr>
+    <% @entities.each do |entity| %>
+      <tr>
+        <td>
+          <%= entity.id %>
+        </td>
+        <td>
+          <%= entity.title %>
+        </td>
+        <td>
+          <%= "#{entity.budget}$" %>
+        </td>
+        <td>
+          <%= entity.owner.email %>
+        </td>
+        <td>
+          <%= (entity.concierge.full_name if entity.concierge) %>
+        </td>
+        <td>
+          <%= entity.created_at.strftime("%m/%d/%y   %I:%M%p") %>
+        </td>
+        <td>
+          <%= entity.updated_at.strftime("%m/%d/%y   %I:%M%p") %>
+        </td>
+        <td class="action">
+          <%= link_to url_for(:action => :show, :id => entity.id), :title => "View #{@class_name}" do %>
+            <span class="glyphicon glyphicon-eye-open"></span>
+          <% end %>
+          <%= link_to url_for(:action => :edit, :id => entity.id), :title => "Edit #{@class_name}" do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+          <% end %>
+          <%= link_to url_for(:action => :destroy, :id => entity.id), :method => :delete, :data => {:confirm => 'Are you sure?'}, :title => "Delete #{@class_name}" do %>
+            <span class="glyphicon glyphicon-remove-circle"></span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <%= paginate @entities, :theme => 'bootstrap' %>
+</div>

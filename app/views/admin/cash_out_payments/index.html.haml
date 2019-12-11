@@ -1,0 +1,40 @@
+.admin-page.index
+  .row
+    = search_form_for @q, url: url_for(:action => :index) do |f|
+      .col-xs-6
+        .input-group
+          -#= f.search_field :гыук_cont, :class=>"form-control", :placeholder => "Search by Title"
+          -#%span{:class => "input-group-btn"}
+          -#  = f.submit 'Search', :class => "btn btn-default"
+
+  %table{:class => 'table table-striped'}
+    %tr
+      %th ID
+      %th= sort_link @q, :user, "User"
+      %th= sort_link @q, :amount, "Amount"
+      %th= sort_link @q, :percents, "%"
+      %th= sort_link @q, :card_number, "Card number"
+
+      %th= sort_link @q, :created_at, "Created"
+      %th= sort_link @q, :updated_at, "Apply"
+      %th
+
+      %th
+    - @entities.each do |entity|
+      %tr
+        %td= entity.id
+        %td= entity.user.email
+        %td= "#{entity.amount}$"
+        %td= "#{entity.persents}$"
+        %td= entity.card_number
+        %td= entity.created_at.strftime("%m/%d/%y   %I:%M%p")
+        %td= entity.apply.nil? ? "--------" : entity.apply.strftime("%m/%d/%y   %I:%M%p")
+        %td{:class => 'action'}
+          = link_to  url_for(:action => :show, :id => entity.id), :title => "View #{@class_name}" do
+            %span{:class=>"glyphicon glyphicon-eye-open"}
+        %td{:class => 'action'}
+          - if entity.apply.nil?
+            = link_to  admin_cash_out_payment_transaction_path(entity.id), :title => "cash out" do
+              %span{:class=>"glyphicon glyphicon-usd"}
+
+  = paginate @entities, :theme => 'bootstrap'

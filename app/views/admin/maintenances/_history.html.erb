@@ -1,0 +1,20 @@
+
+<table class="no-border-table" id="maintenance-history">
+  <thead>
+  <tr>
+    <th width="33%">Type</th>
+    <th width="33%">Date Completed</th>
+    <th width="33%">Completed By</th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @maintenances.is_done.each do |obj| %>
+      <tr>
+        <td><%= obj.title %></td>
+        <td><%= obj.date %></td>
+        <td><%= obj.contractor_name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

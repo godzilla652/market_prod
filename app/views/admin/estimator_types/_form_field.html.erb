@@ -1,0 +1,168 @@
+
+  <form class="form-estimator" id="edit_estimator_type_1"
+        <% if @field.present? %>action="/admin/estimator_types/<%= @estimator_type.id %>/edit_field/<%= @field.id %>"
+        <% else %>action="/admin/estimator_types/<%= @estimator_type.id %>/add_field"<% end %>
+        accept-charset="UTF-8" method="get">
+
+<div class="form-group">
+  <label for="chs-ceiling" class="control-label">Name (description) *</label>
+  <input name="field[name]" type="text" class="form-control" required="required" value="<%= @field.name if @field %>">
+</div>
+<% if @estimator_type.admin_dv? %>
+<div class="form-group">
+  <label for="chs-ceiling" class="control-label">Display view name *</label>
+  <input name="field[dv_name]" type="text" class="form-control" required="required" value="<%= @field.dv_name if @field %>">
+</div>
+<% end %>
+<!--<div class="form-group">
+  <label for="chs-ceiling" class="control-label">Machine name </label>
+  <input name="field[machine_name]" type="text" class="form-control" value="<%= @field.machine_name if @field %>">
+</div>-->
+<div class="form-group">
+  <label for="chs-ceiling" class="control-label">In group </label>
+  <%= select_tag "field[field_estimator_id]", options_for_select(@estimator_type.fields.groups.map { |e| [e.name, e.id] },
+                                                                 (@field.field_estimator_id if @field)), include_blank: "Select", class: "form-control" %>
+
+</div>
+
+
+<div class="form-group">
+  <label for="chs-ceiling" class="control-label">Unit *</label>
+  <%= select_tag "field[type_field]", options_for_select(FieldEstimator.typefields.except("two_num_balk", "two_num").map { |e| e.reverse },
+   (@field.type_field if @field)), class: "form-control" %>
+
+</div>
+<div class="row">
+  <!--<div class="col-md-4">
+    <div class="form-group">
+      <label for="chs-ceiling" class="control-label">Default<br>value </label>
+      <input name="field[default_value]" type="number" step="any" class="form-control" value="<%= @field.default_value if @field %>">
+    </div>
+  </div>-->
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="chs-ceiling" class="control-label">Astra price </label>
+      <input name="field[astra_price]" type="number" step="any" class="form-control" value="<%= @field.astra_price if @field %>">
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="chs-ceiling" class="control-label">Trade price </label>
+      <input name="field[trade_price]" type="number" step="any" class="form-control" value="<%= @field.trade_price if @field %>">
+      <input name="field[fieldable_id]" type="hidden" value="<%= @estimator_type.id %>">
+      <input name="field[fieldable_type]" type="hidden" value="EstimatorType">
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="row">
+    <div class="col-md-4">
+      <label for="chs-ceiling" class="control-label">Additional QTY</label>
+    </div>
+    <div class="col-md-8">
+      <label for="chs-ceiling" class="control-label">Calculation</label>
+    </div>
+    <div class="col-md-4">
+      <input name="field[option][plus_value]" type="number" step="any" class="form-control" value="<%= @field.v_option('plus_value') if @field %>">
+    </div>
+    <div class="col-md-8">
+      <%= select_tag "field[option][calculation]", options_for_select(FieldEstimator.calculations.map { |e| e.reverse },
+     (@field.v_option("calculation") if @field.present?)), include_blank: "Select", class: "form-control" %>
+    </div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="chs-ceiling" class="control-label">Dependency </label>
+  <%= select_tag "field[depend_id]", options_for_select(@estimator_type.fields.calculation_dep.map { |e| ["<b>#{e.name}</b> - #{e.type_field_show}".html_safe, e.id] },
+                                                        (@field.depend_id if @field)), include_blank: "Select", class: "form-control" %>
+
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+
+
+      <label class="form-check control-label quote-checkbox-container">
+        <input name="field[required]" type="checkbox" class="check-field quote-checkbox-field"
+               <% if @field && @field.required %>checked
+               <% end %>>
+        <span class="checkmark"></span>
+        <span class="checkmark-label">Required field</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="form-check control-label quote-checkbox-container">
+        <input name="field[option][hide_admin_list_task]" type="checkbox" class="check-field quote-checkbox-field"
+               <% if @field && @field.v_option('hide_admin_list_task') %>checked
+               <% end %>>
+        <span class="checkmark"></span>
+        <span class="checkmark-label">Hide in task list</span>
+      </label>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+
+            <label class="form-check control-label quote-checkbox-container">
+        <input name="field[option][hide_front]" type="checkbox" class="check-field quote-checkbox-field"
+               <% if @field && @field.v_option('hide_front') %>checked
+               <% end %>>
+        <span class="checkmark"></span>
+        <span class="checkmark-label">Hide in front</span>
+      </label>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+          <label class="form-check control-label quote-checkbox-container">
+        <input name="field[active]" type="checkbox" class="check-field quote-checkbox-field"
+               <% if @field && @field.active %>checked
+               <% end %>>
+        <span class="checkmark"></span>
+        <span class="checkmark-label">Active</span>
+      </label>
+    </div>
+  </div>
+</div>
+<!--
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="form-check control-label quote-checkbox-container">
+        <input name="field[multiple]" type="checkbox" class="check-field quote-checkbox-field"
+               <% if @field && @field.multiple %>checked
+               <% end %>>
+        <span class="checkmark"></span>
+        <span class="checkmark-label">Multiple</span>
+      </label>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="form-check control-label quote-checkbox-container">
+        <input name="field[option][horizont_class]" type="checkbox" class="check-field quote-checkbox-field"
+               <% if @field && @field.v_option('horizont_class') %>checked
+               <% end %>>
+        <span class="checkmark"></span>
+        <span class="checkmark-label">Horizontal class field</span>
+      </label>
+    </div>
+  </div>
+</div>
+-->
+
+<div class="form-group">
+  <label for="chs-ceiling" class="control-label">Description for Scope of work *</label>
+  <input name="field[name_scope]" type="text" class="form-control" required="required" value="<%= @field.name_scope if @field %>">
+</div>
+
+<div class="form-group">
+  <input type="submit" name="commit" value="Save" class="btn btn-primary-rectangle">
+</div>
+</form>

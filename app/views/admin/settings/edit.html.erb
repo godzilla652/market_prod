@@ -1,0 +1,30 @@
+<section class="content-section">
+  <h1>
+    <% namespace, name = params[:id].split('.') %>
+    <%= t("settings.#{namespace}.#{name}.title") %>
+  </h1>
+  <div class="row">
+    <div class="col-md-6">
+      <br/>
+      <br/>
+      <%= form_for :setting, url: admin_setting_path(params[:id]), method: 'patch' do |f| %>
+        <h3>
+          <%= t("settings.#{namespace}.#{name}.description") %>
+        </h3>
+
+        <div class="form-group">
+          <% if namespace == "email" %>
+            <%= f.text_field :value, rows: 10, value: Settings[params[:id]], class: 'form-control' %>
+          <% else %>
+            <%= f.number_field :value, step: :any, rows: 10, value: Settings[params[:id]].to_d, class: 'form-control' %>
+          <% end %>
+        </div>
+        <div class="form-group">
+          <%= f.submit 'Save', class: 'btn btn-primary-rectangle' %>
+          &nbsp;&nbsp;&nbsp;
+          <%= link_to 'Cancel', admin_settings_path %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

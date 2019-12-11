@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  payable_type: MyString
+  payable_id: 1
+  state: MyString
+
+two:
+  payable_type: MyString
+  payable_id: 1
+  state: MyString

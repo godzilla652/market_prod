@@ -1,0 +1,96 @@
+<%= form_for user, url: admin_user_update_role_path(user), remote: true do |f| %>
+  <div class="modal-dialog modal-role-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <form class="" id="new_role" action="" accept-charset="UTF-8" method="post">
+      <div class="form-group form-group-header clearfix role-user-row">
+        <div class="role-user-col">
+          <div class="current-role-user d-flex align-items-center">
+            <div class="current-role-user__img" style="background-image: url(<%= user.photo.url(:original) %>)"></div>
+            <div class="current-role-user__name"><%= user.full_name %></div>
+          </div>
+        </div>
+        <div class="role-user-col">
+          <%= f.select :role_id, options_from_collection_for_select(Role.all, 'id', 'name', role&.id), { include_blank: '+ New role' }, { class: 'form-control role-select' } %>
+        </div>
+        <div class="role-user-col">
+          <% if role.new_record? %>
+            <%= text_field_tag 'user[role_attributes][name]', nil, id: 'new-role-field', placeholder: 'Role name', class: 'form-control' %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group form-group-body">
+        <%= render 'admin/users/role_form', user: user, role: role, f: f %>
+      </div>
+
+      <div class="form-group form-group-footer d-flex justify-content-end">
+        <div class="btn-cancel" data-dismiss="modal" aria-label="Cancel">Cancel</div>
+        <%= f.submit 'Save', class: 'btn btn-primary-save', data: { disable_with: 'Save' } %>
+      </div>
+    </form>
+  </div>
+<% end %>
+
+
+
+<script>
+  $(function(){
+
+    $(document).ready(function(){
+
+      $('.role-select').change(function(){
+        $.get('<%= admin_user_edit_role_path(user.id) %>', { role_id: $('.role-select').val() });
+      })
+
+    })
+
+        $(document).ready(function(){
+      $('.slide-preview-box__title').click(function(){
+        $(this).next('.slide-preview-box__wrap').slideToggle();
+      })
+        });
+
+        $('.user-table__row').click(function(){
+          $(this).addClass('selected');
+          $(this).siblings().removeClass('selected');
+          $(this).find('.user-table__cell.user-table__5').html('<a class="td__edit" data-remote="true" href=""><i class="edit-project__icon"></i></a>');
+          $(this).siblings().find('.user-table__cell.user-table__5').empty();
+        })
+
+        $(document).ready(function(){
+        /*****************img 1******************/
+        function readFleetURL1(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                  console.log(e.target.result)
+                  $('#fleet-thumbnail-wrap1').show()
+                    $('#fleet-thumbnail1').attr('src', e.target.result);
+                    $('#fleet-gallery1').attr('href', e.target.result);
+                    $('#fleet-reset1').show();
+                    $('#fleet-thumbnail1').addClass('insert-img');
+                    $('#fleet_delete_photo1').prop('checked', false);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $('#fleet-reset1').click(function(){
+          $('#fleet_photo1').value = "";
+          $('#fleet-thumbnail-wrap1').hide();
+          $('#fleet-thumbnail1').attr('src', '');
+            $('#fleet-gallery1').attr('href', '');
+            $('#fleet-reset1').hide();
+            $('#fleet-thumbnail1').removeClass('insert-img');
+            $('#fleet_delete_photo1').prop('checked', false);
+        })
+        $("#fleet_photo1").change(function(){
+            readFleetURL1(this);
+        });
+
+
+        })
+
+
+  });
+</script>

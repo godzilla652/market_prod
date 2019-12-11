@@ -1,0 +1,16 @@
+<% if @field && @field.v_option('horizont_class') %>
+  <div class="w_height">
+    <label class="control-label"><%= @field.name %>: <%= '*' if @field.required? %></label>
+      <%= render "shared/fields/#{@field.type_field}_field", locals: @field %>
+  </div>
+
+<% else %>
+  <div class="form-group row">
+    <div class="col-sm-6">
+      <label class="control-label"><%= @field.name %>: <%= '*' if @field.required? %></label>
+    </div>
+    <div class="col-sm-6">
+      <%= render "shared/fields/#{@field.type_field}_field", locals: @field %>
+    </div>
+  </div>
+<% end %>

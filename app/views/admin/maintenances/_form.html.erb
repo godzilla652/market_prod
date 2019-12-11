@@ -1,0 +1,49 @@
+<%= form_for :maintenance, url: "/admin/vehicles/#{@vehicle.id}/maintenances", multipart: true do |f| %>
+  <% if @maintenance && @maintenance.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(@maintenance.errors.count, "error")} prohibited this maintenance from being saved:" %>
+      </h2>
+      <ul>
+        <% @maintenance.errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label">Type:</label>
+        <%= f.text_field :title, class: "form-control check-field-val", maxlength: 25, required: true %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">Date</label>
+        <%= f.text_field :date, data:{ provide:'datepicker' }, autocomplete: 'off', class: "form-control date-field check-field-val", id: "datepicker", required: true %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label"><span style="color: #444444;">Assign To:
+          </span> <%= @maintenance&.contractor_name || 'Unassigned' %>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-center form-btn-wrap">
+    <%= f.submit "SAVE", class: "btn btn-primary-big", disabled: false %>
+    <a class="btn btn-close-big" href="#" data-dismiss="modal" aria-label="Close">Close</a>
+  </div>
+
+
+<% end %>
+
+

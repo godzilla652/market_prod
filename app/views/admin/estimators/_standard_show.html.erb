@@ -1,0 +1,132 @@
+
+<form action="/admin/tasks/new" method="get">
+  <input type="hidden" name="project" value="<%= @estimator.project_task_id %>">
+  <input type="hidden" name="owner_id" value="<%= @estimator.supervisor_id %>">
+  <% if @estimator.status != 'pending' %>
+    <% @estimator_type.fields.field_roots.each do |field| %>
+      <% unless field.option['hide_admin_list_task'] == 'on' %>
+        <section class="quote-item-section">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="quote-item-section__title">
+                <h3><%= field.name_scope %></h3>
+              </div>
+
+              <div class="quote-item-section__btn d-flex justify-content-end">
+                <% if @estimator.status == 'approved' %>
+                <button class="btn-primary">
+                  <em class="add-project-btn__icon"></em><span>Make a task</span></button>
+                  <% end %>
+              </div>
+
+              <table class="project-table quote-item-section__table">
+                <thead>
+                <tr>
+                  <th width="1%" style="min-width: 32px">
+                    <% if @estimator.status != 'archive' %>
+                      <label class="quote-checkbox-container">
+                        <input type="checkbox" class="quote-checkbox-field check-all" name="" value="">
+                        <span class="checkmark"></span>
+                      </label>
+                    <% end %>
+                  </th>
+                  <th class="sort__title" width="15%">QTY <i class="sort__icon"></i></th>
+                  <th class="sort__title" width="36%">Description <i class="sort__icon"></i></th>
+                  <th class="sort__title" width="15%">Unit price <i class="sort__icon"></i></th>
+                  <th class="sort__title" width="15%">Line total <i class="sort__icon"></i></th>
+                  <th width="15%">
+                    <div class="">Actions</div>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <% if field.type_field.include? 'scope_group' %>
+                  <% field_ids = field.front_visible_child_fields.map{|e| e.id} %>
+                  <% @estimator.lines.where(field_estimator_id: field_ids).each_slice(field_ids.count) do |slice| %>
+
+                    <tr>
+                      <td>
+                        <% if @estimator.status != 'archive' %>
+
+                      <label class="quote-checkbox-container">
+                        <input type="hidden" name="owner_id" value="<%= @estimator.supervisor_id %>">
+                        <% if slice.first.delivered? %>
+                            <input type="checkbox" class="quote-checkbox-field check-one" checked>
+                          <% else %>
+                            <input type="checkbox" class="quote-checkbox-field check-one" name="line[]" value="<%= slice.first.id %>">
+                          <% end %>
+                          <span class="checkmark"></span>
+                        </label>
+                          <% end %>
+                      </td>
+                      <td><strong>1.00</strong></td>
+                      <td><% slice.each do |line| %><%= line.field_estimator.name %>: <%= line.value %>  <% end %></td>
+                      <td><%= price_format(field.trade_price) %></td>
+                      <td><%= price_format(field.trade_price) %></td>
+                      <td>
+                        <% if slice.first.delivered? %>
+                          <a href="<%= admin_task_url(slice.first.task) %>"
+                             target="_blank" class="btn-outline-tr">Go to task</a>
+                        <% else %>
+                          <% if @estimator.status != 'archive' %>
+
+                      <a href="<%= "#{new_admin_task_url}?project=#{@estimator.project_task_id}&line=#{slice.first.id}" %>"
+                             target="_blank" class="make-task__btn">
+                            <em class="add-project-btn__icon-blue"></em>Make a task</a>
+
+                        <% end %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <% if field.field_estimators.present? %>
+                    <% field.field_estimators.each do |child| %>
+                      <% unless child.option['hide_admin_list_task'] == 'on' %>
+                        <%= render 'line_in_tab', locals: @field = child %>
+                      <% end %>
+                    <% end %>
+                  <% else %>
+
+                    <%= render 'line_in_tab', locals: @field = field %>
+                  <% end %>
+                <% end %>
+                </tbody>
+              </table>
+              <table class="quote-total-table">
+                <tr>
+                  <td class="quote-total-highlight" width="50%">TOTAL:</td>
+                  <td class="quote-total-highlight" width="50%"><%= price_format(@estimator.full_group_total('trade', field)) %></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </section>
+      <% end %>
+    <% end %>
+  <% end %>
+</form>
+
+<script>
+  $(function(){
+    $(document).ready(function() {
+      $('.check-all').change(function(){
+        if($(this).is(':checked')){
+          $(this).closest('.project-table').find('.check-one').each(function(){
+            $(this).prop('checked', true);
+          })
+        }
+        else{
+          $(this).closest('.project-table').find('.check-one').each(function(){
+            $(this).attr('checked', false)
+          })
+        }
+      })
+    });
+    $('.check-one').change(function(){
+      if(!$(this).is(':checked')){
+        $(this).closest('.project-table').find('.check-all').attr('checked', false)
+      }
+    })
+  })
+</script>

@@ -1,0 +1,87 @@
+<div class="page__header">
+  <div class="page__title"><h1>Custom Estimators</h1></div>
+  <div class="delimiter"></div>
+  <div class="add-project-btn">
+    <% if policy(:Setting).create? %>
+      <%= link_to '<i class="add-project-btn__icon"></i><span>Create New Estimator</span>'.html_safe,
+                  new_admin_estimator_type_path, class: "btn-primary" %>
+      <%= link_to '<i class="add-project-btn__icon"></i><span>Import</span>'.html_safe,
+                  admin_import_estimators_types_path, class: "btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<table class="project-table">
+  <thead>
+  <tr>
+    <th class="sort__title left-space" >Name <em class="sort__icon"></em></th>
+    <th class="sort__title">Admin desc <em class="sort__icon"></em></th>
+    <th class="sort__title">Link<em class="sort__icon"></em></th>
+    <th class="quotes-center">Active</th>
+  <!--  <th class="sort__title">Widget <em class="sort__icon"></em></th>-->
+    <th class="quotes-center">Standard fields</th>
+  <!--  <th class="sort__title">Email <em class="sort__icon"></em></th>-->
+    <th class="fixed-width-140 quotes-center">Actions</th>
+  </tr>
+  </thead>
+  <% @estimator_types.each do |estimator_type| %>
+    <tr>
+      <td class="left-space">
+        <%= link_to estimator_type.name, admin_estimator_type_path(estimator_type) %>
+      </td>
+      <td>
+        <%= estimator_type.admin_descr %>
+      </td>
+      <td>
+        <%= link_to 'Link', estimator_type_url(estimator_type), target: '_blank'%>
+      </td>
+      <td>
+        <% if estimator_type.active? %>
+          <span class="icon-true"></span>
+        <% else %>
+          <span class="icon-false"></span>
+        <% end %>
+      </td>
+     <!-- <td>
+        <%= estimator_type.widget %>
+      </td>-->
+      <td>
+                <% if estimator_type.standard_field? %>
+          <span class="icon-true"></span>
+        <% else %>
+          <span class="icon-false"></span>
+        <% end %>
+      </td>
+    <!--  <td>
+        <%= estimator_type.email %>
+      </td>-->
+      <td class="quotes-center">
+        <!--<%= link_to 'Export', admin_export_estimator_type_path(estimator_type), class: "td__edit" %>-->
+        <% if policy(:Setting).edit? %>
+          <%= link_to '<i class="edit-project__icon"></i>'.html_safe, edit_admin_estimator_type_path(estimator_type), title: "Edit", class: "td__edit" %>
+        <% end %>
+        <% if policy(:Setting).destroy? %>
+          <a href="" data-href="/501" data-toggle="modal" title="Delete" data-target="#confirm-delete<%= estimator_type.id %>" class="td__delete" rel="nofollow">
+            <i class="delete-project__icon"></i></a>
+          <% end %>
+      </td>
+    </tr>
+    <!--- Delete Modal ---->
+    <div class="modal fade" id="confirm-delete<%= estimator_type.id %>" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h2 class="modal-title text-center">Do you really want to delete this item?</h2>
+          <div class="modal-footer">
+            <%= link_to 'Yes', [:admin, estimator_type], method: :delete, class: "btn btn-confirm-delete form-submit-btn btn-confirm-delete" %>
+            <button type="button" class="btn btn-cancel-delete btn-default" data-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <% end %>
+</table>

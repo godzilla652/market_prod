@@ -1,0 +1,114 @@
+<section>
+  <%= render 'tabs' %>
+  <!-- Tab panes -->
+  <div class="tab-content quotes-content">
+
+    <div class="tab-pane active" id="quotesPending" role="tabpanel" aria-labelledby="quotesPending-tab">
+      <div class="quotes__header">
+        <div class="delimiter"></div>
+        <div class="header-select">
+
+          <select class="form-control" onchange="window.location.href=this.options[this.selectedIndex].value">
+            <option VALUE="/admin/estimators_approved">All Quotes</option>
+            <% EstimatorType.where(active: true).each do |item| %>
+
+              <option VALUE="<%= request.path %>/?q[estimator_type_id_eq]=<%= item.id %>"
+                      <% if params[:q].present? and params[:q][:estimator_type_id_eq] == item.id.to_s %>selected<% end %>>
+                <%= item.name %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="header-select">
+
+          <select class="form-control" onchange="window.location.href=this.options[this.selectedIndex].value">
+            <option VALUE="/admin/estimators_approved">All cities</option>
+            <% Contract.cities_canada.each do |item| %>
+
+              <option VALUE="<%= request.path %>/?q[city_cont]=<%= item %>"
+                      <% if params[:q].present? and params[:q][:city_cont] == item %>selected
+                      <% end %> ><%= item %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <% @estimators.each do |city, estimators| %>
+        <h2 style="margin: 24px 0 0 0; font-size: 16px; font-weight: bold;"><%= city %></h2>
+        <table class="project-table">
+          <thead>
+          <tr>
+            <th class="sort__title" width="5%"># <em class="sort__icon"></em></th>
+            <th class="sort__title" width="12%">Address <em class="sort__icon"></em></th>
+            <th class="sort__title" width="10%">Name <em class="sort__icon"></em></th>
+            <th class="sort__title" width="10%">Total astra <em class="sort__icon"></em></th>
+            <th class="sort__title" width="10%">Total trade <em class="sort__icon"></em></th>
+            <th class="sort__title" width="10%">Date <em class="sort__icon"></em></th>
+            <th class="quotes-center" width="8%">Scope</th>
+            <th class="quotes-center" width="8%">Quotes</th>
+            <th class="quotes-center" width="8%">Comments</th>
+            <th width="10%">Status</th>
+            <th class="fixed-width-140 quotes-center">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% estimators.each do |estimator| %>
+            <tr>
+              <td><%= estimator.number %></td>
+              <td><a href="<%= admin_estimator_url(estimator) %>"><%= estimator.address[0..30] %></a></td>
+              <td><%= estimator.name %></td>
+              <td><%= "$#{'%.2f' % estimator.full_total('astra')}" %></td>
+              <td><%= "$#{'%.2f' % estimator.full_total('trade')}" %></td>
+              <td><%= estimator.created_at.strftime('%d.%m.%Y') %></td>
+              <td class="quotes-center">
+                <a class="td__pdf" href="<%= estimator.scope_url %>" target="_blank" title="Download scope of work">
+                  <em class="pdf-project__icon"></em>
+                </a>
+              </td>
+              <td class="quotes-center">
+                <a class="td__pdf" href="<%= estimator.quote_url %>" target="_blank" title="Download quote">
+                  <em class="pdf-project__icon"></em>
+                </a>
+              </td>
+              <td class="quotes-center">
+                <a class="td__pdf" href="<%= estimator.quote_comment_url %>" target="_blank" title="Download comment">
+                  <em class="pdf-project__icon"></em>
+                </a>
+              </td>
+              <td class=<%= estimator.status_work_color %>><%= estimator.status_work.capitalize %></td>
+              <td class="quotes-center">
+                <% if policy(:Quote).update? %>
+                  <% if estimator.status_work == 'complete' %>
+                    <a href='/admin/estimators/<%= estimator.id %>/status_change?url=approved&status=finished'
+                       class="td__check"><em class="check-project__icon"></em></a>
+                  <% end %>
+                  <a href="" data-href="/501" data-toggle="modal" data-target="#confirm-delete<%= estimator.id %>"
+                     class="td__delete" rel="nofollow"><em class="delete-project__icon"></em></a>
+               <% end %>
+
+              </td>
+            </tr>
+
+            <!--- Delete Modal ---->
+            <div class="modal fade" id="confirm-delete<%= estimator.id %>" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h2 class="modal-title text-center">Do you really want to delete this item?</h2>
+                  <div class="modal-footer">
+                    <a rel="nofollow" href="/admin/estimators/<%= estimator.id %>/status_change?status=archive&url=archive">
+                      <button type="button" class="btn btn-confirm-delete form-submit-btn btn-confirm-delete">Yes</button>
+                    </a>
+                    <button type="button" class="btn btn-cancel-delete btn-default" data-dismiss="modal">No</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</section>

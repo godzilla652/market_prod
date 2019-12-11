@@ -1,0 +1,6 @@
+<!-- Tab 1 -->
+<div class="tab-pane active" id="projectTasks" role="tabpanel" aria-labelledby="projectTasks-tab">
+  <% @project_task.tasks.order("created_at DESC").group_by(&:task_type).each do |task_type, tasks| %>
+    <%= render 'tasks_group', tasks: tasks, task_type: task_type %>
+  <% end %>
+</div>

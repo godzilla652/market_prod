@@ -1,0 +1,2 @@
+<%= text_area_tag "estimator[body][#{@field.machine_name}]", default_value(@field, @estimator),
+                  required: @field.required?, class: "form-control #{'required-field' if @field.required?}"  %>

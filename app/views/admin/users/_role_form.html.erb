@@ -1,0 +1,46 @@
+<%= f.fields_for role do |rf| %>
+  <div class="modal-role-box">
+    <div class="modal-role-box__title">
+      <div class="modal-role-box__row">
+        <div class="modal-role-box__cell modal-role-box__title-cell">Section</div>
+        <div class="modal-role-box__cell modal-role-box__switch-cell">Read</div>
+        <div class="modal-role-box__cell modal-role-box__switch-cell">Full access</div>
+      </div>
+    </div>
+    <% i = 0 %>
+    <% PermissionsConstants::MODELS.each_with_index do |model| %>
+      <div class="modal-role-box__item">
+        <div class="modal-role-box__row">
+          <div class="modal-role-box__cell modal-role-box__title-cell">
+            <h5><%= draw_model_name model %></h5>
+            <p><%= draw_model_description model %></p>
+          </div>
+          <% PermissionsConstants::GENERAL_PERMISSIONS.each_with_index do |action| %>
+            <% i = i + 1 %>
+            <% permission = Permission.where(subject_class: (model.name rescue model), role_id: role&.id, action: action).first_or_initialize %>
+
+            <% next if (permission.new_record? && !role.new_record?) || (PermissionsConstants::ONLY_READ_MODELS.include?(model) && action == 'manage_access') %>
+            <div class="modal-role-box__cell modal-role-box__switch-cell">
+              <%= hidden_field_tag "user[role_attributes][permissions_attributes][#{i}][subject_class]", permission.subject_class %>
+              <%= hidden_field_tag "user[role_attributes][permissions_attributes][#{i}][action]", permission.action %>
+              <%= hidden_field_tag "user[role_attributes][permissions_attributes][#{i}][id]", permission.id if permission.id.present? %>
+
+              <label class="form-check switch">
+                <%= hidden_field_tag "user[role_attributes][permissions_attributes][#{i}][active]", false  %>
+                <%= check_box_tag "user[role_attributes][permissions_attributes][#{i}][active]", true, permission.active?, class: 'switch-check-field' %>
+                <span class="switch-slider"></span>
+              </label>
+
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+
+  <%= hidden_field_tag "user[role_attributes][id]", role.id %>
+<% end %>
+
+

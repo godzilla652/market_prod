@@ -1,0 +1,189 @@
+<%= render 'show_main' %>
+
+<section class="quote-item-section">
+
+  <ul class="nav nav-tabs" id="contractors" role="tablist">
+    <li class="nav-item">
+      <%= active_link_to 'Fields', admin_estimator_type_url(@estimator_type), class: 'nav-link' %>
+    </li>
+    <li class="nav-item active">
+      <%= active_link_to 'Display views', admin_estimator_types_display_views_url(@estimator_type, @estimator_type.display_views&.first&.id),
+                         class: 'nav-link active' %>
+    </li>
+  </ul>
+
+  <div class="row drag-wrap">
+    <div class="drag-info">Drag<br>& Drop</div>
+        <div class="col-md-6 drag-left-col">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 style="margin: 32px 0 16px 4%;">Tasks in the quotes</h4>
+            <button class="btn-primary mr-4" data-toggle="modal" data-target="#create-group"><i class="add-project-btn__icon"></i><span>Add group</span></button>
+          </div>
+          <ul class="accordion-list__wrap ">
+            <li class="accordion-list accordion-list__header">
+              <div class="accordion-list__container">
+                <div class="accordion-list__cell drop-cell"></div>
+                <div class="accordion-list__cell number-cell">#</div>
+                <div class="accordion-list__cell name-cell">Name (Description)</div>
+                <!-- <div class="accordion-list__cell group-cell">Group</div> -->
+               <!--  <div class="accordion-list__cell unit-cell">Machine Name</div> -->
+                <!-- <div class="accordion-list__cell unit-cell">Type</div>
+                <div class="accordion-list__cell type-cell">Active</div> -->
+                <div class="accordion-list__cell price-cell">Unit price</div>
+                <div class="accordion-list__cell price-cell">Astra price</div>
+                <div class="accordion-list__cell actions-cell">Actions</div>
+              </div>
+            </li>
+            <% @display_view.line_dvs.root_line_dvs.order('created_at ASC').each do |line_dv| %>
+              <li class="accordion-list  accordion-list__content <%= 'accordion-list__has-child' if line_dv.line_dvs.present? %>" id="<%= line_dv.id %>" >
+                <div class="accordion-list__container">
+                  <div class="accordion-list__cell drop-cell"><em class="drag__icon"></em></div>
+                  <div class="accordion-list__cell number-cell"><span class="accordion-child-icon"></span><%= line_dv.id %></div>
+                  <div class="accordion-list__cell name-cell"><strong><%= line_dv.name %></strong></div>
+                  <!-- <div class="accordion-list__cell group-cell"><%= line_dv.type_line %></div> -->
+                  <!-- <div class="accordion-list__cell unit-cell"></div> -->
+                  <!-- <div class="accordion-list__cell unit-cell"></div>
+                  <div class="accordion-list__cell type-cell"></div> -->
+                  <div class="accordion-list__cell price-cell"></div>
+                  <div class="accordion-list__cell price-cell"></div>
+                  <div class="accordion-list__cell actions-cell">
+                  </div>
+
+                </div>
+            <ul class="accordion-level-2">
+
+              <% line_dv.line_dvs.order('created_at ASC').each do |child| %>
+                <% if child.line_dvs.present? %>
+                  <li class="accordion-list  accordion-list__content accordion-list__has-child" id="<%= child.id %>" >
+                <% else %>
+                  <li class="accordion-list  accordion-list__content <%= 'accordion-list__has-sub-child' if child.item_line_dvs.present? %>" id="<%= child.id %>" >
+                <% end %>
+                    <div class="accordion-list__container">
+                      <div class="accordion-list__cell drop-cell"><em class="drag__icon"></em></div>
+                      <div class="accordion-list__cell number-cell"><span class="accordion-sub-child-icon"></span><%= child.id %></div>
+                      <div class="accordion-list__cell name-cell"><strong><%= child.name %></strong></div>
+                      <!-- <div class="accordion-list__cell group-cell"><%= child.type_line %></div>
+                      <div class="accordion-list__cell unit-cell"></div>
+                      <div class="accordion-list__cell type-cell"></div>
+                      <div class="accordion-list__cell price-cell"></div> -->
+                      <div class="accordion-list__cell price-cell"></div>
+                      <div class="accordion-list__cell price-cell"></div>
+                      <div class="accordion-list__cell actions-cell">
+                      </div>
+                    </div>
+                <% if child.line_dvs.present? %>
+
+            <ul class="accordion-level-2">
+              <% child.line_dvs.order('created_at ASC').each do |child2| %>
+                  <li class="accordion-list  accordion-list__content accordion-list__has-sub-child" id="<%= child.id %>" >
+                    <div class="accordion-list__container">
+                      <div class="accordion-list__cell drop-cell"><em class="drag__icon"></em></div>
+                      <div class="accordion-list__cell number-cell"><span class="accordion-sub-child-icon"></span><%= child2.id %></div>
+                      <div class="accordion-list__cell name-cell"><strong><%= child2.name %></strong></div>
+                      <!-- <div class="accordion-list__cell group-cell"><%= child2.type_line %></div>
+                      <div class="accordion-list__cell unit-cell"></div>
+                      <div class="accordion-list__cell type-cell"></div>
+                      <div class="accordion-list__cell price-cell"></div> -->
+                      <div class="accordion-list__cell price-cell"></div>
+                      <div class="accordion-list__cell price-cell"></div>
+                      <div class="accordion-list__cell actions-cell">
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+                </ul>
+                  <% else %>
+                    <ul class="accordion-level-3">
+                      <% child.item_line_dvs.order('created_at ASC').each do |item_line| %>
+                        <li class="accordion-list  accordion-list__content ">
+                          <%= render 'field_table_dv', locale: [@field = item_line.field_estimator, @line = item_line] %>
+                        </li>
+                      <% end %>
+                    </ul>
+                  <% end %>
+                  </li>
+              <% end %>
+
+              <% line_dv.item_line_dvs.order('created_at ASC').each do |item_line| %>
+                <li class="accordion-list  accordion-list__content ">
+                  <%= render 'field_table_dv', locale: @field = item_line.field_estimator %>
+
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+        </div>
+        <div class="col-md-6 drag-right-col">
+          <h4 style="margin: 32px 0 16px 4%;">All fields in the current quote</h4>
+          <ul class="accordion-list__wrap ">
+            <li class="accordion-list accordion-list__header">
+              <div class="accordion-list__container">
+                <div class="accordion-list__cell drop-cell"></div>
+                <div class="accordion-list__cell number-cell">#</div>
+                <div class="accordion-list__cell name-cell">Name (Description)</div>
+                <!-- <div class="accordion-list__cell group-cell">Group</div> -->
+                <!-- <div class="accordion-list__cell unit-cell">Machine Name</div> -->
+                <!-- <div class="accordion-list__cell unit-cell">Type</div>
+                <div class="accordion-list__cell type-cell">Active</div> -->
+                <div class="accordion-list__cell price-cell">Unit price</div>
+                <div class="accordion-list__cell price-cell">Astra price</div>
+                <div class="accordion-list__cell actions-cell">Actions</div>
+              </div>
+            </li>
+            <% @estimator_type.fields.yes_scoupe_no_groups.order('created_at ASC').each do |field| %>
+              <li class="accordion-list accordion-list__content <%= 'accordion-list__has-child' if field.group? %>" id="<%= field.id %>">
+                <%= render 'field_table_dv', locale: @field = field %>
+                <ul class="accordion-level-2">
+                  <% field.field_estimators.each do |child| %>
+                    <li class="accordion-list__content  <%= 'accordion-list__has-sub-child' if child.group? %>" id="<%= child.id %>">
+                      <%= render 'field_table_dv', locale: @field = child %>
+                      <ul class="accordion-level-3">
+                        <% child.field_estimators.each do |child| %>
+                          <li class="accordion-list__content">
+
+                            <%= render 'field_table_dv', locale: @field = child %>
+                          </li>
+                        <% end %>
+                      </ul>
+                    </li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+  </div>
+
+
+  <!-- Add role modal -->
+<div class="modal fade" id="create-group" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+      <h2 class="modal-title text-center">Add new group</h2>
+      <div id="new-group-form">
+        <form action="/admin/estimator_types/<%= @estimator_type.id %>/display_views/<%= @display_view.id %>" accept-charset="UTF-8" method="get">
+          <div class="form-group">
+            <label for="chs-ceiling" class="control-label">Name Group</label>
+            <input name="add_line_dv[name]" type="text" class="form-control" >
+          </div>
+          <div class="form-group">
+            <label for="chs-ceiling" class="control-label">In group </label>
+            <%= select_tag "add_line_dv[line_dv_id]", options_for_select(@display_view.line_dvs.map { |e| [e.name, e.id] }),
+                           include_blank: "Select", class: "form-control" %>
+          </div>
+          <div class="form-group text-center">
+            <input type="submit" name="commit" value="Add" class="btn btn-primary-rectangle">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
+<%= render 'show_script' %>

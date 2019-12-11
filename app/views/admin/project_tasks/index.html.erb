@@ -1,0 +1,107 @@
+<div class="page__header">
+  <div class="page__title"><h1>Projects</h1></div>
+  <div class="delimiter"></div>
+
+  <%= search_form_for @q, url: admin_project_tasks_path, class: "project-task-search", id: "project_task_search" do |f| %>
+    <div class="form-inline">
+      <%= f.search_field :name_or_address_or_type_pt_cont, placeholder: 'Search', class: "search-field" %>
+      <input type="submit" name="" value="" class="search-submit">
+    </div>
+  <% end %>
+  <div class="add-project-btn">
+    <% if policy(Project).create? %>
+      <button class="btn-primary" data-toggle="modal" data-target="#addproject"><i class="add-project-btn__icon"></i>
+        <span>Add new project</span></button>
+    <% end %>
+  </div>
+</div>
+<table class="project-table">
+  <thead>
+  <tr>
+    <th class="sort__title"># <i class="sort__icon"></i></th>
+    <th class="sort__title">Project Name <i class="sort__icon"></i></th>
+    <th class="sort__title">Address<i class="sort__icon"></i></th>
+    <th class="sort__title">Tasks <i class="sort__icon"></i></th>
+    <th class="sort__title">Type <i class="sort__icon"></i></th>
+    <th class="sort__title">Status <i class="sort__icon"></i></th>
+    <th class="fixed-width-140">Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @project_tasks.order('number DESC').each do |project_task| %>
+    <tr>
+      <td> <%= project_task.number %></td>
+      <td>
+        <div class="td__project-title"> <%= link_to project_task.name, [:admin, project_task] %></div>
+      </td>
+      <td><%= project_task.address %></td>
+      <td> <%= project_task.tasks.count %></td>
+      <td><%= project_task.type_pt %></td>
+      <td><span class="td__status <%= project_task.active ? 'status-active' : 'status-inactive' %>"><%= project_task.active ? 'ACTIVE' : 'INACTIVE' %></td>
+      <td>
+        <% if project_task.active? %>
+          <%= link_to '<i class="add-project__icon"><span class="add-1"></span><span class="add-2"></span></i>'.html_safe, new_admin_task_path + "?project=#{project_task.id}", title: "Create task", class: "td__add" if policy(Task).create? %>
+        <% end %>
+        <%= link_to '<i class="edit-project__icon"></i>'.html_safe, edit_admin_project_task_path(project_task), remote: true, title: "Edit project", class: "td__edit" if policy(Project).edit? %>
+        <% unless project_task.tasks.present? %>
+          <%= link_to '<i class="delete-project__icon"></i>'.html_safe, [:admin, project_task], method: :delete, title: "Delete", class: "td__delete", data: {confirm: 'Do you really want to delete this item?'} if policy(Project).destroy? %>
+        <% end %>
+      </td>
+    </tr>
+
+  <% end %>
+</table>
+<div id="modal-container"></div>
+<section class="pagination">
+  <div class="page-item__amount">Showing <span><%= @project_tasks.count %></span> of
+    <span><%= @project_tasks.count %></span> entries
+  </div>
+  <div class="delimiter"></div>
+  <!--  <div class="limit"><span class="limit__title">Display</span>
+      <select class="limit__list">
+        <option value="10" selected="selected">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    <div class="page-pagination">
+      <a class="prev-page disable"><i class="prev-page__icon"></i></a>
+      <ul class="pages">
+        <li class="pages__item active">
+          <a href="#" class="page">1</a>
+        </li>
+        <li class="pages__item">
+          <a href="#" class="page">2</a>
+        </li>
+        <li class="pages__item">
+          <a href="#" class="page">3</a>
+        </li>
+        <li class="pages__item">
+          <a href="#" class="page">4</a>
+        </li>
+        <li class="pages__item">
+          <a href="#" class="page">5</a>
+        </li>
+        <li class="pages__item dots">...</li>
+        <li class="pages__item last">
+          <a href="#" class="page">15</a>
+        </li>
+      </ul>
+      <a href="#" class="next-page"><i class="next-page__icon"></i></a>
+    </div>-->
+</section>
+
+
+<div class="modal fade" id="addproject" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Add New Project</h2>
+      <%= render 'form', locale: @project = @project_task %>
+    </div>
+  </div>
+</div>

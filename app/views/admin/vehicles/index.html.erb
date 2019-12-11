@@ -1,0 +1,333 @@
+<section>
+  <div class="top-subheader">
+    <div class="page__subheader">
+      <div class="delimiter"></div>
+      <form class="project-task-search" id="project_task_search" action="<%= admin_vehicles_path %>" accept-charset="UTF-8" method="get">
+        <input name="utf8" type="hidden" value="✓">
+        <div class="form-inline">
+          <input placeholder="Search" class="search-field" type="search" name="q[name_or_address_or_type_pt_cont]"
+                 id="q_name_or_address_or_type_pt_cont">
+          <input type="submit" name="" value="" class="search-submit">
+        </div>
+      </form>
+      <% if policy(:AstraTeam).create? %>
+        <div class="add-project-btn">
+          <a href="" class="btn-primary" data-toggle="modal" data-target="#addNewVehicle"><em class="add-project-btn__icon"></em>
+            <span>Add New Vehicle</span>
+          </a>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Nav tabs -->
+    <%= render 'admin/contracts/tabs_astra_team' %>
+  </div>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active" id="">
+      <div class="clearfix">
+        <div class="tab-pane-left-col ">
+          <div class="preview-top-block d-flex justify-content-between">
+            <div class="preview-top-block_text">Vehicle Details</div>
+          </div>
+
+          <div class="slide-preview-wrap">
+            <div class="slide-preview-box">
+              <h3 class="slide-preview-box__title">Vehicle Information</h3>
+              <div class="slide-preview-box__wrap">
+                <div class="vehicle-info-box clearfix preview-section">
+                  <%= render 'preview' %>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-preview-box" id="maintenance">
+              <h3 class="slide-preview-box__title">Maintenance</h3>
+              <div class="slide-preview-box__wrap">
+                <div class="maintenance-box clearfix maintenance-section">
+                  <%#= render 'admin/maintenances/maintenances' %>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-preview-box" id="maintenance-history">
+              <h3 class="slide-preview-box__title">Maintenance History</h3>
+              <div class="slide-preview-box__wrap clearfix maintenance-history">
+                <%#= render 'admin/maintenances/history' %>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="tab-pane-right-col">
+          <div class="img-table" id="vehicles">
+            <div class="img-table__header clearfix">
+              <div class="img-table__cell img-table__image-cell"></div>
+              <div class="img-table__info">
+                <div class="img-table__cell img-table__number-cell"># <em class="sort__icon"></em></div>
+                <div class="img-table__cell img-table__yaer-cell">Year <em class="sort__icon"></em></div>
+                <div class="img-table__cell img-table__make-cell">Make / Model <em class="sort__icon"></em></div>
+                <div class="img-table__cell img-table__km-cell">KM <em class="sort__icon"></em></div>
+                <div class="img-table__cell img-table__license-cell">License <em class="sort__icon"></em></div>
+                <div class="img-table__cell img-table__assigned-cell">Assigned To <em class="sort__icon"></em></div>
+                <div class="img-table__cell img-table__maintenance-cell">Maintenance <em class="sort__icon"></em></div>
+                <div class="img-table__cell img-table__action-cell fixed-width-140">Actions</div>
+              </div>
+            </div>
+
+            <% @vehicles.each do |vehicle| %>
+              <div class="img-table__row clearfix vehicle" onclick="get_data(<%= vehicle.id %>);">
+                <div class="img-table__cell img-table__image-cell">
+                  <div class="img-table__image" style="background-image: url(<%= url_for(vehicle.driver) if vehicle.driver.attached? %>)"></div>
+                </div>
+                <div class="img-table__info">
+                  <div class="img-table__cell img-table__number-cell"><%= vehicle.fleet %></div>
+                  <div class="img-table__cell img-table__yaer-cell"><%= vehicle.year %></div>
+                  <div class="img-table__cell img-table__make-cell"><%= vehicle.make %></div>
+                  <div class="img-table__cell img-table__km-cell"><%= vehicle.km %></div>
+                  <div class="img-table__cell img-table__license-cell"><%= vehicle.license %></div>
+                  <div class="img-table__cell img-table__assigned-cell"><%= vehicle.contract&.legal_title %></div>
+                  <div class="img-table__cell img-table__maintenance-cell"><span class="maintenance-normal">None</span></div>
+                  <div class="img-table__cell img-table__action-cell">
+                    <% if policy(:AstraTeam).update? %>
+                      <a href='' class="td__edit" data-toggle="modal"
+                                                                           data-target="#editVehicle<%= vehicle.id %>">
+                      <em class="edit-project__icon"></em></a>
+                    <% end %>
+                  </div>
+
+                </div>
+              </div>
+              <div class="modal fade" id="editVehicle<%= vehicle.id %>" tabindex="-1" role="dialog" aria-labelledby=""
+                   aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content edit_feet">
+                    <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center">Edit Vehicle</h2>
+                    <%= render 'form', locale: @vehicle = vehicle %>
+                  </div>
+                </div>
+              </div>
+              <!--              modal-->
+              <div class="modal fade" id="scheduleMaintenance<%= vehicle.id %>" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content new_maintenance">
+                    <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                    <h2 class="modal-title text-center">New Schedule</h2>
+                    <%= render 'admin/maintenances/form', locale: @vehicle = vehicle %>
+                  </div>
+                </div>
+              </div>
+              <!--              modal end-->
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="addNewVehicle" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content new_feet">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Add New Vehicle</h2>
+      <%= render 'form', locale: @vehicle = Vehicle.new %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function get_data(vehicle_id){
+    $.ajax({
+      type : 'get',
+      url : `/admin/vehicles/${vehicle_id}.js`,
+    });
+    $.ajax({
+      type : 'get',
+      url : `/admin/vehicles/${vehicle_id}/maintenances.js`,
+    });
+  }
+
+    $(function(){
+
+        $(document).ready(function(){
+
+            // $('.vehicle-gallery__thumb-item img').click(function(){
+            //     $('.vehicle-gallery__big a').attr('href',$(this).attr('src'));
+            //     $('.vehicle-gallery__big img').attr('src',$(this).attr('src'));
+            // });
+
+            $('.slide-preview-box__title').click(function(){
+                $(this).next('.slide-preview-box__wrap').slideToggle();
+            })
+        });
+
+
+        $(document).ready(function(){
+            /*****************img 1******************/
+            function readFleetURL1(input) {
+              if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+                  
+                  reader.onload = function (e) {
+                    console.log(e.target.result)
+                    $('#fleet-thumbnail-wrap1').show()
+                      $('#fleet-thumbnail1').attr('src', e.target.result);
+                      $('#fleet-gallery1').attr('href', e.target.result);
+                      $('#fleet-reset1').show();
+                      $('#fleet-thumbnail1').addClass('insert-img');
+                      $('#fleet_delete_photo1').prop('checked', false);
+                  }
+                  reader.readAsDataURL(input.files[0]);
+              }
+            }
+            $('#fleet-reset1').click(function(){
+              $('#fleet_photo1').value = "";
+              $('#fleet-thumbnail-wrap1').hide();
+              $('#fleet-thumbnail1').attr('src', '');
+                $('#fleet-gallery1').attr('href', '');
+                $('#fleet-reset1').hide();
+                $('#fleet-thumbnail1').removeClass('insert-img');
+                $('#fleet_delete_photo1').prop('checked', false);
+            })
+            $("#fleet_photo1").change(function(){
+                readFleetURL1(this);
+                console.log('test')
+            });
+            /*****************img 2******************/
+            function readFleetURL2(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        console.log(e.target.result)
+                        $('#fleet-thumbnail-wrap2').show()
+                        $('#fleet-thumbnail2').attr('src', e.target.result);
+                        $('#fleet-gallery2').attr('href', e.target.result);
+                        $('#fleet-reset2').show();
+                        $('#fleet-thumbnail2').addClass('insert-img');
+                        $('#fleet_delete_photo2').prop('checked', false);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $('#fleet-reset2').click(function(){
+                $('#fleet_photo2').value = "";
+                $('#fleet-thumbnail-wrap2').hide();
+                $('#fleet-thumbnail2').attr('src', '');
+                $('#fleet-gallery2').attr('href', '');
+                $('#fleet-reset2').hide();
+                $('#fleet-thumbnail2').removeClass('insert-img');
+                $('#fleet_delete_photo2').prop('checked', false);
+            })
+            $("#fleet_photo2").change(function(){
+                readFleetURL2(this);
+            });
+            /*****************img 3******************/
+            function readFleetURL3(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        console.log(e.target.result)
+                        $('#fleet-thumbnail-wrap3').show()
+                        $('#fleet-thumbnail3').attr('src', e.target.result);
+                        $('#fleet-gallery3').attr('href', e.target.result);
+                        $('#fleet-reset3').show();
+                        $('#fleet-thumbnail3').addClass('insert-img');
+                        $('#fleet_delete_photo3').prop('checked', false);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $('#fleet-reset3').click(function(){
+                $('#fleet_photo3').value = "";
+                $('#fleet-thumbnail-wrap3').hide();
+                $('#fleet-thumbnail3').attr('src', '');
+                $('#fleet-gallery3').attr('href', '');
+                $('#fleet-reset3').hide();
+                $('#fleet-thumbnail3').removeClass('insert-img');
+                $('#fleet_delete_photo3').prop('checked', false);
+            })
+            $("#fleet_photo3").change(function(){
+                readFleetURL3(this);
+            });
+            /*****************img 4******************/
+            function readFleetURL4(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        console.log(e.target.result)
+                        $('#fleet-thumbnail-wrap4').show()
+                        $('#fleet-thumbnail4').attr('src', e.target.result);
+                        $('#fleet-gallery4').attr('href', e.target.result);
+                        $('#fleet-reset4').show();
+                        $('#fleet-thumbnail4').addClass('insert-img');
+                        $('#fleet_delete_photo4').prop('checked', false);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $('#fleet-reset4').click(function(){
+                $('#fleet_photo4').value = "";
+                $('#fleet-thumbnail-wrap4').hide();
+                $('#fleet-thumbnail4').attr('src', '');
+                $('#fleet-gallery4').attr('href', '');
+                $('#fleet-reset4').hide();
+                $('#fleet-thumbnail4').removeClass('insert-img');
+                $('#fleet_delete_photo4').prop('checked', false);
+            })
+            $("#fleet_photo4").change(function(){
+                readFleetURL4(this);
+            });
+
+        })
+
+        $(document).ready(function(){
+          $('.new_vehicle .item-save').prop('disabled', true);
+          $('.edit_vehicle .item-save').prop('disabled', true);
+
+          $('.new_vehicle .check-field').on('change keypress input', function(){
+            $('.new_vehicle .check-field').each(function(){
+              if (!$(this).val()) {
+                  $('.new_vehicle .item-save').prop('disabled', true);
+                  return false;
+              } else {
+                  $('.new_vehicle .item-save').prop('disabled', false);
+              }
+            })
+          })
+
+          $('.edit_vehicle .form-control').on('change keypress input', function(){
+            $('.edit_vehicle .check-field').each(function(){
+              if (!$(this).val()) {
+                  $('.edit_vehicle .item-save').prop('disabled', true);
+                  return false;
+              } else {
+                  $('.edit_vehicle .item-save').prop('disabled', false);
+              }
+            })
+          })
+
+        })
+
+        $('.img-table__row').click(function(){
+          $(this).addClass('selected');
+          $(this).siblings().removeClass('selected');
+          $(this).find('.img-table__action-cell a').show();
+          $(this).siblings().find('.img-table__action-cell a').hide();
+          $('.slide-preview-box__wrap').slideDown();
+        })
+
+    });
+</script>

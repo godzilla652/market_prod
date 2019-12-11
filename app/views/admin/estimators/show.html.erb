@@ -1,0 +1,78 @@
+<section class="content-section">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="quote-head">
+        <div class="page__title"><h1 class="mr-3"><%= @estimator.address %></h1></div>
+        <a href><%= @estimator.id %> - <%= @estimator_type.name %> (<%= @estimator.created_at.strftime('%B %Y') %>)</a>
+      </div>
+    </div>
+    <div class="col-md-6 text-right">
+      <a href="/admin/estimators<% if @estimator.status != 'pending' %>_<%= @estimator.status %><% end %>" class="btn-outline-tr">Close</a>
+      <% if policy(:Quote).update? %>
+        <a href="/admin/estimators/<%= @estimator.id %>/status_change?status=archive" class="btn-outline-red">Delete</a>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="quote-detail">
+        <div class="quote-detail__title">#</div>
+        <div class="quote-detail__content"><%= @estimator.number %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="quote-detail">
+        <div class="quote-detail__title">Work Order #</div>
+        <div class="quote-detail__content"><%= @estimator.work_order %></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="quote-detail">
+        <div class="quote-detail__title">Address</div>
+        <div class="quote-detail__content"><%= @estimator.address %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="quote-detail">
+        <div class="quote-detail__title">City</div>
+        <div class="quote-detail__content"><%= @estimator.city %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="quote-detail">
+        <div class="quote-detail__title">Name</div>
+        <div class="quote-detail__content"><%= @estimator.name %></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="quote-detail">
+        <div class="quote-detail__title">Comments</div>
+        <div class="quote-detail__content comments-content"><%= @estimator.comment %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="quote-detail">
+        <div class="quote-detail__title">Supervisor</div>
+        <div class="quote-detail__content"><%= @estimator.supervisor.full_name if @estimator.supervisor.present? %></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="quote-detail-total">TOTAL
+        ASTRA:  <%= price_format(@estimator.full_total('astra')) %></div>
+      <div class="quote-detail-total">TOTAL
+        TRADE:  <%= price_format(@estimator.full_total('trade')) %></div>
+    </div>
+  </div>
+</section>
+<% if @estimator&.estimator_type.admin_dv? %>
+    <%= render 'display_view' %>
+  <% else %>
+    <%= render 'standard_show' %>
+<% end %>
+

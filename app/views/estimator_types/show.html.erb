@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta name="description" content="">
+  <meta name="keywords" content=""/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
+  <link href="https://astra.it-town.org/front-estimator/main.css" rel="stylesheet">
+  <link href="https://astra.it-town.org/front-estimator/form.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/admin/admin.css" data-turbolinks-track="reload">
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 pd0">
+      <div class="parentscrollside">
+        <div class="childscrollside">
+          <a href="/">
+            <img src="https://astra.it-town.org/front-estimator/img/logo.png" class="img-responsive logo" itemprop="image" alt="General Contractor in Calgary">
+          </a>
+          <br>
+
+          <div class="sidecontactwrap">
+            <strong class="blue">Calgary Office</strong>
+            <p class="sidecontact">
+              888 - 3 Street SW<br>
+              10th Floor Bankers Hall , West Tower<br>
+              Calgary , Alberta , T2P 5C5<br>
+            </p>
+
+            <strong class="blue">(403) 770-6463</strong>
+            <p class="sidecontact">info@astra-group.ca</p>
+            <hr>
+
+            <strong class="blue">Edmonton Office</strong>
+            <p class="sidecontact">
+              Manulife Place<br>
+              10180 101 St NW #3400<br>
+              Edmonton, AB T5J 3S4<br>
+            </p>
+            <strong class="blue">(780) 643-6919</strong>
+            <p class="sidecontact">info@astra-group.ca</p>
+            <hr>
+            <p>
+              <strong class="red uppercase">24/7 Emergency</strong><br>
+              <strong class="blue">1-833-MY-ASTRA</strong>
+            </p>
+            <br>
+          </div>
+          <br>
+          <!-- <div class="centered">
+              <a href="admin" class="btn btn-primary ">CLIENT LOGIN</a>&nbsp;&nbsp;
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="row">
+            <div class="col-sm-12">
+              <h1>ASTRA ESTIMATOR</h1>
+            </div>
+            <div class="col-sm-12">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" id="tracker" role="tablist">
+                <% @estimator_types.each do |estimator_type| %>
+                <li class="nav-item">
+                  <a class="nav-link <% if estimator_type.id == params[:id].to_i %>active<% end %>" id="avenueLiving-tab" href="<%= estimator_type_url(estimator_type) %>" role="tab"><%= estimator_type.name %></a>
+                </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content">
+            <div>
+              <%= form_for @estimator, url: estimator_types_url, html: {class: "form-estimator", id: "estimator-chs-form"} do |f| %>
+                <%= f.hidden_field :estimator_type_id, value: @estimator_type.id %>
+                <%= f.hidden_field :status, value: 'pending' %>
+                <% if @estimator_type.standard_field? %>
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <label class="control-label">City: *</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <%= f.text_field :city, required: "required", class: "form-control required-field check-field", id: "chs-address" %>
+                    </div>
+                  </div>
+                <% end %>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Address: *</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <%= f.text_field :address, required: "required", class: "form-control required-field check-field", id: "chs-address" %>
+                  </div>
+                </div>
+
+                <% @estimator_type.front_visible_root_fields.each do |field| %>
+
+                  <%= render (field.group? || (field.type_field.include? 'scope_group')) ? "shared/fields/#{field.type_field}_field" : 'shared/fields/field', locals: @field = field %>
+                <% end %>
+
+                <% if @estimator_type.standard_field? %>
+                  <div class="form-group">
+                    <label class="form-section-label">Yours contacts and additional information</label>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-4">
+                      <label class="control-label">Your Name *</label>
+                      <%= f.text_field :name, required: "required", class: "form-control required-field check-field", id: "chs-name" %>
+
+                    </div>
+                    <div class="col-sm-4">
+                      <label class="control-label">Phone # *</label>
+                      <%= f.text_field :phone, required: "required", class: "form-control required-field check-field phone-mask", id: "chs-phone" %>
+                    </div>
+                    <div class="col-sm-4">
+                      <label class="control-label">Email Address *</label>
+                      <%= f.text_field :email, required: "required", class: "form-control required-field check-field check-email", id: "chs-email" %>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12">
+                      <label class="control-label">Comments</label>
+                      <%= f.text_area :comment, class: "form-control", rows: "5", id: "chs-comment" %>
+
+                    </div>
+                  </div>
+                <% end %>
+                <div class="form-group text-right">
+                  <input type="submit" name="commit" value="Save" class="btn btn-primary-rectangle" id="form-submit-btn">
+                </div>
+                </div>
+              <% end %>
+              </div>
+
+
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8436.535896773014!2d-114.07280209803551!3d51.04944779133074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53716fe2d30437cd%3A0x83b76c388e1b9fee!2sRegus+-+Alberta%2C+Calgary+-+Bankers+Hall!5e0!3m2!1sru!2sua!4v1562931075991!5m2!1sru!2sua" width="100%" height="" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            <div class="col-sm-3">
+              <p class="uppercase font16"><strong class="blue">Calgary</strong></p>
+              <p class="grey">
+                <strong class="uppercase">Office</strong><br>
+                888 - 3 Street SW<br>
+                10th Floor Bankers Hall, West Tower<br>
+                Calgary , Alberta T2P 5C5
+              </p>
+            </div>
+            <div class="col-sm-3">
+              <p>&nbsp;</p>
+              <p class="grey">
+                <strong class="uppercase">Shop</strong><br>
+                #110, 1122 40 Ave NE<br>
+                Calgary, Alberta<br>
+                T2E 5T8
+              </p>
+            </div>
+            <div class="col-sm-3">
+              <p>&nbsp;</p>
+              <p class="uppercase grey"><strong>General inquiries</strong></p>
+              <p class="grey">
+                <strong class="blue">(403) 770-6463</strong><br>
+                info@astra-group.ca
+              </p>
+            </div>
+
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7974.392234926378!2d-113.49943885033053!3d53.543467417100885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53a02246f3196d83%3A0xdbdd4703ae8c2e8c!2sManulife+Place!5e0!3m2!1sru!2sua!4v1562931019247!5m2!1sru!2sua" width="100%" height="" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            <div class="col-sm-3">
+              <p class="uppercase font16"><strong class="blue">Edmonton</strong></p>
+              <p class="grey">
+                <strong class="uppercase">Office</strong><br>
+                Manulife Place<br>
+                10180 101 St NW #3400<br>
+                Edmonton, Alberta T5J 3S4
+              </p>
+            </div>
+            <div class="col-sm-3">
+              <p>&nbsp;</p>
+              <p class="grey">
+                <strong class="uppercase">Shop</strong><br>
+                14456 124 Ave NW<br>
+                Edmonton, Alberta<br>
+                T5L 3B3
+              </p>
+            </div>
+            <div class="col-sm-3">
+              <p>&nbsp;</p>
+              <p class="uppercase grey"><strong>General inquiries</strong></p>
+              <p class="grey">
+                <strong class="blue">(780) 643-6919</strong><br>
+                info@astra-group.ca
+              </p>
+            </div>
+          </div>
+          <hr>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 pd0">
+          <br><br>
+          <div class="greybg_sert">
+            <div class="">
+              <br>
+              <div class="row centered mt10">
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/4.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/5.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/1.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/6.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/2.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/10.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/13.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/9.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/11.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/8.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/12.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/3.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+                <a href="certifications">
+                  <img src="https://astra.it-town.org/front-estimator/img/credentials/certificates/7.png" class="iconsert" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </a>
+              </div>
+              <div class="row mt10">
+                <div class="col-md-12 centered">
+                  <p class="grey">ASTRA Construction Management strictly follows guidelines set by the Institute of
+                    Inspection, Cleaning & Restoration Certification
+                    (IICRC). We are proud members of the Better Business Bureau (BBB) with an A+ rating, and we hold COR
+                    safety certificate.</p>
+                </div>
+              </div>
+              <br>
+            </div>
+          </div>
+
+
+          <footer>
+            <div class="">
+              <div class="row">
+                <div class="col-sm-3 centered_mob">
+                  <br>
+                  <img src="https://astra.it-town.org/front-estimator/img/astra-greylogo.png" class="logogrey" alt="General Contractors In Calgary, Construction Company In Calgary">
+                </div>
+                <div class="col-sm-2 centered_mob">
+                  <br>
+                  <a href="https://astra-management.ca/" class="footer_href bold uppercase">Our Company</a><br>
+                  <a href="https://astra-management.ca/" class="footer_href">About us</a><br>
+                  <a href="https://astra-management.ca/corevalues" class="footer_href">Core Values</a><br>
+                  <a href="https://astra-management.ca/missionandvision" class="footer_href">Mission & Vision</a><br>
+                  <a href="https://astra-management.ca/certifications" class="footer_href">Credentials</a><br>
+                  <a href="https://astra-management.ca/press" class="footer_href">Press</a>
+                </div>
+                <div class="col-sm-2 centered_mob">
+                  <br>
+                  <a href="https://astra-management.ca/renovations" class="footer_href bold uppercase">Construction</a><br>
+                  <a href="https://astra-management.ca/renovations" class="footer_href">Commercial</a><br>
+                  <a href="https://astra-management.ca/customhomes" class="footer_href">Residential</a><br>
+                  <a href="https://astra-management.ca/multifamily" class="footer_href">Multifamily Building</a><br>
+                  <a href="https://astra-management.ca/modular" class="footer_href">Modular</a>
+                </div>
+                <div class="col-sm-2 centered_mob">
+                  <br>
+                  <a href="https://astra-management.ca/aboutus-ourproperties" class="footer_href bold uppercase">Properties</a><br>
+                  <a href="https://astra-management.ca/aboutus-ourproperties" class="footer_href">Astra Real
+                    Estate</a><br>
+                  <a href="https://astra-management.ca/commercial-ourproperties" class="footer_href">Commercial
+                    Properties</a><br>
+                  <a href="https://astra-management.ca/residential-ourproperties" class="footer_href">Residential
+                    Properties</a><br>
+                  <a href="https://astra-management.ca/newdevelopments-ourproperties" class="footer_href">New
+                    Developments</a>
+                </div>
+                <div class="col-sm-2 centered_mob">
+                  <br>
+                  <a href="https://astra-management.ca/restorations" class="footer_href bold uppercase">Restorations</a><br>
+                  <a href="https://astra-management.ca/asbestos" class="footer_href">Asbestos Abatement</a><br>
+                  <a href="https://astra-management.ca/waterdemage" class="footer_href">Water Damage</a><br>
+                  <a href="https://astra-management.ca/mould" class="footer_href">Mould Remediation</a><br>
+                  <a href="https://astra-management.ca/firerestoration" class="footer_href">Fire & Smoke Damage</a>
+                </div>
+              </div>
+              <br>
+            </div>
+          </footer>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- <a href="" data-toggle="modal" data-target="#modalSuccess" class="td__delete" rel="nofollow">Tmp</a> -->
+<!--- Modal ---->
+<% if danger.present? %>
+<div class="modal fade active" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      <h2 class="modal-title text-center">Quote has been created successfully, <br>Thanks!</h2>  
+        <div class="modal-footer">
+        <a href="<%=  estimator_type_url(@estimator_type) %>" class="btn btn-default">Create another one?</a>
+        </div>
+    </div>
+  </div>
+</div>
+  <% end %>
+
+
+<style>
+  label {
+    color: black !important;
+  }
+
+  button, html input[type=button], input[type=reset], input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+    color: black;
+  }
+</style>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+<!-- <script src="js/navigation.js"></script>
+<script src="js/estimator_dev.js"></script> -->
+<%= render 'admin/estimators/script' %>
+<script>
+  $(function(){
+    $(window).load(function(){
+      $('#modalSuccess').modal('show');
+  });
+
+  $('.form-estimator').submit(function(){
+    $("input[type='submit']", this)
+      .attr('disabled', 'disabled');
+    return true;
+  });
+
+  })
+</script>
+</body>
+</html>
+

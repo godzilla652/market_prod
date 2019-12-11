@@ -1,0 +1,427 @@
+
+<script>
+  //helper function
+  let mark_available_items = function(){
+    //get all key from right
+    let keys = []
+    $('#available-box-count').children().each(function(){
+      keys.push($(this).attr('key'))
+    })
+    //disable equipment items on the right
+    let items = []
+    keys.map(function(key){
+      items.push(document.querySelectorAll("#available-box-all > .available-box__item[key='"+key+"']"))
+    })
+    items = Array.from(items)
+    items.map(function(item){
+      $(item).addClass('added-item')
+    })
+  }
+</script>
+
+<section>
+  <div class="top-subheader">
+    <div class="page__subheader">
+      <div class="delimiter"></div>
+      <form class="project-task-search" id="project_task_search" action="/admin/equipment" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+        <div class="form-inline">
+          <input placeholder="Search" class="search-field" type="search" name="q[name_or_address_or_type_pt_cont]" id="q_name_or_address_or_type_pt_cont">
+          <input type="submit" name="" value="" class="search-submit">
+        </div>
+      </form>
+      <% if policy(:AstraTeam).create? %>
+        <div class="add-project-btn">
+          <a href="" class="btn-primary" data-toggle="modal" data-target="#addNewVehicle"><i class="add-project-btn__icon"></i>
+            <span>Add New Equipment</span>
+          </a>
+
+          <button class="btn-primary" data-toggle="modal" data-target="#show-available-equipments">List of available equipments</button>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Nav tabs -->
+    <%= render 'admin/contracts/tabs_astra_team' %>
+
+  </div>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active" id="">
+      <div class="clearfix">
+        <div class="tab-pane-left-col">
+          <div class="preview-top-block d-flex justify-content-between">
+            <div class="preview-top-block_text">Equipment Details</div>
+          </div>
+          <div class="slide-preview-wrap">
+            <div class="slide-preview-box">
+              <h3 class="slide-preview-box__title">Equipment Information</h3>
+              <div class="slide-preview-box__wrap">
+                <div class="equipment-info-box clearfix info-section">
+                  <%= render 'info' %>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-preview-box">
+              <h3 class="slide-preview-box__title">Inventory</h3>
+              <div class="slide-preview-box__wrap">
+                <div class="inventory-box inventory-section">
+                  <%= render 'inventory' %>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane-right-col">
+          <div class="img-table" id="vehicles">
+            <div class="img-table__header clearfix">
+              <div class="img-table__cell img-table__image-cell"></div>
+              <div class="img-table__info">
+                <div class="img-table__cell img-table__name-cell">Name <i class="sort__icon"></i></div>
+                <div class="img-table__cell img-table__owned-cell">Total Owned  <i class="sort__icon"></i></div>
+                <div class="img-table__cell img-table__available-cell">Available <i class="sort__icon"></i></div>
+                <div class="img-table__cell img-table__assigned-cell">Assigned <i class="sort__icon"></i></div>
+                <div class="img-table__cell img-table__damaged-cell">Damaged <i class="sort__icon"></i></div>
+                <div class="img-table__cell img-table__action-cell fixed-width-140">Actions</div>
+              </div>
+            </div>
+
+            <% @equipments.each do |equip| %>
+            <div class="img-table__row clearfix vehicle"  data-href="/admin/equipment/<%= equip.id %>.js">
+              <div class="img-table__cell img-table__image-cell">
+                <div class="img-table__image" style="background-image: url(<%= url_for(equip.main_image) if equip.main_image.attached? %>)"></div>
+              </div>
+              <div class="img-table__info">
+                <div class="img-table__cell img-table__name-cell"><%= equip.name %></div>
+                <div class="img-table__cell img-table__owned-cell"><%= equip.total_owned %></div>
+                <div class="img-table__cell img-table__available-cell"><%= equip.available %></div>
+                <div class="img-table__cell img-table__assigned-cell"><%= equip.assigned %></div>
+                <div class="img-table__cell img-table__damaged-cell"><%= equip.damaged %></div>
+                <div class="img-table__cell img-table__action-cell">
+                  <% if policy(:AstraTeam).update? %>
+                    <a href='' class="td__edit" data-toggle="modal" data-target="#editequip<%= equip.id %>">
+                      <em class="edit-project__icon"></em>
+                    </a>
+                  <% end %>
+
+                </div>
+              </div>
+            </div>
+
+              <div class="modal fade" id="editequip<%= equip.id %>" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content edit-editequip">
+                    <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title text-center">Edit Equipment</h2>
+                    <%= render 'form', locale: @equipment = equip %>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="modal fade" id="addNewVehicle" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content add_editequip">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Add Equipment</h2>
+      <%= render 'form', locale: @equipment = Equipment.new %>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="show-available-equipments" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-available modal-dialog-centered" role="document">
+    <div class="modal-content">
+    	<form class="" id="" action="" accept-charset="UTF-8" method="post">
+	    	<div class="modal-top d-flex align-items-center">
+		  		<div class="modal-col-left">
+		  			<h5>List of available equipments</h5>
+		  		</div>
+		  		<div class="modal-col-right">
+		  			<div class="current-role-user d-flex align-items-center">
+              <%= select("post", "person_id", @contracts.all.collect {|c| [ c.contact_name, c.id ] }, { include_blank: false }) %>
+
+                <div class="current-role-user__img">
+                  <img id="cur_user_img" src="<%= url_for(@init_contract.user.photo.url) %>">
+                </div>
+      					  <div id="cur_user_name" class="current-role-user__name"><%= @init_contract.contact_name %></div>
+
+
+    				</div>
+		  		</div>
+		  	</div>
+
+      <script>
+        $('#post_person_id').val(<%= @init_contract_id %>)
+
+        $('#post_person_id').on('change', function(){
+
+          $.get(
+            "/admin/get_user_data",
+            { contract_id: $('#post_person_id').val() },
+            function(data){
+              //data.equipments - data.equipments[0].name - data.equipments[0].available - data.equipments[0].assigned
+              //data.equipments_category
+              //data.equipments_img_url
+
+              //set new user image and name in modal window
+              $('#cur_user_name').text(data.name)
+              $('#cur_user_img').attr('src', data.img_url)
+
+              //delete all equioment items
+              $('#available-box-count').children().each(function(){this.remove()})
+
+              console.log(data)
+
+              //clear items left
+              $('#available-box-all').children().each(function(){$(this).removeClass('added-item')})
+              //get amount of items
+              let amount = data.equipments.length
+              //set new equipment items
+              for(let index = 0; index < amount; index++){
+                $('#available-box-count').append(
+                 `<div class="available-box__item" key="${ data.equipments[index].id }" >
+                    <div class="available-box__row">
+
+                      <div class="available-box__col equipments-box__col-1"><img src="${data.equipments_img_url[index]}"></div>
+                      <div class="available-box__col equipments-box__col-2">${ data.equipments[index].name }</div>
+                      <div class="available-box__col equipments-box__col-3">${ data.equipments_category[index] }</div>
+                      <div class="available-box__col equipments-box__col-4">${ data.equipments[index].assigned }</div>
+                      <div class="available-box__col equipments-box__col-5">${ data.equipments[index].available }</div>
+
+                      <div class="available-box__col equipments-box__col-6">
+                        <div class="available-qty">
+                          <input type="number" name="" value="2" class="available-qty__count">
+                          <span class="available-qty__plus">+</span>
+                          <span class="available-qty__minus">–</span>
+                        </div>
+                        <div class="available-del"><span>×</span></div>
+                      </div>
+
+                    </div>
+                  </div>`
+                  )
+                  //mark items left
+                  $(document.querySelector("#available-box-all > .available-box__item[key='"+data.equipments[index].id+"']")).addClass('added-item')
+                }
+            }
+          )
+
+        })//end .on function
+
+        </script>
+
+
+		  	<div class="modal-main d-flex">
+		  		<div class="modal-col-left">
+		  			<div class="available-item-search">
+			            <input placeholder="search" class="search-field" type="search" name="" id="">
+			            <input type="submit" name="" value="" class="search-submit">
+					  </div>
+
+					<div class="available-box__title">
+						<div class="available-box__row">
+							<div class="available-box__col equipments-box__col-1"></div>
+							<div class="available-box__col equipments-box__col-2">Name</div>
+							<div class="available-box__col equipments-box__col-3">Category</div>
+							<div class="available-box__col equipments-box__col-4">Assigned</div>
+							<div class="available-box__col equipments-box__col-5">Available</div>
+							<div class="available-box__col equipments-box__col-6"></div>
+						</div>
+					</div>
+
+
+<!-- All equipments left sided -->
+            <div class="available-box equipments-box" id="available-box-all">
+              <% @equipments.each do |equipment| %>
+    						<div class="available-box__item" key="<%= equipment.id %>" >
+    							<div class="available-box__row">
+    								<div class="available-box__col equipments-box__col-1"><img src="<%= url_for(equipment.main_image) if equipment.main_image.attached? %>"></div>
+
+    								<div class="available-box__col equipments-box__col-2"><%= equipment.name %></div>
+    								<div class="available-box__col equipments-box__col-3"><%= equipment.category.name %></div>
+    								<div class="available-box__col equipments-box__col-4"><%= equipment.assigned %></div>
+    								<div class="available-box__col equipments-box__col-5"><%= equipment.available %></div>
+    								<div class="available-box__col equipments-box__col-6"><a href="#">Add</a></div>
+    							</div>
+    						</div>
+              <% end %>
+            </div>
+		  		</div>
+		  		<div class="modal-col-right">
+		  			<div class="available-item-search">
+			            <input placeholder="search" class="search-field" type="search" name="" id="">
+			            <input type="submit" name="" value="" class="search-submit">
+					</div>
+
+					<div class="available-box__title">
+						<div class="available-box__row">
+							<div class="available-box__col equipments-box__col-1"></div>
+							<div class="available-box__col equipments-box__col-2">Name</div>
+							<div class="available-box__col equipments-box__col-3">Category</div>
+							<div class="available-box__col equipments-box__col-4">Assigned</div>
+							<div class="available-box__col equipments-box__col-5">Available</div>
+							<div class="available-box__col equipments-box__col-6"></div>
+						</div>
+					</div>
+					<div class="available-box equipments-box" id="available-box-count">
+<!-- Initial equipments right sided-->
+          <% @init_equipments.each do |equipment| %>
+          <div class="available-box__item" key="<%= equipment.id %>" >
+            <div class="available-box__row">
+              <div class="available-box__col equipments-box__col-1"><img src="<%= url_for(equipment.main_image) if equipment.main_image.attached? %>"></div>
+              <div class="available-box__col equipments-box__col-2"><%= equipment.name %></div>
+              <div class="available-box__col equipments-box__col-3"><%= equipment.category.name %></div>
+              <div class="available-box__col equipments-box__col-4"><%= equipment.assigned %></div>
+              <div class="available-box__col equipments-box__col-5"><%= equipment.available %></div>
+              <div class="available-box__col equipments-box__col-6">
+                <div class="available-qty">
+                  <input type="number" name="" value="2" class="available-qty__count">
+                  <span class="available-qty__plus">+</span>
+                  <span class="available-qty__minus">–</span>
+                </div>
+                <div class="available-del"><span>×</span></div>
+              </div>
+            </div>
+          </div>
+          <% end %>
+					</div>
+
+
+          <!-- initial script marks items left -->
+          <script>
+            mark_available_items()
+          </script>
+
+		  		</div>
+		  	</div>
+
+		  	<div class="modal-bottom d-flex align-items-center justify-content-between">
+		  		<select class="form-control modal-select">
+					<option value="Equipment">Equipment</option>
+					<option value="Vehicle">Vehicle</option>
+				</select>
+				<div class="d-flex justify-content-end">
+					<div class="btn-cancel" data-dismiss="modal" aria-label="Cancel">Cancel</div>
+					<input type="submit" name="commit" value="Save" class="btn btn-primary-save" data-disable-with="Save">
+				</div>
+		  	</div>
+		</form>
+
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+    $(function(){
+
+        $(document).ready(function(){
+            $('.vehicle-gallery__thumb-item img').click(function(){
+                $('.vehicle-gallery__big a').attr('href',$(this).attr('src'));
+                $('.vehicle-gallery__big img').attr('src',$(this).attr('src'));
+
+            });
+
+            $('.slide-preview-box__title').click(function(){
+                $(this).next('.slide-preview-box__wrap').slideToggle();
+            })
+        });
+
+
+        $(document).ready(function(){
+            /*****************img 1******************/
+            function readFleetURL1(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        console.log(e.target.result)
+                        $('#fleet-thumbnail-wrap1').show()
+                        $('#fleet-thumbnail1').attr('src', e.target.result);
+                        $('#fleet-gallery1').attr('href', e.target.result);
+                        $('#fleet-reset1').show();
+                        $('#fleet-thumbnail1').addClass('insert-img');
+                        $('#fleet_delete_photo1').prop('checked', false);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $('#fleet-reset1').click(function(){
+                $('#fleet_photo1').value = "";
+                $('#fleet-thumbnail-wrap1').hide();
+                $('#fleet-thumbnail1').attr('src', '');
+                $('#fleet-gallery1').attr('href', '');
+                $('#fleet-reset1').hide();
+                $('#fleet-thumbnail1').removeClass('insert-img');
+                $('#fleet_delete_photo1').prop('checked', false);
+            })
+            $("#fleet_photo1").change(function(){
+                readFleetURL1(this);
+            });
+
+        })
+
+        $(document).ready(function(){
+          $('.new_equipment .item-save').prop('disabled', true);
+          $('.edit_equipment .item-save').prop('disabled', true);
+
+          $('.new_equipment .check-field').on('change keypress input', function(){
+            $('.new_equipment .check-field').each(function(){
+              if (!$(this).val()) {
+                  $('.new_equipment .item-save').prop('disabled', true);
+                  return false;
+              } else {
+                  $('.new_equipment .item-save').prop('disabled', false);
+              }
+            })
+          })
+
+          $('.edit_equipment .form-control').on('change keypress input', function(){
+            $('.edit_equipment .check-field').each(function(){
+              if (!$(this).val()) {
+                  $('.edit_equipment .item-save').prop('disabled', true);
+                  return false;
+              } else {
+                  $('.edit_equipment .item-save').prop('disabled', false);
+              }
+            })
+          })
+
+        })
+
+        $('.img-table__row').click(function(){
+          $(this).addClass('selected');
+          $(this).siblings().removeClass('selected');
+          $(this).find('.img-table__action-cell a').show();
+          $(this).siblings().find('.img-table__action-cell a').hide();
+          $('.slide-preview-box__wrap').slideDown();
+        })
+
+
+    });
+</script>

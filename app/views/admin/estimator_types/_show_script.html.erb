@@ -1,0 +1,109 @@
+<div id="modal-container"></div>
+
+
+<!-- <script>
+    $(document).ready(function(){
+        $('.accordion-list__has-child .accordion-list__container').click(function(){
+            $(this).parent('.accordion-list__has-child').toggleClass('active');
+            $(this).next('.accordion-level-2').slideToggle();
+        })
+        $('.accordion-level-2 .accordion-list__has-sub-child').click(function(e){
+            e.preventDefault();
+            $(this).toggleClass('sub-active');
+            $(this).find('.accordion-level-3').slideToggle();
+        })
+    })
+
+</script> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/css/perfect-scrollbar.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/perfect-scrollbar.min.js"></script>
+<style>
+  .btn-primary-inline {
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  .checkmark-label {
+    padding-left: 24px;
+    display: block;
+  }
+  .fields-box .accordion-list__container{
+    opacity: 0.7;
+  }
+  .fields-box .accordion-list__container.current{
+    opacity: 1;
+  }
+  .form-box .content-section{
+    box-shadow: 0px 2px 10px rgba(22, 84, 152, 0.1);
+  }
+  .form-box{
+    position: relative;
+    overflow: hidden;
+  }
+  .position-mark{
+    display: none;
+  }
+  .form-box.active .position-mark{
+    display: block;
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      /*top: 0;*/
+      left: 5px;
+      box-sizing: border-box;
+      border: 10px solid black;
+      border-color:  transparent transparent #fff #fff;
+      transform: rotate(-315deg);
+      box-shadow: -3px 3px 3px 0 rgba(22, 84, 152, 0.1);
+  }
+</style>
+<script>
+    $(document).ready(function(){
+        $('.accordion-list__has-child .accordion-child-icon').click(function(){
+            $(this).closest('.accordion-list__has-child').toggleClass('active');
+            $(this).closest('.accordion-list__has-child').find('.accordion-level-2').slideToggle();
+        })
+        $('.accordion-level-2 .accordion-sub-child-icon').click(function(){
+            $(this).closest('.accordion-list__has-sub-child').toggleClass('sub-active');
+            $(this).closest('.accordion-list__has-sub-child').find('.accordion-level-3').slideToggle();
+        })
+    })
+
+    $(document).ready(function(){
+      let formHeight = $('.form-box').height();
+      let fieldsHeight = $('.fields-box').height();
+
+      $('.fields-box').css({'height': formHeight, 'overflow-y' : 'auto'});
+
+      const psFields = new PerfectScrollbar('.fields-box');
+
+
+      $('.accordion-list__container .td__edit').click(function(){
+        $('.accordion-list__container').removeClass('current');
+        $(this).closest('.accordion-list__container').addClass('current');
+        var offsetTop = $(this).closest('.accordion-list__container').position().top;
+        $('.position-mark').css({'top': offsetTop +22})
+        console.log(offsetTop)
+
+        $('.form-box').addClass('active')
+      })
+
+    $('.fields-box').scroll(function(){
+      var offsetTop = $('.accordion-list__container.current').position().top;
+        $('.position-mark').css({'top': offsetTop +22})
+      })
+   })
+
+
+</script>

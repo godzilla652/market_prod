@@ -1,0 +1,92 @@
+
+<%= form_for [:admin, @equipment], multipart: true do |f| %>
+  <% if @equipment.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(@equipment.errors.count, "error")} prohibited this vehicle from being saved:" %>
+      </h2>
+      <ul>
+        <% @equipment.errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <ul class="file-list-fleet">
+          <!-------img 1---------->
+          <li class="file-list-fleet__item file-one-item">
+            <div class="file-fleet__wrap">
+              <label class="file-fleet-btn">
+                <%= f.file_field :main_image, id: "fleet_photo1", class: "fleet-photo" %>
+
+              </label>
+              <figure class="fleet-thumbnail-wrap" id="fleet-thumbnail-wrap1" style="display:none;">
+                <a data-fancybox="gallery" href="" id="fleet-gallery1">
+                  <img class="fleet-thumbnail" id="fleet-thumbnail1" src="">
+                </a>
+              </figure>
+              <label class="fleet-file-reset" id="fleet-reset1" for="fleet_delete_photo1" style="display:none;"><span class="reset__icon"></span></label>
+              <input type="checkbox" value="1" name="" id="fleet_delete_photo1" class="delete_photo">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label">Name *</label>
+        <%= f.text_field :name, class: "form-control check-field", required: true %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label">Description *</label>
+        <%= f.text_field :description, class: "form-control check-field", required: true %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Total Owned</label>
+
+        <%= f.number_field :total_owned, class: "form-control", required: true %>
+
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Available</label>
+        <%= f.number_field :available, class: "form-control", required: true %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Assigned</label>
+        <%= f.number_field :assigned, class: "form-control", required: true %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Damaged</label>
+        <%= f.number_field :damaged, class: "form-control", required: true %>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-center form-btn-wrap">
+    <div class="req-info mr-auto">* All fields are required</div>
+    <button type="button" class="btn btn-noborder-cancel" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">CANCEL</span>
+    </button>
+    <%= f.submit "Save", class: "btn btn-noborder-ok item-save", disabled: false %>
+
+  </div>
+<% end %>

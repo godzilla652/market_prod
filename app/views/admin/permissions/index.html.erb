@@ -1,0 +1,77 @@
+<script>
+   $(document).ready(function(){
+     $('.role-more-icon').click(function(){
+    $(this).closest('.role-box__title').toggleClass('active');
+    $(this).closest('.role-box__title').next('.role-box__content').slideToggle();
+  })
+
+   })
+</script>
+
+
+<main class="page-content">
+  <div class="page__container">
+
+    <div class="page__header">
+      <div class="delimiter"></div>
+      <div class="add-project-btn">
+        <button class="btn-primary" data-toggle="modal" data-target="#create-role-modal"><i class="add-project-btn__icon"></i><span>Add new role</span></button>
+      </div>
+    </div>
+
+    <div class="role-box__wrap">
+      <div class="role-box__inner">
+    <% @models.each do |model| %>
+      <div class="role-box">
+        <div class="role-box__title">
+          <div class="role-box__row">
+            <div class="role-cell role__title-cell"><span class="role-more-icon"></span> <%= model %></div>
+            <div class="role-cell role__number-cell"></div>
+            <div class="role-cell role__action-cell">Action</div>
+
+            <% Role.all.each do |role| %>
+              <div class="role-cell role__switch-cell"><%= role.name.humanize %></div>
+            <% end %>
+
+          </div>
+        </div>
+        <div class="role-box__content">
+
+          <% additional_permissions = model::SPECIFIC_PERMISSIONS rescue [] %>
+          <% (PermissionsConstants::GENERAL_PERMISSIONS + additional_permissions).each_with_index do |action, i| %>
+            <% unless PermissionsConstants::ONLY_READ_MODELS.include?(model) && action == 'manage_access' %>
+              <div class="role-box__row">
+                <div class="role-cell role__title-cell"></div>
+                <div class="role-cell role__number-cell"><%= i+1 %></div>
+                <div class="role-cell role__action-cell"><%= action.humanize %></div>
+
+                <% Role.all.each do |role| %>
+                  <% permission = Permission.where(subject_class: (model&.name rescue model), role_id: role.id, action: action).first_or_initialize %>
+                  <div class="role-cell role__switch-cell">
+                    <%= form_for [:admin, Permission.new], remote: true, html: { id: "#{permission.identifier.parameterize}" } do |f| %>
+                      <%= f.hidden_field :subject_class, value: permission.subject_class %>
+                      <%= f.hidden_field :role_id, value: permission.role_id %>
+                      <%= f.hidden_field :action, value: permission.action %>
+                      <label class="form-check switch">
+                        <%= f.check_box :active, checked: permission.active?, onchange: "$('##{permission.identifier.parameterize}').submit()", class: 'switch-check-field' %>
+                        <span class="switch-slider"></span>
+                      </label>
+                    <% end %>
+
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    </div>
+    </div>
+
+
+  </div>
+</main>
+
+
+<%= render 'admin/roles/new_modal' %>

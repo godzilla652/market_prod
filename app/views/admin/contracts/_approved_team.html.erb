@@ -1,0 +1,100 @@
+<section class="tab-section noprint no-padding-tab-section">
+  <%= render 'admin/contracts/tabs_astra_team', locale: @active = 'approved_team' %>
+  <div class="page__subheader">
+    <div class="delimiter"></div>
+
+    <form class="project-task-search" id="project_task_search" action="/admin/approved_team" accept-charset="UTF-8" method="get">
+      <input name="utf8" type="hidden" value="✓">
+      <div class="form-inline">
+        <input placeholder="Search" value='<%= params[:q][:gst_or_contractor_name_or_contact_name_or_telephone_or_email_cont] if params[:q].present? %>' class="search-field" type="search" name="q[gst_or_contractor_name_or_contact_name_or_telephone_or_email_cont]" id="q_name_or_address_or_type_pt_cont">
+        <input type="submit" name="" value="" class="search-submit">
+      </div>
+    </form>
+    <div class="add-project-btn">
+      <% if policy(Contract).create? %>
+        <%= link_to popup_new_admin_contracts_path, class: 'btn-primary', remote: true do %>
+          <i class="add-project-btn__icon"></i>
+          <span>Add new user</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <!-- Tab panes -->
+  <div class="tab-content noprint">
+    <!-- Tab 1 -->
+    <div class="tab-pane active" id="approvedContractors">
+      <div class="approved-contractors-wrap clearfix">
+
+        <div class="ac-left-col preview-section">
+          <%= render 'preview' %>
+        </div>
+        <div class="ac-right-col">
+          <table class="team-contractors-table" id="table-id">
+            <thead>
+            <tr>
+              <th class="sort__title"><%= sort_link(@q, :gst, 'GST #<i class="sort__icon"></i>'.html_safe) %></th>
+              <th class="sort__title"><%= sort_link(@q, :contact_name, 'Contact Name<i class="sort__icon"></i>'.html_safe) %></th>
+              <th class="sort__title"><%= sort_link(@q, :telephone, 'Phone #<i class="sort__icon"></i>'.html_safe) %></th>
+              <th class="sort__title"><%= sort_link(@q, :email, 'Email<i class="sort__icon"></i>'.html_safe) %></th>
+              <th class="sort__title"><%= sort_link(@q, :role, 'Role<i class="sort__icon"></i>'.html_safe) %></th>
+
+            </tr>
+            </thead>
+            <% if @contracts.empty? %>
+              <tr>
+                <td colspan="6">No items</td>
+              </tr>
+            <% else %>
+              <tbody>
+              <% @contracts.each do |contract| %>
+                <%= render 'admin/contracts/approved_team_contract_row', contract: contract %>
+              <% end %>
+              </tbody>
+            <% end %>
+
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<div id="modals-container">
+  <div class="modal fade" id="changeRole" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"></div>
+  <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"></div>
+</div>
+
+<style>
+  .page__subheader {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 32px 0 0 0;
+  }
+
+  .sort_link {
+    display: flex;
+    color: #C4C5D6;
+  }
+
+  .no-padding-tab-section {
+    padding-top: 0 !important;
+  }
+</style>
+
+<span class="showprint" style="display:none;">
+<%= render 'show' %>
+</span>
+
+<style>
+  .contract_prew {
+    display: block;
+  }
+</style>

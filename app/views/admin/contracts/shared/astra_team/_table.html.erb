@@ -1,0 +1,20 @@
+<%= render 'admin/contracts/shared/astra_team/table_header' %>
+<div class="user-table">
+  <% contracts.each do |contract| %>
+    <%= render 'admin/contracts/shared/astra_team/table_row', contract: contract %>
+  <% end %>
+</div>
+
+
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.user-table__row').click(function(){
+      $(this).addClass('selected');
+      $(this).siblings().removeClass('selected');
+      var url = $(this).data('href');
+      $.get(url);
+    })
+  });
+</script>

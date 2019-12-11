@@ -1,0 +1,141 @@
+<%= form_for [:admin, @vehicle], multipart: true do |f| %>
+  <% if @vehicle.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(@vehicle.errors.count, "error")} prohibited this vehicle from being saved:" %>
+      </h2>
+      <ul>
+        <% @vehicle.errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <ul class="file-list-fleet">
+          <!-------img 1---------->
+          <li class="file-list-fleet__item">
+            <label class="control-label">Driver (Main)</label>
+            <div class="file-fleet__wrap">
+              <label class="file-fleet-btn">
+                <%= f.file_field :driver, id: "fleet_photo1", class: "fleet-photo" %>
+              </label>
+              <figure class="fleet-thumbnail-wrap" id="fleet-thumbnail-wrap1" style="display:none;">
+                <a data-fancybox="gallery" href="" id="fleet-gallery1">
+                  <img class="fleet-thumbnail" id="fleet-thumbnail1" src="">
+                </a>
+              </figure>
+              <label class="fleet-file-reset" id="fleet-reset1" for="fleet_delete_photo1" style="display:none;"><span class="reset__icon"></span></label>
+              <input type="checkbox" value="1" name="" id="fleet_delete_photo1" class="delete_photo">
+            </div>
+          </li>
+          <!-------img 2---------->
+          <li class="file-list-fleet__item">
+            <label class="control-label">Passenger</label>
+            <div class="file-fleet__wrap">
+              <label class="file-fleet-btn">
+                <%= f.file_field :passenger, id: "fleet_photo2", class: "fleet-photo" %>
+              </label>
+              <figure class="fleet-thumbnail-wrap" id="fleet-thumbnail-wrap2" style="display:none;">
+                <a data-fancybox="gallery" href="" id="fleet-gallery2">
+                  <img class="fleet-thumbnail" id="fleet-thumbnail2" src="">
+                </a>
+              </figure>
+              <label class="fleet-file-reset" id="fleet-reset2" for="fleet_delete_photo2" style="display:none;"><span class="reset__icon"></span></label>
+              <input type="checkbox" value="1" name="" id="fleet_delete_photo2" class="delete_photo">
+            </div>
+          </li>
+          <!-------img 3---------->
+          <li class="file-list-fleet__item">
+            <label class="control-label">Front</label>
+            <div class="file-fleet__wrap">
+              <label class="file-fleet-btn">
+                <%= f.file_field :front, id: "fleet_photo3", class: "fleet-photo" %>
+              </label>
+              <figure class="fleet-thumbnail-wrap" id="fleet-thumbnail-wrap3" style="display:none;">
+                <a data-fancybox="gallery" href="" id="fleet-gallery3">
+                  <img class="fleet-thumbnail" id="fleet-thumbnail3" src="">
+                </a>
+              </figure>
+              <label class="fleet-file-reset" id="fleet-reset3" for="fleet_delete_photo3" style="display:none;"><span class="reset__icon"></span></label>
+              <input type="checkbox" value="1" name="" id="fleet_delete_photo3" class="delete_photo">
+            </div>
+          </li>
+          <!-------img 4---------->
+          <li class="file-list-fleet__item">
+            <label class="control-label">Rear</label>
+            <div class="file-fleet__wrap">
+              <label class="file-fleet-btn">
+                <%= f.file_field :rear, id: "fleet_photo4", class: "fleet-photo" %>
+              </label>
+              <figure class="fleet-thumbnail-wrap" id="fleet-thumbnail-wrap4" style="display:none;">
+                <a data-fancybox="gallery" href="" id="fleet-gallery4">
+                  <img class="fleet-thumbnail" id="fleet-thumbnail4" src="">
+                </a>
+              </figure>
+              <label class="fleet-file-reset" id="fleet-reset4" for="fleet_delete_photo4" style="display:none;"><span class="reset__icon"></span></label>
+              <input type="checkbox" value="1" name="" id="fleet_delete_photo4" class="delete_photo">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Fleet # *</label>
+        <%= f.text_field :fleet, class: "form-control check-field", required: true %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Year *</label>
+        <%= f.number_field :year, class: "form-control check-field", required: true %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">Make / Model</label>
+        <%= f.text_field :make, class: "form-control", required: true  %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">KM *</label>
+        <%= f.number_field :km, class: "form-control check-field", required: true %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">License *</label>
+        <%= f.text_field :license, class: "form-control check-field", required: true %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">Assign To *</label>
+        <%= f.hidden_field :assignable_type, value: 'Contract' %>
+        <%= f.select(:assign, Contract.where(team: true, status: 'approved').map { |c| [c.legal_title, c.id] }, {},
+                     {class: 'form-control check-field'}) %>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-center form-btn-wrap">
+    <div class="req-info mr-auto">* All fields are required</div>
+    <button type="button" class="btn btn-noborder-cancel" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">CANCEL</span>
+    </button>
+    <%= f.submit "SAVE", class: "btn btn-noborder-ok item-save", disabled: false %>
+  </div>
+<% end %>
+

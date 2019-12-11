@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://developer.intuit.com/.well-known/openid_sandbox_configuration/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Intuit-OAuthClient-Ruby0.0.1-x86_64-darwin18
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Sep 2019 15:53:27 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1006'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Last-Modified:
+      - Mon, 11 Feb 2019 22:12:55 GMT
+      X-Amz-Version-Id:
+      - WZRcfJRMBtHEh7ZR0pEzrStfLvNTNqpu
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"665940ee6c04a65f93fc17b219716c4e"'
+      X-Cache:
+      - RefreshHit from cloudfront
+      Via:
+      - 1.1 325ed3ba58a560748d886354beef39c0.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - SEA19-C2
+      X-Amz-Cf-Id:
+      - zXYfmcT36Km4XM7KKE17ZYan1hvkFxRecH3kOE2DWH_80xlelSv8Lg==
+    body:
+      encoding: UTF-8
+      string: "\r\n{  \r\n   \"issuer\":\"https://oauth.platform.intuit.com/op/v1\",\r\n
+        \  \"authorization_endpoint\":\"https://appcenter.intuit.com/connect/oauth2\",\r\n
+        \  \"token_endpoint\":\"https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer\",\r\n
+        \  \"userinfo_endpoint\":\"https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo\",\r\n
+        \  \"revocation_endpoint\":\"https://developer.api.intuit.com/v2/oauth2/tokens/revoke\",\r\n
+        \  \"jwks_uri\":\"https://oauth.platform.intuit.com/op/v1/jwks\",\r\n   \"response_types_supported\":[
+        \ \r\n      \"code\"\r\n   ],\r\n   \"subject_types_supported\":[  \r\n      \"public\"\r\n
+        \  ],\r\n   \"id_token_signing_alg_values_supported\":[  \r\n      \"RS256\"\r\n
+        \  ],\r\n   \"scopes_supported\":[  \r\n      \"openid\",\r\n      \"email\",\r\n
+        \     \"profile\",\r\n      \"address\",\r\n      \"phone\"\r\n   ],\r\n   \"token_endpoint_auth_methods_supported\":[
+        \ \r\n      \"client_secret_post\",\r\n      \"client_secret_basic\"\r\n   ],\r\n
+        \  \"claims_supported\":[  \r\n      \"aud\",\r\n      \"exp\",\r\n      \"iat\",\r\n
+        \     \"iss\",\r\n      \"realmid\",\r\n      \"sub\"\r\n   ]\r\n}\r\n"
+    http_version: 
+  recorded_at: Mon, 09 Sep 2019 15:53:27 GMT
+recorded_with: VCR 5.0.0

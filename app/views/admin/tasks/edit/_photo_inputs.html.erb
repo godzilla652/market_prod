@@ -1,0 +1,28 @@
+<div class="form-group">
+  <label class="control-label">Add a photo (<span id="cont_img">4</span> left)</label>
+  <ul class="file-list">
+
+    <% 4.times.each do |i| %>
+      <% field = (i == 0 ? 'photo' : "photo#{i}") %>
+      <% id_postfix = (i == 0 ? '' : i) %>
+
+      <% if @entity.send(field).present? || !@entity.accepted? %>
+        <li class="file-list__item">
+          <label class="file-btn">
+            <%= f.file_field field, class: 'task-photo' %>
+          </label>
+          <figure class="thumbnail-wrap <%= photo_absent_class(@entity.send(field)) %>" id="thumbnail_wrap<%= id_postfix %>">
+            <a data-fancybox="gallery" href="<%= photo_link(@entity.send(field)) %>" id="task_gallery<%= id_postfix %>">
+              <img class="thumbnail" id="task_thumbnail<%= id_postfix %>" src="<%= photo_link(@entity.send(field)) %>">
+            </a>
+          </figure>
+          <% if !@entity.accepted? %>
+            <label class="file-reset <%= photo_absent_class(@entity.send(field)) %>" id="task_reset<%= id_postfix %>" for="task_delete_photo<%= id_postfix %>"><span class="reset__icon"></span></label>
+            <input type="checkbox" value="1" name="task[delete_photo<%= id_postfix %>]" id="task_delete_photo<%= id_postfix %>" class="delete_photo hidden-el">
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+
+  </ul>
+</div>

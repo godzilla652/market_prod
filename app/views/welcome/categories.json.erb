@@ -1,0 +1,16 @@
+{
+  "categories": [
+    <% count = @categories.count %>
+    <% n=0 %>
+    <%  @categories.each do |u| %>
+    <% n+=1 %>
+    {
+      "name": "<%= u.name %>",
+      "position": "<%= u.position %>",
+      "typec": "<%= u.typec %>"
+    }
+    <% unless n == count %>,
+    <% end %>
+    <% end %>
+  ]
+}

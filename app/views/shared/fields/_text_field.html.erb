@@ -1,0 +1,3 @@
+<%= text_field_tag "estimator#{(@field.multiple? || @line.present? )? "[body][scope][#{@field.field_estimator&.machine_name}][]" : '[body]' }[#{@field.machine_name}]",
+                   @line.present? ? @line.value : default_value(@field, @estimator),
+                    required: @field.required?, class: "form-control #{'required-field' if @field.required?}" %>

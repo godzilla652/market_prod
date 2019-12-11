@@ -1,0 +1,27 @@
+
+    <div class="form-section">
+      <div class="form-group row form-title-section">
+        <div class="col-sm-6">
+          <label class="form-section-label"><%= @field.name %></label>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input check-radio check-section" type="radio" name="estimator[body][<%= @field.machine_name %>]"
+                   value="true" id="chs-<%= @field.machine_name %>-1" <%= default_value_check_group(@field, @estimator, true) %> >
+            <label class="form-check-label" for="chs-<%= @field.machine_name %>-1">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input check-radio check-section" type="radio" name="estimator[body][<%= @field.machine_name %>]"
+                   value="false" id="chs-<%= @field.machine_name %>-2" <%= default_value_check_group(@field, @estimator, false) %>>
+            <label class="form-check-label" for="chs-<%= @field.machine_name %>-2">No</label>
+          </div>
+        </div>
+      </div><!-- .form-title-section -->
+
+      <div id="flooring-hide" class="form-inner-section">
+    <% @field.front_visible_child_fields.each do |child| %>
+      <%= render (child.group? || (child.type_field.include? 'scope_group')) ? "shared/fields/#{child.type_field}_field" : 'shared/fields/field',
+       locals: @field = child %>
+    <% end %>
+  </div>
+</div>

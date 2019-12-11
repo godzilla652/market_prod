@@ -1,0 +1,160 @@
+
+999925066359269
+
+
+            "args" => [ "--headless" ]
+
+[["name", "android"], ["uid", "80cabb7b021f3b966e3ea22a8124459fa0443879fe2596ceb80408da2d07b015"],
+ ["secret", "20350188510a1dcc05360b788400e61d8733e98ff67ff3eb462b27df402a5a7f"], ["redirect_uri", "http://localhost:3000"], 
+
+
+POST http://159.203.42.111/api/users/sign_in HTTP/1.1
+content-type: application/json
+ 
+{
+    "client_id": "4621b78501cc9150592b0b725fd1f594dbe7f2fe73cc2304c192d775745aeb80",
+    "client_secret": "d085629d9f16ff1155f1f5b3e5af1c3c9e96716dc103b96c77b658b6e1e5c8b0",
+    "grant_type": "password",
+    "email": "tatyanakipot@yahoo.com",
+    "password": "222222"
+}
+POST http://159.203.42.111/api/users/sign_in HTTP/1.1
+content-type: application/json
+ 
+{
+    "client_id": "4621b78501cc9150592b0b725fd1f594dbe7f2fe73cc2304c192d775745aeb80",
+    "client_secret": "d085629d9f16ff1155f1f5b3e5af1c3c9e96716dc103b96c77b658b6e1e5c8b0",
+    "grant_type": "password",
+    "email": "kanada685@ukr.net",
+    "password": "111111"
+}
+POST http://159.203.42.111/api/users/sign_in HTTP/1.1
+content-type: application/json
+ 
+{
+    "client_id": "4621b78501cc9150592b0b725fd1f594dbe7f2fe73cc2304c192d775745aeb80",
+    "client_secret": "d085629d9f16ff1155f1f5b3e5af1c3c9e96716dc103b96c77b658b6e1e5c8b0",
+    "grant_type": "password",
+    "email": "mm@mm.mm",
+    "password": "mmmmmm"
+}
+
+POST http://159.203.42.111/api/tasks/214/statuses HTTP/1.1
+content-type: application/json
+authorization: bearer d90b988a67b458d2a9ade188a2e70f589d51dbef7b6d308eda6f5b569d7986a9
+
+{
+    "status": "done"
+}
+
+POST http://localhost:3000/api/tasks/167/statuses HTTP/1.1
+content-type: application/json
+authorization: bearer 7a8be3ac6cfd9f4f47b06f9d621d50fb47a8fb37205336b2b461b39c95ce7d2b
+
+{
+    "status": "done"
+}
+
+POST http://159.203.42.111/api/tasks/218/message HTTP/1.1
+content-type: application/json
+authorization: bearer f6d2d73fe785caf54ebf1dc7185b25b430c0b49bc7632630bb983d53db8a2d59
+
+{
+    "message": {
+"message_body": "text22"
+    }
+}
+GET http://159.203.42.111/api/tasks/concierge/active HTTP/1.1
+content-type: application/json
+authorization: bearer 4ab3cf0973bb3bf2b7627250ebed091abe1899e6176f620a7d085d828ce9c0cb
+
+{
+    "task_id": 220
+}
+
+GET http://159.203.42.111/api/favorites_tasks HTTP/1.1
+content-type: application/json
+authorization: bearer b4dfc79bfdc37a379a44630d47fa042df26c5dd4c5d090824f5c2704c3fbcedf
+
+
+GET http://159.203.42.111/api/tasks/218/messages/concierge HTTP/1.1
+content-type: application/json
+authorization: bearer f6d2d73fe785caf54ebf1dc7185b25b430c0b49bc7632630bb983d53db8a2d59
+
+
+GET http://159.203.42.111/api/sugessions/153/messages HTTP/1.1
+content-type: application/json
+authorization: bearer b4dfc79bfdc37a379a44630d47fa042df26c5dd4c5d090824f5c2704c3fbcedf
+
+GET http://159.203.42.111/api/tasks/concierge/archive HTTP/1.1
+content-type: application/json
+authorization: bearer b4dfc79bfdc37a379a44630d47fa042df26c5dd4c5d090824f5c2704c3fbcedf
+
+
+GET http://159.203.42.111/api/tasks/227/messages/hire?page=1 HTTP/1.1
+content-type: application/json
+authorization: bearer e5a75b3bae58dd06b078b0398143473aa83f756805483f305b8de7ef9037dcae
+
+GET http://159.203.42.111/api/location?user_id=17&latitude=48.419731666666664&longitude=35.06409833333333 HTTP/1.1
+
+POST http://159.203.42.111/api/users/sign_in HTTP/1.1
+content-type: application/json
+
+{
+    "client_id": "4621b78501cc9150592b0b725fd1f594dbe7f2fe73cc2304c192d775745aeb80",
+    "client_secret": "d085629d9f16ff1155f1f5b3e5af1c3c9e96716dc103b96c77b658b6e1e5c8b0",
+    "grant_type": "password",
+    "email": "admin@gmail.com",
+    "password": "adminadmin"
+}
+
+POST http://159.203.42.111/api/tasks HTTP/1.1
+content-type: application/json
+authorization: bearer af60d339c33e09fb8456bf57ee7e9ef3a311550dec9050d9f6dfbf319bfddefc
+
+{
+    "task": {
+        "title": "test"
+    },
+    "place": {
+        "longitude": "60.10867",
+        "latitude": "-113.64258"
+    }
+}
+
+GET http://localhost:3001/api/contracts HTTP/1.1
+content-type: application/json
+authorization: bearer 1ac12c1c6251f0fad30308bbd47ec5bece78a4daa9929b1c7f03c2fbd046d656
+
+
+GET http://159.203.42.111/api/tasks/220/ HTTP/1.1
+content-type: application/json
+authorization: bearer ae33e69cc0caea07036c2156ec7e766d066e2f0199813c72eeaaa51bc0a19ae2
+
+
+
+POST http://159.203.42.111/api/tasks/16/sugession HTTP/1.1
+content-type: application/json
+authorization: bearer af60d339c33e09fb8456bf57ee7e9ef3a311550dec9050d9f6dfbf319bfddefc
+
+{
+    "suggestion": {
+        "proposed_text": "eefvfee"
+        }
+}
+
+POST http://159.203.42.111/api/tasks/16/confirm HTTP/1.1
+content-type: application/json
+authorization: bearer af60d339c33e09fb8456bf57ee7e9ef3a311550dec9050d9f6dfbf319bfddefc
+
+{
+    "user_id": "1",
+    "suggestion_id": "2"
+}
+
+POST http://159.203.42.111/api/users/reset_password HTTP/1.1
+content-type: application/json
+
+{
+    "email": "peluhnya@outlook.com"
+}

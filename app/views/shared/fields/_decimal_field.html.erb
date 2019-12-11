@@ -1,0 +1,2 @@
+<%= number_field_tag "estimator[body][#{@field.machine_name}]", default_value(@field, @estimator),
+                     step: :any, min: 0, max: 9999999999,  required: @field.required?, class: "form-control #{'required-field' if @field.required?} check-number" %>

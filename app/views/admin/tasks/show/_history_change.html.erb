@@ -1,0 +1,16 @@
+<% if key.include?('_id') && klass = Task.reflect_on_association(key.chomp("_id"))&.klass %>
+  <div class="history-change">
+    <b><%= key.humanize %></b>
+
+    <% if %w(concierge_id).include? key  %>
+      <u><%= klass.find_by_id(value[1]).legal_title %></u>
+    <% else %>
+      <u><%= klass.find_by_id(value[1])&.to_s || value[1] %></u>
+    <% end %>
+  </div>
+<% else %>
+  <div class="history-change">
+    <b><%= key.humanize %></b>
+    <%= value[1] %>
+  </div>
+<% end %>

@@ -1,0 +1,40 @@
+
+<form action="/admin/tasks/new" method="get">
+  <input type="hidden" name="owner_id" value="<%= @estimator.supervisor_id %>">
+  <input type="hidden" name="project" value="<%= @estimator.project_task_id %>">
+  <% if @estimator.status != 'pending' %>
+    <br><br><center><h1>PRE - CONSTRUCTION STAGE</h1></center>
+    <% root_line_dv = @estimator_type.display_views.first.line_dvs.root_line_dvs.order('created_at ASC') %>
+    <% root_line_dv.where(prestage: true).order('created_at ASC').each do |line_dv| %>
+      <%= render 'line_dv', locale: @line_dv = line_dv %>
+    <% end %>
+    <br><br><center><h1>CONSTRUCTION STAGE</h1></center>
+    <% root_line_dv.where(prestage: [false, nil]).order('created_at ASC').each do |line_dv| %>
+      <%= render 'line_dv', locale: @line_dv = line_dv %>
+    <% end %>
+  <% end %>
+</form>
+
+<script>
+  $(function(){
+    $(document).ready(function() {
+      $('.check-all').change(function(){
+        if($(this).is(':checked')){
+          $(this).closest('.project-table').find('.check-one').each(function(){
+            $(this).prop('checked', true);
+          })
+        }
+        else{
+          $(this).closest('.project-table').find('.check-one').each(function(){
+            $(this).attr('checked', false)
+          })
+        }
+      })
+    });
+    $('.check-one').change(function(){
+      if(!$(this).is(':checked')){
+        $(this).closest('.project-table').find('.check-all').attr('checked', false)
+      }
+    })
+  })
+</script>

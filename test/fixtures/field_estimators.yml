@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fieldable: one
+  name: MyString
+  name_scope: MyString
+  machine_name: MyString
+  active: false
+  type_field: MyString
+  desc: MyText
+  default_value: 9.99
+  astra_price: 9.99
+  trade_price: 9.99
+  ancestry: MyString
+  required: false
+  multiple: false
+  style_cls: MyText
+  option: MyText
+
+two:
+  fieldable: two
+  name: MyString
+  name_scope: MyString
+  machine_name: MyString
+  active: false
+  type_field: MyString
+  desc: MyText
+  default_value: 9.99
+  astra_price: 9.99
+  trade_price: 9.99
+  ancestry: MyString
+  required: false
+  multiple: false
+  style_cls: MyText
+  option: MyText

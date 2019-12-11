@@ -1,0 +1,396 @@
+//.wrapper {
+//  min-height: 100vh;
+//
+//  //@include display-flex;
+//  //@include flex-direction(column);
+//
+//  .site-main {
+//    //@include flex-grow(1);
+//  }
+//}
+//
+//.site-container {
+//  box-sizing: border-box;
+//
+//  //@include bigger_than_tablet {
+//  //  width: 800px;
+//  //  margin: 0 auto;
+//  //}
+//}
+//
+//
+//.site-header {
+//  background: $black;
+//
+//  .site-container {
+//    position: relative;
+//    z-index: 10;
+//
+//    padding-right: 20px;
+//
+//    @include bigger_than_phone {
+//      height: 45px;
+//      padding-left: 95px;
+//
+//    //  @include display-flex;
+//    //  @include justify-content(space-between);
+//    //  @include align-items(center);
+//    }
+//    //@include bigger_than_tablet {
+//    //  padding-right: 0;
+//    //}
+//  }
+//
+//  .logo {
+//    position: absolute;
+//    top: 0;
+//    left: 0;
+//
+//    width: 26px;
+//    height: 26px;
+//
+//    background: $blue;
+//
+//    //@include bigger_than_phone {
+//    //  width: auto;
+//    //  height: auto;
+//    //}
+//
+//    a {
+//      display: block;
+//    }
+//    img {
+//      display: block;
+//
+//      width: 17px;
+//      padding: 7px 0 0 5px;
+//
+//      //@include bigger_than_phone {
+//      //  width: 59px;
+//      //  height: 45px;
+//      //  padding: 20px 20px 28px 17px;
+//      //}
+//    }
+//  }
+//
+//  nav {
+//    font-family: SegoeUILight;
+//
+//    margin: 0 6px 0 26px;
+//
+//    //@include display-flex;
+//    //@include flex(1 0);
+//    //@include align-self(stretch);
+//    //@include justify-content(space-around);
+//    //@include align-items(stretch);
+//    //@include bigger_than_phone {
+//    //  margin: 0;
+//    //}
+//
+//
+//    a {
+//      font-size: 0.75rem;
+//      line-height: 26px;
+//
+//      padding: 0 5px;
+//
+//      text-decoration: none;
+//      text-transform: uppercase;
+//
+//      color: $white;
+//
+//      //@include transition-property(background);
+//      //@include transition-duration(200ms);
+//      //@include bigger_than_phone {
+//      //  font-size: 1rem;
+//      //  line-height: 45px;
+//      //
+//      //  padding: 0 10px;
+//      //}
+//
+//      &:hover {
+//        background: $blue;
+//      }
+//    }
+//  }
+//
+//  .menu-link {
+//    position: absolute;
+//    top: 0;
+//    right: 0;
+//
+//    display: block;
+//
+//    width: 26px;
+//    height: 26px;
+//
+//    cursor: pointer;
+//
+//    background:  {
+//      position: center center;
+//
+//      repeat: no-repeat;
+//      image: image-url("icons/menu.png");
+//    };
+//
+//    //@include background-size(50%);
+//    //@include bigger_than_phone {
+//    //  display: none;
+//    //}
+//  }
+//
+//  .search {
+//    display: none;
+//    float: right;
+//
+//    padding-top: 10px;
+//    padding-bottom: 10px;
+//
+//    //@include bigger_than_phone {
+//    //  display: block;
+//    //  float: none;
+//    //
+//    //  padding-top: 0;
+//    //  padding-bottom: 0;
+//    //
+//    //  @include order(2);
+//    //}
+//
+//    .site-header-opened & {
+//      display: block;
+//    }
+//
+//    input {
+//      width: 156px;
+//
+//      vertical-align: middle;
+//
+//      color: $white;
+//      border: 1px solid $grey;
+//      background: transparent;
+//
+//      //@include box-sizing(border-box);
+//
+//      &:focus {
+//        border-color: $white;
+//      }
+//    }
+//    button {
+//      width: 17px;
+//      height: 17px;
+//      padding: 0;
+//
+//      vertical-align: middle;
+//
+//      border: none;
+//      background:  {
+//        position: top left;
+//
+//        color: transparent;
+//
+//        image: image-url("icons/search.png");
+//        repeat: no-repeat;
+//      };
+//
+//      //@include box-sizing(border-box);
+//    }
+//  }
+//
+//  .language {
+//    display: none;
+//    float: left;
+//
+//    margin-left: 20px;
+//    padding-top: 14px;
+//
+//    //@include bigger_than_phone {
+//    //  display: block;
+//    //  float: none;
+//    //
+//    //  padding-top: 0;
+//    //
+//    //  @include order(3);
+//    //}
+//
+//    .site-header-opened & {
+//      display: block;
+//    }
+//    &__current {
+//      display: block;
+//
+//      width: 24px;
+//      height: 14px;
+//
+//      background:  {
+//        position: top left;
+//
+//        color: transparent;
+//
+//        image: image-url("lang/fr.png");
+//        repeat: no-repeat;
+//      };
+//    }
+//  }
+//}
+//
+//
+//.site-footer {
+//  color: $white;
+//  background: $black;
+//
+//  //@include bigger_than_tablet {
+//  //  padding: 40px 0 50px;
+//  //}
+//  .site-container {
+//    padding: 20px 20px 30px;
+//  }
+//
+//  .footer-logo {
+//    margin-bottom: 20px;
+//
+//    //@include bigger_than_phone {
+//    //  float: left;
+//    //
+//    //  width: 25%;
+//    //  margin-top: 0.4em;
+//    //}
+//  }
+//
+//  .contact-information {
+//    margin-bottom: 20px;
+//    .tel-inner-area{
+//      width:60%;
+//    }
+//    .geo-inner-area{
+//      width:80%;
+//    }
+//    //@include bigger_than_phone {
+//    //  float: right;
+//    //
+//    //  width: 75%;
+//    //}
+//
+//    > div {
+//      margin-bottom: 5px;
+//
+//      //@include bigger_than_phone {
+//      //  float: left;
+//      //
+//      //  width: 33.33%;
+//      //  margin-bottom: 0;
+//      //}
+//    }
+//  }
+//
+//  .copy {
+//    clear: both;
+//
+//    color: $text-color;
+//  }
+//}
+//
+//
+///* section (begin) */
+//.section {
+//  &__container {
+//    box-sizing: border-box;
+//    margin: 0 20px;
+//    padding: 0 0 20px;
+//
+//    @include bigger_than_phone {
+//      padding-bottom: 50px;
+//    }
+//    @include bigger_than_tablet {
+//      width: 800px;
+//      margin: 0 auto;
+//    }
+//  }
+//
+//  &__header {
+//    margin: 20px 0 0;
+//
+//    text-align: center;
+//
+//    @include bigger_than_phone {
+//      margin-top: 38px;
+//    }
+//
+//    h1 {
+//      font-family: SegoeUILight;
+//      font-size: 1.667rem;
+//      font-weight: 100;
+//
+//      margin: 0 0 1em;
+//
+//      @include bigger_than_phone {
+//        font-size: 3.167rem;
+//      }
+//    }
+//
+//    h2 {
+//      font-family: SegoeUILight;
+//      font-size: 1.5rem;
+//      font-weight: 100;
+//
+//      margin: 0 0 25px;
+//
+//      @include bigger_than_phone {
+//        font-size: 3rem;
+//
+//        margin: 0 0 45px;
+//      }
+//    }
+//
+//    h3 {
+//      font-family: SegoeUILight;
+//      font-size: 1.75rem;
+//      font-weight: 100;
+//
+//      margin: 0 0 20px;
+//    }
+//  }
+//
+//  &__more {
+//    margin-top: 20px;
+//
+//    text-align: center;
+//
+//    @include bigger_than_phone {
+//      margin-top: 40px;
+//    }
+//  }
+//}
+//
+//.section__columns {
+//  @include clearfix;
+//
+//  .section__column {
+//    @include bigger_than_tablet {
+//      float: left;
+//
+//      width: 376px;
+//      &_wide {
+//        width: 400px;
+//      }
+//    }
+//    &:last-child {
+//      margin-top: 30px;
+//
+//      @include bigger_than_tablet {
+//        float: right;
+//
+//        margin-top: 0;
+//      }
+//    }
+//
+//    h2:first-child,
+//    h3:first-child {
+//      font-family: SegoeUILight;
+//      font-weight: 100;
+//
+//      margin-top: 0;
+//    }
+//  }
+//}
+//
+///* section (end) */

@@ -1,0 +1,168 @@
+<section class="tab-section noprint no-padding-tab-section">
+  <%= render 'admin/contracts/tabs_one_contract', locale: @active = 'contracts_approved' %>
+  <div class="page__subheader">
+    <div class="delimiter"></div>
+    <!-- <form class="project-task-search" id="project_task_search" action="/admin/contracts_approved" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+          <div class="form-inline">
+            <input placeholder="Search" value='<%= params[:q][:legal_title_cont] if params[:q].present? %>' class="search-field" type="search" name="q[legal_title_cont]" id="q_name_or_address_or_type_pt_cont">
+            <input type="submit" name="" value="" class="search-submit">
+          </div>
+        </form>-->
+  </div>
+  <!-- Tab panes -->
+  <div class="tab-content noprint">
+    <!-- Tab 1 -->
+    <div class="tab-pane active" id="approvedContractors">
+      <div class="approved-contractors-wrap clearfix">
+
+        <div class="ac-left-col preview-section">
+          <%= render 'preview' %>
+        </div>
+        <div class="ac-right-col">
+          <table class="contractors-table" id="table-id">
+            <thead>
+            <tr>
+              <th class="sort__title" width="12%"><%= sort_link(@q, :gst, 'GST/SIN #<i class="sort__icon"></i>'.html_safe) %></th>
+              <th class="sort__title" width="20%">
+
+                <div data-placeholder="category" class="chosen-container chosen-container-multi chosen-mini" title="">
+
+                    <select data-placeholder="category" class="chosen-select" onchange="window.location.href=this.options[this.selectedIndex].value">
+                      <option value="<%= request.path %>">All Companies</option>
+                      <% Contract.where(status: :approved, team: [nil, false]).each do |con| %>
+                        <option
+                          <% if (((con.id == params[:q][:id_eq].to_i) if params[:q][:id_eq].present?) if params[:q].present?) %>selected
+                          <% end %> value="<%= request.path %>/?q[id_eq]=<%= con.id %>"><%= con.legal_title %></option>
+                      <% end %>
+                    </select>
+                  </div>
+                </div>
+
+              </th>
+              <th class="sort__title" width="20%">
+                <select class="custom-cities-select" onchange="window.location.href=this.options[this.selectedIndex].value">
+                  <option VALUE="<%= request.path %>">All cities</option>
+                  <% Contract.cities_canada.each do |item| %>
+
+                    <option VALUE="<%= request.path %>/?q[city_cont]=<%= item %>"
+                            <% if params[:q].present? %>
+                            <% if params[:q][:city_cont] == item %>selected
+                            <% end %>
+                            <% end %> ><%= item %></option>
+                  <% end %>
+                </select>
+              </th>
+              <th class="sort__title" width="16%"><%= sort_link(@q, :contact_name, 'Contact Name<i class="sort__icon"></i>'.html_safe) %></th>
+              <th class="sort__title" width="14%"><%= sort_link(@q, :telephone, 'Phone #<i class="sort__icon"></i>'.html_safe) %></th>
+              <th class="sort__title" width="18%"><%= sort_link(@q, :email, 'Email<i class="sort__icon"></i>'.html_safe) %></th>
+
+            </tr>
+            </thead>
+            <% if @contracts.empty? %>
+              <tr>
+                <td colspan="6">No items</td>
+              </tr>
+            <% else %>
+              <% @not_nil_contract = @contracts.where.not(type_work: nil) %>
+              <% Category.where(active: true).each do |cat| %>
+
+                <% @con = [] %>
+                <% @not_nil_contract.ransack(params[:q]).result.each do |contr| %>
+                  <% @con << contr if contr.type_work.include? cat.name %>
+                <% end %>
+                <% if @con.count > 0 %>
+                  <tbody class="research">
+                  <tr class="accordion">
+                    <td colspan="3">
+                      <div class="pending-table_category-title"><span class="accordion-icon"></span><%= cat.name %>
+                      </div>
+                    </td>
+                    <td colspan="3">
+                      <div class="count_contract"><%= @con.count %> contractors</div>
+                    </td>
+                  </tr>
+                  <% @con.compact.each do |contract| %>
+
+                    <tr class="contract_prew" data-href="/admin/contracts/<%= contract.id %>.js">
+                      <td><%= contract.gst_or_sin %></td>
+                      <td><%= contract.legal_title %></td>
+                      <td><%= contract.city %></td>
+                      <td>
+                        <span class="pending-table_category"><%= link_to contract.contact_name, admin_contract_path(contract) %></span>
+                      </td>
+                      <td><span class="pending-table_phone"><%= contract.telephone %></span></td>
+                      <td><span class="pending-table_email"><%= contract.email %></span></td>
+
+                    </tr>
+
+                  <% end %>
+                  </tbody>
+                <% end %>
+                <% @nil_contract = @contracts.where(type_work: ["", nil]) %>
+                <% if @nil_contract.count > 0 %>
+                  <tbody class="research">
+                  <tr class="accordion">
+                    <td colspan="3">
+                      <div class="pending-table_category-title"><span class="accordion-icon"></span> No Category</div>
+                    </td>
+                    <td colspan="3">
+                      <div class="count_contract"><%= @con.count %> contractors</div>
+                    </td>
+                  </tr>
+                  <% @nil_contract.compact.each do |contract| %>
+
+                    <tr class="contract_prew" data-href="/admin/contracts/<%= contract.id %>.js">
+                      <td><%= contract.gst_or_sin %></td>
+                      <td><%= contract.legal_title %></td>
+                      <td><%= contract.city %></td>
+                      <td>
+                        <span class="pending-table_category"><%= link_to contract.contact_name, admin_contract_path(contract) %></span>
+                      </td>
+                      <td><span class="pending-table_phone"><%= contract.telephone %></span></td>
+                      <td><span class="pending-table_email"><%= contract.email %></span></td>
+
+                    </tr>
+
+                  <% end %>
+                  </tbody>
+                <% end %>
+              <% end %>
+
+
+            <% end %>
+
+
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<style>
+  .contractors-table td {
+    word-break: break-word;
+  }
+
+  .no-padding-tab-section {
+    padding-top: 0 !important;
+  }
+
+  .custom-cities-select {
+    height: 30px;
+    border: 1px solid #C4C5D6;
+    color: #C4C5D6;
+    background: url(../img/icon-sort-bottom.svg) no-repeat right #fff;
+    background-position: right 8px center;
+  }
+
+  .page__subheader .chosen-container {
+    width: 400px !important;
+  }
+</style>
+
+<span class="showprint" style="display:none;">
+<%= render 'show' %>
+</span>

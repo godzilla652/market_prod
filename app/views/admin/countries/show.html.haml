@@ -1,0 +1,20 @@
+.admin-page.show
+  .row
+    %h1{:class => 'col-sm-offset-3 col-sm-6'}
+      = @class_name
+
+  .row
+    .col-sm-6.col-sm-offset-3
+      %ul
+        %li
+          %span ID:
+          =@entity.id
+        %li
+          %span Name:
+          =@entity.name
+        %li
+          %span Updated:
+          =@entity.updated_at
+        %li
+          %span Created:
+          =@entity.created_at

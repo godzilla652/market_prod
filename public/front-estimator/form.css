@@ -1,0 +1,309 @@
+/*************Tab section****************/
+.tab-section {
+    padding-top: 40px;
+}
+
+.nav-tabs .nav-link {
+    display: block;
+    padding: 0 0 12px 0;
+    margin-right: 36px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #DBDCE7 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid transparent !important;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    color: #444444 !important;
+    background-color: transparent;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 3px solid #14589C !important;
+}
+
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover {
+    border-bottom: 1px solid transparent !important;
+    background-color: transparent !important;
+}
+
+.nav-tabs .nav-item.show .nav-link:focus,
+.nav-tabs .nav-link.active:focus,
+.nav-tabs .nav-item.show .nav-link:hover,
+.nav-tabs .nav-link.active:hover {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 3px solid #14589C !important;
+}
+
+.tab-content {
+    padding-top: 32px;
+}
+input::placeholder {
+    color: #BDBDBD;
+}
+
+input::-webkit-input-placeholder {
+    color: #BDBDBD;
+}
+
+input::-moz-placeholder {
+    color: #BDBDBD;
+}
+
+input:-ms-input-placeholder {
+    color: #BDBDBD;
+}
+
+input:-moz-placeholder {
+    color: #BDBDBD;
+}
+
+input:focus {
+    outline: none;
+}
+
+button:focus {
+    outline: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
+}
+
+input[type=number] {
+    -moz-appearance:textfield; 
+}
+.form-group {
+    margin-bottom: 24px;
+}
+.control-label {
+    font-weight: 400;
+    line-height: normal;
+    font-size: 16px;
+    color: #14589C !important;
+    padding-bottom: 8px;
+    padding-left: 0;
+}
+.form-check-inline.control-label {
+    color: #000;
+    margin-right: 24px;
+}
+.form-control {
+    height: 40px;
+    border: 1px solid #C5D7FF;
+    border-radius: 2px;
+    padding: 0 20px 0 12px;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 16px;
+    color: #000000;
+}
+.form-control-half {
+    width: 50%;
+}
+textarea.form-control {
+    padding: 10px 20px 10px 12px;
+}
+.form-control:focus {
+    outline: unset;
+}
+.form-section {
+    padding-bottom: 24px;
+}
+.form-section-label {
+    font-weight: 700;
+    font-size: 24px;
+    color: #444444;
+    padding-right: 16px;
+}
+
+.form-check-input:checked,
+.form-check-input:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+
+.form-group__check .form-check-inline {
+    margin-right: 12px;
+}
+
+.form-group__check .form-check-inline:last-child {
+    margin-right: 0;
+}
+
+.form-check-input:checked + label,
+.form-check-input:not(:checked) + label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #444444;
+}
+
+.form-check-input:checked + label:before,
+.form-check-input:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #92b0f5;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.form-check-input:checked + label:after,
+.form-check-input:not(:checked) + label:after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #92b0f5;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.form-check-input:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+.form-check-input:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.form-check-input:disabled + label:before {
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+}
+.radio-control-label {
+    font-weight: 400;
+    line-height: normal;
+    font-size: 16px;
+    color: #14589C;
+    padding-bottom: 8px;
+    padding-left: 0;
+}
+
+.form-check-label {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.form-check-label span {
+    color: #C4C5D6;
+}
+
+.form-group__check {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.window-coverings-item {
+    padding-bottom: 16px;
+}
+
+.w_number {
+    width: 5%;
+    float: left;
+    font-size: 16px;
+    color: #C4C5D6;
+    padding-top: 38px;
+}
+
+.w_height {
+    width: 45%;
+    float: left;
+    padding-right: 16px;
+}
+
+.w_width {
+    width: 45%;
+    float: left;
+    padding-right: 16px;
+}
+
+.w_btn {
+    width: 5%;
+    float: left;
+    cursor: pointer;
+    padding-top: 36px;
+}
+
+.w_add-btn {
+    display: block;
+    clear: both;
+    text-align: right;
+    margin-right: 5%;
+    padding: 16px 16px 0 0;
+    color: #0e579c;
+    font-size: 14px;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+.w_delete-btn {
+    color: #eb3437;
+}
+
+.check-number {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    text-align: right;
+}
+
+.check-size {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    text-align: right;
+}
+.form-check {
+    position: relative;
+    display: block;
+    padding-left: 1.25rem;
+}
+.form-check-inline {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-left: 0;
+    margin-right: .75rem;
+}
+.btn-primary-rectangle {
+    height: 48px;
+    background: #14589C;
+    border: 1px solid #14589C;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 10px rgba(20, 88, 156, 0.1);
+    border-radius: 2px;
+    padding: 0 56px;
+    font-weight: 400;
+    line-height: 1;
+    font-size: 18px;
+    color: #FFFFFF !important;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.btn-primary-rectangle:hover {
+    color: #FFFFFF;
+    background: rgba(20, 88, 156, 0.9);
+}

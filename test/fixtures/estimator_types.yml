@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  admin_descr: MyText
+  active: false
+  widget: false
+  standard_field: false
+  email: MyString
+
+two:
+  name: MyString
+  admin_descr: MyText
+  active: false
+  widget: false
+  standard_field: false
+  email: MyString

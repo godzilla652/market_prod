@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>ASTRA</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <style type="text/css">
+    html {
+      height: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.3;
+      color: #333333;
+    }
+
+    .container {
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .page-title {
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 8px 16px;
+      background: #C5D7FF;
+      text-transform: uppercase;
+    }
+
+    td {
+      vertical-align: top;
+      padding: 8px 16px;
+    }
+
+    td:first-child,
+    th:first-child {
+      width: 10%;
+    }
+
+    /* td:nth-child(2) {
+      width: 55%;
+     }
+    td:nth-child(3) {
+      width: 15%;
+     } */
+    .border-table th,
+    .border-table td {
+      border: 1px solid #14589C;
+    }
+
+    .top-table {
+      #margin-bottom: 40px;
+    }
+
+    .total-table {
+      text-align: right;
+    }
+
+    .no-paddding {
+      padding: 0;
+    }
+
+    .total-border {
+      border-left: 1px solid #14589C;
+      border-right: 1px solid #14589C;
+      border-bottom: 1px solid #14589C;
+    }
+
+    .text-strong {
+      font-weight: bold;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    /* .padding-bottom td{
+        padding-bottom: 32px;
+     %> */
+    .hen:after {
+      content: " ";
+      display: table;
+      clear: both;
+    }
+
+    .hen2 {
+      float: left;
+      width: 50%;
+    }
+
+    .hen2--right {
+      float: right;
+      width: 32%;
+    }
+  </style>
+
+</head>
+<body>
+<div class="container">
+  <table class="top-table">
+
+    <div class='hen'>
+      <div class='hen2'>
+        <!-- </br> -->
+        <p><strong>ASTRA Construction Management</strong><br>
+          888 – 3rd Street SW, 10th Floor<br>
+          Bankers Hall, West Tower<br>
+          Calgary, Alberta, T2P 5C5</p>
+        <div style="padding-top: 30px;">
+          <p class="text-strong">To</p>
+          <p>
+            Avenue Living<br>
+            400 - 4820 Richard Rd SW, Calgary, AB T3E 6L1<br>
+            Phone: (403) 984-9363
+          </p>
+        </div>
+      </div>
+
+      <div class='hen2 hen2--right'>
+<span>
+												<h1 class="page-title">QUOTE NO.  <%= @estimator.number %></h1>
+												<p><strong>Name:</strong>  <%= @estimator.name %></p>
+												<p><strong>City:</strong>  <%= @estimator.city %></p>
+												<p><strong>Address:</strong>  <%= @estimator.address %></p>
+												<p><strong>E-mail:</strong>  <%= @estimator.email %></p>
+												<p><strong>Date:</strong>  <%= Date.current %></p>
+</span>
+      </div>
+    </div>
+
+    <tbody class="middle-table border-table" style='margin_top:40px;'>
+    <tr>
+      <th colspan="2">PROPERTY</th>
+      <th colspan="2">Project Manager</th>
+    </tr>
+    <tr class="text-strong">
+      <td colspan="2"><%= @estimator.number %>, <%= @estimator.address %></td>
+      <td colspan="2"></td>
+    </tr>
+
+    <tr class="text-strong">
+      <th width="10%">QTY</th>
+      <th width="58%">DESCRIPTION</th>
+      <th width="12%">UNIT PRICE</th>
+      <th width="20%">LINE TOTAL</th>
+    </tr>
+    <% @estimator.estimator_type.fields.field_roots.each do |field| %>
+      <% unless field.option['hide_admin_list_task'] == 'on' %>
+
+        <tr>
+          <td width="10%"></td>
+          <td width="58%" class="text-strong"><%= field.name %></td>
+          <td width="12%"></td>
+          <td width="20%"></td>
+        </tr>
+        <% if field.type_field.include? 'scope_group' %>
+          <% field_ids = field.front_visible_child_fields.map { |e| e.id } %>
+          <% @estimator.lines.where(field_estimator_id: field_ids).each_slice(field_ids.count) do |slice| %>
+            <tr>
+              <td width="10%"> 1.00</td>
+              <td width="58%">
+                <% slice.each do |line| %><%= line.field_estimator.name %>: <%= line.value %>
+                <% end %></td>
+              <td width="12%" class="text-right"> <%= price_format(field.astra_price) %></td>
+              <td width="20%" class="text-right"> <%= price_format(field.astra_price) %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <% if field.field_estimators.present? %>
+            <% field.field_estimators.each do |child| %>
+              <% unless child.option['hide_admin_list_task'] == 'on' %>
+                <% if child.type_field == 'one_group' || child.type_field == 'check_group' %>
+                  <tr>
+                    <td width="10%"></td>
+                    <td width="58%" class="text-strong"><%= child.name %></td>
+                    <td width="12%"></td>
+                    <td width="20%"></td>
+                  </tr>
+                  <% child.field_estimators.each do |child2| %>
+                    <% unless child2.option['hide_admin_list_task'] == 'on' %>
+
+
+                      <%= render 'admin/estimators/line_in_pdf', locals: @field = child2 %>
+
+                    <% end %>
+                  <% end %>
+                <% elsif child.type_field.include? 'scope_group' %>
+                  <tr>
+                    <td width="10%"></td>
+                    <td width="58%" class="text-strong"><%= child.name %></td>
+                    <td width="12%"></td>
+                    <td width="20%"></td>
+                  </tr>
+                  <% field_ids = child.front_visible_child_fields.map { |e| e.id } %>
+                  <% @estimator.lines.where(field_estimator_id: field_ids).each_slice(field_ids.count) do |slice| %>
+                    <tr>
+                      <td width="10%"> 1.00</td>
+                      <td width="58%">
+                        <% slice.each do |line| %><%= line.field_estimator.name %>: <%= line.value %>
+                        <% end %></td>
+                      <td width="12%" class="text-right"> <%= price_format(child.astra_price) %></td>
+                      <td width="20%" class="text-right"> <%= price_format(child.astra_price) %></td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <%= render 'admin/estimators/line_in_pdf', locals: @field = child %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= render 'admin/estimators/line_in_pdf', locals: @field = field %>
+          <% end %>
+        <% end %>
+
+        <tr>
+          <td width="10%"></td>
+          <td width="58%"></td>
+          <td width="12%" class="text-strong">Total</td>
+          <td width="20%" class="text-right"> <%= price_format(@estimator.full_group_total('astra', field)) %></td>
+        </tr>
+      <% end %>
+    <% end %>
+
+    <tr style='border:none;'>
+      <td width="50%" rowspan="3" colspan="2" style='border:none;'>
+        <div style="margin-top: 40px;">
+          GST: 83169 3981 RT 001<br>
+          WCB: 8106051
+        </div>
+      </td>
+      <td width="12%" style='border:none;' class="text-right text-strong">Subtotal</td>
+      <td width="20%" class="total-border text-right"> <%= '%.2f' % @estimator.order_total('astra') %></td>
+    </tr>
+    <tr>
+      <td width="12%" style='border:none;
+          white-space: nowrap;
+          display: inherit;
+          position: absolute;
+          right: 217px;' class="text-right text-strong">GST or HST Tax:
+      </td>
+      <td width="20%" class="total-border text-right"> <%= '%.2f' % @estimator.total_five('astra') %></td>
+    </tr>
+    <tr>
+      <td width="12%" style='border:none;' class="text-right text-strong">Total:</td>
+      <td width="20%" class="total-border text-right"> <%= '%.2f' % @estimator.full_total('astra') %></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+
+</html>

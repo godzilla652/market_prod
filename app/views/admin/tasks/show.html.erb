@@ -1,0 +1,254 @@
+<section class="content-section">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="page__title d-flex align-items-center">
+        <h1 class="mr-3"><%= @entity.title %></h1>
+        <span class="status-active"><%= task_status(@entity) %></span>
+      </div>
+      <div class="page__subtitle">#<%= @entity.project_task.number %> - <%= @entity.project_task.name %></div>
+      <%= render 'admin/tasks/show/photos', object: @entity %>
+
+      <div class="task-detail"></div>
+    </div>
+    <%= render 'admin/tasks/shared/buttons', object: @entity %>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="task-detail">
+        <div class="task-detail__title">Supervisor:</div>
+        <div class="task-detail__content"><%= @entity.owner.full_name if @entity.owner %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="task-detail">
+        <div class="task-detail__title">Phone:</div>
+        <div class="task-detail__content"><%= @entity.phone %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+
+      <div class="task-detail">
+        <div class="task-detail__title">Attacments:</div>
+        <div class="task-detail__content">
+          <% @entity.documents.each do |file| %>
+       <span class="file_attach"><img src="/img/metal-paper-clip.svg">
+
+         <%= link_to file.blob.filename, rails_blob_path(file, disposition: "attachment") %>
+         <br></span>
+          <% end %></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="task-detail">
+        <div class="task-detail__title">Description:</div>
+        <div class="task-detail__content"><%= @entity.description %></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="task-detail">
+        <div class="task-detail__title">Address:</div>
+        <div class="task-detail__content"><%= @entity.place.address if @entity.place %></div>
+      </div>
+      <div class="task-detail">
+        <div class="task-detail__title">Appartment:</div>
+        <div class="task-detail__content"><%= @entity.place.apartment if @entity.place %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="task-detail">
+        <div class="task-detail__title">Plan start:</div>
+        <div class="task-detail__content"><%= @entity.date_start.strftime("%Y/%m/%d") if @entity.date_start %></div>
+      </div>
+      <div class="task-detail">
+        <div class="task-detail__title">Plan End:</div>
+        <div class="task-detail__content"><%= @entity.date_limit.strftime("%Y/%m/%d") if @entity.date_limit %></div>
+      </div>
+      <div class="task-detail">
+        <div class="task-detail__title">Actual start:</div>
+        <div class="task-detail__content"><%= @entity.fact_start.strftime("%Y/%m/%d") if @entity.fact_start %></div>
+      </div>
+      <div class="task-detail">
+        <div class="task-detail__title">Actual end:</div>
+        <div class="task-detail__content"><%= @entity.fact_end.strftime("%Y/%m/%d") if @entity.fact_end %></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+
+      <div class="task-detail">
+        <div class="task-detail__title">Category:</div>
+        <div class="task-detail__content"><%= @entity.task_type %></div>
+      </div>
+      <div class="task-detail">
+        <div class="task-detail__title">Contractor:</div>
+        <div class="task-detail__content"><%= @entity.concierge.legal_title if @entity.concierge %></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="task-detail">
+        <div class="task-detail__title">Budget (C$):</div>
+        <div class="task-detail__content" id="task-id-budget"><%= @entity.budget_round %></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="budget-result">
+        <div class="budget-result__tax">GST OR HST TAX: <span id="gst_tax"><%= @entity.gst_calc %>%</span></div>
+        <div class="budget-result__tax">Sales Tax’s: <span id="sales_tax">0%</span></div>
+        <div class="budget-result__total">TOTAL:
+          <span id="task_total"><%= sprintf('%.2f', @entity.profent_full) %></span> $
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 d-flex justify-content-start">
+      <div class="form-group mt-md-5">
+        <br>
+        <% if @entity.confirmed? || @entity.done? %>
+          <%= link_to 'Confirm', admin_task_change_status_path(@entity.id, id: @entity.id, status: :done_confirmed), class: 'btn btn-outline mr-4', method: :put, data: { confirm: 'Are you sure want to confirm this task?' } %>
+        <% else %>
+          <a class="btn btn-outline mr-4 disabled" href="#">Confirm</a>
+        <% end %>
+        <%= link_to 'Edit', edit_admin_task_path(@entity.id), class: 'btn btn-primary mr-4' if policy(Task).edit? %>
+        <% if policy(Task).destroy? %>
+          <%= link_to 'Delete', admin_task_path(@entity.id), method: :delete, class: 'btn btn-primary', data: { confirm: 'Are you sure want to delete this task?' } %>
+        <% end %>
+        <% if @entity.project_task.present? %>
+          <a class="btn btn-outline mr-4" style="margin-left: 15px;" href="<%= admin_project_task_path(@entity.project_task) %>">Close</a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%= render 'admin/tasks/shared/modals', object: @entity %>
+
+<%= render 'admin/tasks/show/pdf_documents', object: @entity %>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/admin/tasks/show.js"></script>
+
+<style type="text/css">
+  /***************Modal window*********************/
+  .modal-content {
+    padding: 32px 24px 8px 24px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+  }
+
+  .modal-close span {
+    font-size: 32px;
+    line-height: 1;
+    color: #E0E0E0;
+  }
+
+  .modal-content h2 {
+    padding-bottom: 24px;
+  }
+
+  .modal-body {
+    padding: 0 0 24px 0;
+  }
+
+  .modal-footer {
+    padding: 0 0 16px 0;
+    border: none;
+    justify-content: center;
+  }
+
+  .modal-footer .btn-default {
+    padding: 0 56px;
+  }
+
+  .btn-primary {
+    height: 32px;
+    min-width: 100px;
+    background: #14589C;
+    box-shadow: 0px 4px 4px rgba(197, 215, 255, 0.5);
+    border-radius: 16px;
+    border: none;
+    padding: 8px 24px;
+    font-weight: 400;
+    line-height: 1;
+    font-size: 14px;
+    color: #FFFFFF;
+    position: relative;
+  }
+
+  .btn-primary:hover {
+    background: rgba(20, 88, 156, 0.9);
+  }
+
+  .btn-primary:focus,
+  .btn-primary:visited {
+    color: #FFFFFF;
+  }
+
+  .btn-outline {
+    height: 32px;
+    min-width: 100px;
+    border: 1px solid #14589C;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 16px;
+    padding: 8px 24px;
+    font-weight: 400;
+    line-height: 1;
+    font-size: 14px;
+    color: #14589C;
+    cursor: pointer;
+  }
+
+  .btn-outline:hover {
+    background: #14589C;
+    border: 1px solid #14589C;
+    color: #fff;
+  }
+
+  .btn-outline:visited,
+  .btn-outline:focus {
+    color: #14589C;
+    border: 1px solid #14589C;
+    background-color: #FFFFFF;
+  }
+
+  .btn-primary-rectangle {
+    height: 48px;
+    background: #14589C;
+    border: 1px solid #14589C;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 10px rgba(20, 88, 156, 0.1);
+    border-radius: 2px;
+    padding: 14px 56px;
+    font-weight: 400;
+    line-height: 1;
+    font-size: 18px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .btn-primary-rectangle:hover {
+    color: #FFFFFF;
+    background: rgba(20, 88, 156, 0.9);
+  }
+
+  .btn-primary-rectangle:visited,
+  .btn-primary-rectangle:focus {
+    color: #FFFFFF;
+  }
+
+  .task-detail:last-child {
+    margin-bottom: 24px !important;
+  }
+
+</style>

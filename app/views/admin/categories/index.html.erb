@@ -1,0 +1,80 @@
+<div class="admin-page index">
+  <!--   <div class="page__title"><h1>Settings</h1></div> -->
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a href="/admin/settings" class="nav-link " role="tab">Emails</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/admin/categories" class="nav-link active" role="tab">Categories</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <br>
+  <div class="page__header" style="padding: 16px 0;">
+    <div class="delimiter"></div>
+    <% if policy(:Setting).new? %>
+      <%= link_to 'Add New Category', new_admin_category_path, class: "btn-primary" %>
+    <% end %>
+
+
+  </div>
+
+
+  <% @categories.group_by { |w| w.typec }.sort_by { |name, ar| name.downcase }.each do |typec, categories| %>
+
+
+    <br>
+    <h1><%= typec %></h1>
+    <h6>Table rows are sorted </h6>
+    <br>
+
+    <table class="project-table">
+      <tbody class="sortable<%= typec %>">
+      <% categories.each do |category| %>
+
+        <tr id="<%= category.sortable_id %>">
+          <td width="60%">
+            <%= category.name %>
+          </td>
+
+
+          <td width="20%">
+            <%= category.active %>
+          </td>
+          <td class="action" width="20%">
+            <% if policy(:Setting).update? %>
+              <%= link_to url_for(:action => :edit, :id => category.id), :title => "Edit #{@class_name}", class: "td__add" do %>
+                <i class="edit-project__icon"></i>
+              <% end %>
+            <% end %>
+            <% if policy(:Setting).destroy? %>
+              <%= link_to url_for(:action => :destroy, :id => category.id), :method => :delete, :data => {:confirm => 'Are you sure?'}, :title => "Delete #{@class_name}", class: "td__delete" do %>
+                <i class="delete-project__icon"></i>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+
+      <% end %>
+
+      </tbody>
+    </table>
+    <script>
+        $(function () {
+            $('.sortable<%= typec %>').railsSortable();
+        });
+    </script>
+  <% end %>
+
+
+</div>
+<style>
+  .ui-sortable-handle {
+    touch-action: none;
+    cursor: move;
+  }
+</style>

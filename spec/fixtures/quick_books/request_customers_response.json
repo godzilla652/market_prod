@@ -1,0 +1,119 @@
+{
+  "QueryResponse": {
+    "Customer": [
+      {
+        "Taxable": true,
+        "BillAddr": {
+          "Id": "2",
+          "Line1": "dnipro",
+          "City": "dnipro"
+        },
+        "ShipAddr": {
+          "Id": "2",
+          "Line1": "dnipro",
+          "City": "dnipro"
+        },
+        "Job": false,
+        "BillWithParent": false,
+        "Balance": 0,
+        "BalanceWithJobs": 0,
+        "CurrencyRef": {
+          "value": "UAH",
+          "name": "Ukrainian Hryvnia"
+        },
+        "PreferredDeliveryMethod": "None",
+        "IsProject": false,
+        "domain": "QBO",
+        "sparse": false,
+        "Id": "2",
+        "SyncToken": "1",
+        "MetaData": {
+          "CreateTime": "2019-08-28T14:00:43-07:00",
+          "LastUpdatedTime": "2019-09-05T06:04:45-07:00"
+        },
+        "Title": "213",
+        "GivenName": "321321",
+        "MiddleName": "321321",
+        "FamilyName": "123213",
+        "FullyQualifiedName": "Astra",
+        "CompanyName": "Company",
+        "DisplayName": "Astra",
+        "PrintOnCheckName": "Astra",
+        "Active": true,
+        "PrimaryPhone": {
+          "FreeFormNumber": "321031293018"
+        },
+        "Mobile": {
+          "FreeFormNumber": "321321321"
+        },
+        "PrimaryEmailAddr": {
+          "Address": "page.aleks@gmail.com"
+        }
+      },
+      {
+        "Taxable": false,
+        "Job": true,
+        "BillWithParent": true,
+        "ParentRef": {
+          "value": "2"
+        },
+        "Level": 1,
+        "Balance": 0,
+        "BalanceWithJobs": 0,
+        "CurrencyRef": {
+          "value": "UAH",
+          "name": "Ukrainian Hryvnia"
+        },
+        "PreferredDeliveryMethod": "None",
+        "IsProject": true,
+        "domain": "QBO",
+        "sparse": false,
+        "Id": "3",
+        "SyncToken": "2",
+        "MetaData": {
+          "CreateTime": "2019-08-28T14:12:03-07:00",
+          "LastUpdatedTime": "2019-09-05T06:04:45-07:00"
+        },
+        "FullyQualifiedName": "Astra:Renovation",
+        "DisplayName": "501 - Renovation",
+        "PrintOnCheckName": "Renovation",
+        "Active": true,
+        "PrimaryEmailAddr": {
+          "Address": "page.aleks@gmail.com"
+        }
+      },
+      {
+        "Taxable": false,
+        "Job": true,
+        "BillWithParent": true,
+        "ParentRef": {
+          "value": "2"
+        },
+        "Level": 1,
+        "Balance": 0,
+        "BalanceWithJobs": 0,
+        "CurrencyRef": {
+          "value": "UAH",
+          "name": "Ukrainian Hryvnia"
+        },
+        "PreferredDeliveryMethod": "None",
+        "IsProject": true,
+        "domain": "QBO",
+        "sparse": false,
+        "Id": "5",
+        "SyncToken": "0",
+        "MetaData": {
+          "CreateTime": "2019-08-29T02:09:01-07:00",
+          "LastUpdatedTime": "2019-08-29T02:09:01-07:00"
+        },
+        "FullyQualifiedName": "Astra:test",
+        "DisplayName": "test",
+        "PrintOnCheckName": "test",
+        "Active": true
+      }
+    ],
+    "startPosition": 1,
+    "maxResults": 3
+  },
+  "time": "2019-09-05T06:06:32.444-07:00"
+}

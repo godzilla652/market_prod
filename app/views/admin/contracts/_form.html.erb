@@ -1,0 +1,775 @@
+<% if @contract.present? %>
+
+  <section class="tab-section no-padding-tab-section">
+
+    <% if action_name == "new" %>
+      <%= render 'tabs_one_contract', locale: @active = 'approved_team' %>
+    <% else %>
+      <%= render 'tabs_one_contract', locale: @active = @url_tabs %>
+    <% end %>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Tab 1 -->
+      <div class="tab-pane active" id="pendingApplicants">
+        <% unless action_name == "new" %>
+          <%= render 'header_one_contract' %>
+        <% end %>
+        <%= form_for [:admin, @contract] do |f| %>
+          <% if @contract.errors.any? %>
+            <div id="error_explanation">
+              <h2>
+                <%= "#{pluralize(@contract.errors.count, "error")} prohibited this contract from being saved:" %>
+              </h2>
+              <ul>
+                <% @contract.errors.full_messages.each do |message| %>
+                  <li>
+                    <%= message %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <div class="detail-info">
+            <% unless action_name == "new" %>
+              <% unless @contract.team? %>
+                <div class="single_table-block" id="chosen-multi-wrap">
+                  <div class="single_table-block_title-line">
+                    <h3 class="single_table-block_title">
+                      <label for="check">Current Category</label>
+                    </h3>
+                  </div>
+
+                  <div class="info-table_wrapper">
+                    <div class="info-table">
+                      <h4 class="single_table-block_subtitle">Choose category</h4>
+                      <div class="approved_info-table_block-item">
+                        <div data-placeholder="category" class="chosen-container chosen-container-multi" title="">
+
+                          <select data-placeholder="category" multiple name='contract[type_work][]' class="chosen-select">
+                            <!-- <select data-placeholder="category" multiple name='contract[type_work][]' class="multiselect-field"> -->
+                            <% Category.where(active: true).group_by(&:typec).each do |typec, cats| %>
+                              <optgroup label="<%= typec %>">
+                                <% cats.each do |cat| %>
+                                  <option
+                                    <% if ((@contract.type_work.include? cat.name) unless @contract.type_work.nil?) %>selected
+                                    <% end %> value="<%= cat.name %>"><%= cat.name %></option>
+                                <% end %> </optgroup>
+                            <% end %>
+                          </select>
+                          
+                        </div>
+                      </div>
+
+                      <div class="approved_info-table_block-item" style="padding-top: 100px;">
+                        <h4 class="single_table-block_subtitle">Choose city</h4>
+                        <div data-placeholder="category" class="chosen-container chosen-container-multi" title="">
+
+                          <select data-placeholder="city" name='contract[city][]' multiple class="chosen-select">
+                            <% Contract.cities_canada.each do |city| %>
+
+                              <option
+                                <% if ((@contract.city.include? city) unless @contract.city.nil?) %>selected
+                                <% end %> value="<%= city %>"><%= city %></option>
+
+                            <% end %>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% else %>
+              <%= f.hidden_field :team, value: true %>
+              <%= f.hidden_field :status, value: 'approved' %>
+            <% end %>
+
+
+
+
+            <div class="single_table-block">
+              <% if action_name == "new" %>
+                <div class="table__title">
+                  <h2>Add new user</h2>
+                </div>
+              <% end %>
+              <div class="single_table-block_title-line">
+                <h3 class="single_table-block_title">
+
+                  <label class="quote-checkbox-container">
+                    <%= f.check_box :check_sub, class: "quote-checkbox-field" %>
+                    <span class="checkmark"></span>
+                  </label>
+                  <label for="check" style="padding-left: 24px">Submitted by </label>
+                </h3>
+              </div>
+              <div class="info-table_wrapper">
+                <div class="info-table">
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Legal Title of Organization</h4>
+                    <%= f.text_field :legal_title, placeholder: 'Legal Title', class: 'form-control', required: true %>
+                  </div>
+                  <div class="delimiter-line"></div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Mailing Address</h4>
+                    <%= f.fields_for :mailing_address, @contract.mailing_address do |ma| %>
+
+                      <%= ma.text_field :street, placeholder: 'street', class: 'form-control' %>
+                      <%= ma.text_field :city, placeholder: 'city', class: 'form-control' %>
+                      <%= ma.text_field :province, placeholder: 'province', class: 'form-control' %>
+                      <%= ma.text_field :postal_code, placeholder: 'postal_code', class: 'form-control' %>
+                    <% end %>
+                  </div>
+                  <div class="delimiter-line"></div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Remittance Address</h4>
+                    <%= f.fields_for :remittance_address, @contract.remittance_address do |ma| %>
+                      <%= ma.text_field :street, placeholder: 'street', class: 'form-control' %>
+                      <%= ma.text_field :city, placeholder: 'city', class: 'form-control' %>
+                      <%= ma.text_field :province, placeholder: 'province', class: 'form-control' %>
+                      <%= ma.text_field :postal_code, placeholder: 'postal_code', class: 'form-control' %>
+                    <% end %>
+                  </div>
+                  <div class="delimiter-line"></div>
+
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Contact Name*</h4>
+                    <%= f.text_field :contact_name, placeholder: 'contact name', class: 'form-control', required: true %>
+                  </div>
+
+                  <div class="delimiter-line"></div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Email Address*</h4>
+                    <%= f.text_field :email, placeholder: 'email', onblur: 'checkCurrentEmailVal(this)', class: "form-control #{('emailAddress' if (action_name == 'new'))}", required: true %>
+                    <p class="error-msg">A user with this email address already exists</p>
+                    <input type="hidden" id="currentEmail" value="">
+                  </div>
+
+                  <% if action_name == "new" %>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Password*</h4>
+                      <%= f.text_field :password, placeholder: 'password', class: 'form-control', required: true %>
+                    </div>
+                  <% end %>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Phone #</h4>
+                    <%= f.text_field :telephone, placeholder: 'telephone', class: 'form-control phone-field' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">GST
+                    </h4>
+                    <%= f.text_field :gst, placeholder: 'gst', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">SIN
+                    </h4>
+                    <%= f.text_field :sin, placeholder: 'sin', class: 'form-control' %>
+                  </div>
+                  <div class="delimiter-line"></div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Questions Contact</h4>
+                    <%= f.text_field :authority_person_name, placeholder: 'contact', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Phone #</h4>
+                    <%= f.text_field :authority_person_phone, placeholder: 'phone', class: 'form-control phone-field' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <% financial = @contract.financial %>
+            <%= f.fields_for :financial, @contract.financial do |ma| %>
+              <div class="single_table-block">
+                <div class="single_table-block_title-line">
+                  <h3 class="single_table-block_title">
+                    <label class="quote-checkbox-container">
+                      <%= f.check_box :check_fin, class: "checkbox-field" %>
+                      <span class="checkmark"></span>
+                    </label>
+                    <label for="check2" style="padding-left: 24px">Financial information</label>
+                  </h3>
+                </div>
+                <div class="info-table_wrapper">
+                  <div class="info-table">
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Bank</h4>
+                      <%= ma.text_field :bank, placeholder: 'bank', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Mailing Address</h4>
+                      <%= ma.text_field :addressc, placeholder: 'address', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Phone #</h4>
+                      <%= ma.text_field :phone, placeholder: 'phone', class: 'form-control phone-field' %>
+                    </div>
+                    <div class="delimiter-line"></div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Account #</h4>
+                      <%= ma.text_field :acct, placeholder: 'account', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Routing #</h4>
+                      <%= ma.text_field :transist, placeholder: 'routing', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Institution #</h4>
+                      <%= ma.text_field :institution, placeholder: 'institution', class: 'form-control' %>
+                    </div>
+                    <div class="delimiter-line"></div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Contact</h4>
+                      <%= ma.text_field :contact, placeholder: 'contact', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Email Address</h4>
+                      <%= ma.text_field :email, placeholder: 'email', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Void Check</h4>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <% unless financial.void_check.url == '/void_check/original/missing.png' %>
+                            <a class="certification_insurance-crt view-link" target="_blank" href="<%= financial.void_check.url %>">View</a>
+                          <% else %>
+                            <a class="certification_insurance-crt">None</a>
+                          <% end %>
+                        </div>
+                        <div class="text-right">
+                          <span class="delete-current-file">delete current file</span>
+                          <%= ma.file_field :void_check, class: "inputfile" %>
+                          <label for="contract_financial_attributes_void_check" class="inputfile-label">Add new
+                            file</label>
+                          <span class="file-return text-right"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="single_table-block">
+                <div class="single_table-block_title-line">
+                  <h3 class="single_table-block_title">
+                    <label class="quote-checkbox-container">
+                      <%= f.check_box :check_sert, class: "checkbox-field" %>
+                      <span class="checkmark"></span>
+                    </label>
+                    <label for="check3" style="padding-left: 24px">Certification </label>
+                  </h3>
+                </div>
+                <div class="info-table_wrapper">
+                  <div class="info-table">
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Insurance Cert.</h4>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <% unless financial.ins_cert.url == '/ins_certs/original/missing.png' %>
+                            <a class="certification_insurance-crt view-link" target="_blank" href="<%= financial.ins_cert.url %>">View</a>
+                          <% else %>
+                            <a class="certification_insurance-crt">None</a>
+                          <% end %>
+                        </div>
+                        <div class="text-right">
+                          <span class="delete-current-file">delete current file</span>
+                          <%= ma.file_field :ins_cert, class: "inputfile" %>
+                          <label for="contract_financial_attributes_ins_cert" class="inputfile-label">Add new
+                            file</label>
+                          <span class="file-return text-right"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">WCB Cert.</h4>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <% unless financial.wcb_cert.url == '/wcb_certs/original/missing.png' %>
+                            <a class="certification_wsib-crt view-link" target="_blank" href="<%= financial.wcb_cert.url %>">View</a>
+                          <% else %>
+                            <a class="certification_insurance-crt">None</a>
+                          <% end %>
+
+                        </div>
+                        <div class="text-right">
+                          <span class="delete-current-file">delete current file</span>
+                          <%= ma.file_field :wcb_cert, class: "inputfile" %>
+                          <label for="contract_financial_attributes_wcb_cert" class="inputfile-label">Add new
+                            file</label>
+                          <span class="file-return text-right"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">WCB #</h4>
+                      <%= ma.text_field :ic_wcb, placeholder: 'wcb', class: 'form-control' %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="single_table-block">
+                <div class="single_table-block_title-line">
+                  <h3 class="single_table-block_title">
+                    <label class="quote-checkbox-container">
+                      <%= f.check_box :check_ins, class: "checkbox-field" %>
+                      <span class="checkmark"></span>
+                    </label>
+                    <label for="check4" style="padding-left: 24px">Insurance information</label>
+                  </h3>
+                </div>
+                <div class="info-table_wrapper">
+                  <div class="info-table">
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Company</h4>
+                      <%= ma.text_field :insurance_company, placeholder: 'company', class: 'form-control' %>
+                    </div>
+
+
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Address</h4>
+                      <%= ma.text_field :ic_address, placeholder: 'email', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Contact</h4>
+                      <%= ma.text_field :bc_contact, placeholder: 'contact', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Phone #</h4>
+                      <%= ma.text_field :ic_phone, placeholder: 'phone', class: 'form-control phone-field' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Email Address</h4>
+                      <%= ma.text_field :ic_email, placeholder: 'email', class: 'form-control' %>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <% business = @contract.business %>
+            <%= f.fields_for :financial, @contract.financial do |ma| %>
+              <div class="single_table-block">
+                <div class="single_table-block_title-line">
+                  <h3 class="single_table-block_title">
+                    <label class="quote-checkbox-container">
+                      <%= f.check_box :check_bond, class: "checkbox-field" %>
+                      <span class="checkmark"></span>
+                    </label>
+                    <label for="check6" style="padding-left: 24px">Bonding information</label>
+                  </h3>
+                </div>
+                <div class="info-table_wrapper">
+                  <div class="info-table">
+                    <!--      <div class="approved_info-table_block-item">
+                          <h4 class="single_table-block_subtitle">Company</h4>
+                          <%= ma.text_field :bonding_company, placeholder: 'company', class: 'form-control' %>
+                        </div> -->
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Limit</h4>
+                      <%= ma.text_field :bc_limit, placeholder: 'limit', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">General Laibility</h4>
+                      <%= ma.text_field :ic_general_laibility, placeholder: 'Limit', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Expiry</h4>
+                      <%= ma.text_field :ic_expiry, placeholder: 'expiry', class: 'form-control' %>
+                    </div>
+                    <!--     <div class="approved_info-table_block-item">
+                          <h4 class="single_table-block_subtitle">Address</h4>
+                          <%= ma.text_field :bc_address, placeholder: 'address', class: 'form-control' %>
+                        </div>
+                        <div class="delimiter-line"></div>-->
+
+                    <!--    <div class="approved_info-table_block-item">
+                          <h4 class="single_table-block_subtitle">Phone #</h4>
+                          <%= ma.text_field :bc_phone, placeholder: 'phone', class: 'form-control' %>
+                        </div>
+                        <div class="approved_info-table_block-item">
+                          <h4 class="single_table-block_subtitle">Email Address</h4>
+                          <%= ma.text_field :bc_email, placeholder: 'email', class: 'form-control' %>
+                        </div>-->
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <%= f.fields_for :business, @contract.business do |ma| %>
+              <%= ma.hidden_field :id %>
+              <div class="single_table-block">
+                <div class="single_table-block_title-line">
+                  <h3 class="single_table-block_title">
+                    <label class="quote-checkbox-container">
+                      <%= f.check_box :check_bond, class: "checkbox-field" %>
+                      <span class="checkmark"></span>
+                    </label>
+                    <label for="check5" style="padding-left: 24px">Business information</label>
+                  </h3>
+                </div>
+                <div class="info-table_wrapper">
+                  <div class="info-table">
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Business Type</h4>
+                      <%= ma.text_field :type_one, placeholder: 'type', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Date of Corporation</h4>
+                      <% case business.type_one %>
+                      <% when "Corporation" %>
+                        <%= ma.date_field :date_corporation %>
+                      <% when "Partnership" %>
+                        <%= ma.date_field :date_corporation_p %>
+                      <% end %>
+                    </div>
+                    <% if business.type_one == "Corporation" %>
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Number of Employees</h4>
+                        <%= ma.text_field :number_employees, placeholder: 'number of employees', class: 'form-control' %>
+                      </div>
+                    <% end %>
+                    <div class="delimiter-line"></div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Name &amp; Title of Principal Officer</h4>
+                      <input placeholder="name" class="form-control" type="text" value="" name="contract[business_attributes][name]" id="contract_business_attributes_name">
+                    </div>
+                    <% case business.type_one %>
+                    <% when "Corporation" %>
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Name &amp; Title of Principal Officer</h4>
+                        <%= ma.text_field :name, placeholder: 'name', class: 'form-control' %>
+                      </div>
+                    <% when "Partnership" %>
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Name of Partnership</h4>
+
+                        <%= ma.text_field :name_p, placeholder: 'name', class: 'form-control' %></div>
+                    <% when "SoleProprietor" %>
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Owner’s Full Name</h4>
+
+                        <%= ma.text_field :name_sp, placeholder: 'name', class: 'form-control' %></div>
+                    <% end %>
+                    <% if business.type_one == "Corporation" %>
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Union Affiliated</h4>
+                        <%= ma.text_field :union_text, placeholder: 'union', class: 'form-control' %>
+                      </div>
+                    <% end %>
+                    <% if business.type_one == "SoleProprietor" %>
+
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Mailing Address</h4>
+                        <%= ma.fields_for :addressc do |maw| %>
+                          <%= maw.hidden_field :id %>
+                          <%= maw.text_field :street, placeholder: 'street', class: 'form-control' %>
+                          <%= maw.text_field :city, placeholder: 'city', class: 'form-control' %>
+                          <%= maw.text_field :province, placeholder: 'province', class: 'form-control' %>
+                          <%= maw.text_field :postal_code, placeholder: 'postal_code', class: 'form-control' %>
+                        <% end %>
+                      </div>
+                    <% end %>
+                    <% if business.type_one == "Partnership" %>
+                      <% business.business_partners.each do |partner| %>
+
+                        <%= ma.fields_for :business_partners, partner do |bp| %>
+                          <%= bp.hidden_field :id %>
+                          <div class="approved_info-table_block-item">
+                            <h4 class="single_table-block_subtitle">Name of Partner</h4>
+                            <%= bp.text_field :name, placeholder: 'name', class: 'form-control' %>
+                          </div>
+                          <div class="approved_info-table_block-item">
+                            <h4 class="single_table-block_subtitle">Mailing Address</h4>
+                            <%= bp.fields_for :addressc do |maw| %>
+                              <%= maw.hidden_field :id %>
+                              <%= maw.text_field :street, placeholder: 'street', class: 'form-control' %>
+                              <%= maw.text_field :city, placeholder: 'city', class: 'form-control' %>
+                              <%= maw.text_field :province, placeholder: 'province', class: 'form-control' %>
+                              <%= maw.text_field :postal_code, placeholder: 'postal_code', class: 'form-control' %>
+                            <% end %>
+                          </div>
+
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="single_table-block">
+              <div class="single_table-block_title-line">
+                <h3 class="single_table-block_title">
+                  <label class="quote-checkbox-container">
+                    <%= f.check_box :check_cont, class: "checkbox-field" %>
+                    <span class="checkmark"></span>
+                  </label>
+                  <label for="check7" style="padding-left: 24px">Contact information</label>
+                </h3>
+              </div>
+              <div class="info-table_wrapper">
+                <div class="info-table">
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Billing Requests</h4>
+                    <%= f.text_field :bil_req_name, placeholder: 'billing requests', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Email Address</h4>
+                    <%= f.text_field :bil_req_email, placeholder: 'email', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">After Hours Contact</h4>
+                    <%= f.text_field :bil_req_phone, placeholder: 'phone', class: 'form-control phone-field' %>
+                  </div>
+                  <div class="delimiter-line"></div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Service Requests</h4>
+                    <%= f.text_field :serv_req_name, placeholder: 'name', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Email Address</h4>
+                    <%= f.text_field :serv_req_email, placeholder: 'email', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">After Hours Contact</h4>
+                    <%= f.text_field :serv_req_phone, placeholder: 'phone', class: 'form-control phone-field' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%= f.fields_for :financial, @contract.financial do |ma| %>
+              <div class="single_table-block">
+                <div class="single_table-block_title-line">
+                  <h3 class="single_table-block_title">
+                    <label class="quote-checkbox-container">
+                      <%= f.check_box :check_work, class: "checkbox-field" %>
+                      <span class="checkmark"></span>
+                    </label>
+                    <label for="check8" style="padding-left: 24px">Desired work</label>
+                  </h3>
+                </div>
+                <div class="info-table_wrapper">
+                  <div class="info-table">
+                    <% n = 0 %>
+
+                    <%= ma.fields_for :trades do |t| %>
+
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Category <%= n += 1 %></h4>
+                        <%= t.text_field :name, placeholder: 'name', class: 'form-control' %>
+                      </div>
+                      <div class="approved_info-table_block-item">
+                        <h4 class="single_table-block_subtitle">Value Range</h4>
+                        <%= t.text_field :range, placeholder: 'range', class: 'form-control' %>
+                      </div>
+
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <% n = 0 %>
+            <%= f.fields_for :projects, @contract.projects do |ma| %>
+              <div class="single_table-block">
+                <div class="single_table-block_title-line">
+                  <h3 class="single_table-block_title">
+                    <label class="quote-checkbox-container">
+                      <%= ma.check_box :check_past, class: "checkbox-field" %>
+                      <span class="checkmark"></span>
+                    </label>
+                    <label for="check9" style="padding-left: 24px">Past experience #<%= n += 1 %></label>
+                  </h3>
+                </div>
+                <div class="info-table_wrapper">
+                  <div class="info-table">
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Project Description</h4>
+                      <%= ma.text_field :description, placeholder: 'description', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Year of Completion</h4>
+                      <%= ma.text_field :year_completion, placeholder: 'year completion', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Project Value</h4>
+                      <%= ma.text_field :value, placeholder: 'value', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Project Address</h4>
+                      <%= ma.fields_for :project_address do |m| %>
+
+                        <%= m.text_field :street, placeholder: 'street', class: 'form-control' %>
+                        <%= m.text_field :city, placeholder: 'city', class: 'form-control' %>
+                        <%= m.text_field :province, placeholder: 'province', class: 'form-control' %>
+                        <%= m.text_field :postal_code, placeholder: 'postal_code', class: 'form-control' %>
+                      <% end %>
+                    </div>
+                    <div class="delimiter-line"></div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Owner</h4>
+                      <%= ma.text_field :owner_name, placeholder: 'owner', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Email</h4>
+                      <%= ma.text_field :email_one, placeholder: 'email', class: 'form-control' %>
+                    </div>
+                    <div class="approved_info-table_block-item">
+                      <h4 class="single_table-block_subtitle">Phone #</h4>
+                      <%= ma.text_field :phone_one, placeholder: 'phone', class: 'form-control phone-field' %>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <div class="single_table-block">
+              <div class="single_table-block_title-line">
+                <h3 class="single_table-block_title">
+                  <label class="quote-checkbox-container">
+                    <input type="checkbox" class="checkbox-field">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label for="check10" style="padding-left: 24px">Contractor acknowledgment</label>
+                </h3>
+              </div>
+              <div class="info-table_wrapper">
+                <div class="info-table">
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Full Name</h4>
+                    <%= f.text_field :full_name, placeholder: 'Full Nam', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Title</h4>
+                    <%= f.text_field :title, placeholder: 'title', class: 'form-control' %>
+                  </div>
+                  <div class="approved_info-table_block-item">
+                    <h4 class="single_table-block_subtitle">Date Submitted</h4>
+                    <%= f.text_field :date_submitted, placeholder: 'phone', class: 'form-control', 'data-provide' => "datepicker" %>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="fixed-footer">
+
+              <% if action_name == "new" %>
+                <%= f.submit 'Create new user', class: "btn btn-primary-rectangle" %>
+              <% else %>
+                <%= f.submit 'Save', class: "btn btn-primary-rectangle" %>
+                <a class="btn btn-default" href="<%= admin_contract_url(@contract) %>">CANCEL</a>
+              <% end %>
+            </div>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </section>
+  <style>
+    .fixed-footer {
+      position: fixed;
+      bottom: 30px;
+      right: 50px;
+    }
+
+    .fixed-footer .btn {
+      display: block;
+    }
+
+    .fixed-footer .btn-default {
+      padding: 12px 44px;
+      margin-top: 20px;
+    }
+
+    .no-padding-tab-section {
+      padding-top: 0 !important;
+    }
+
+    .error-msg {
+      display: none;
+      color: #E60000;
+    }
+    .chosen-container-multi .chosen-choices li.search-choice .search-choice-close:hover {
+      background: transparent;
+    }
+    .chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
+      background-image: none !important;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.multiselect-field').multiselect();
+    });
+    $(document).ready(function() {
+      let currentEmail = $('#contract_email').val();
+      $('#currentEmail').val(currentEmail)
+      console.log(currentEmail);
+    });
+    function checkCurrentEmailVal() {
+
+      $.getJSON("https://jsonp.afeld.me/?callback=?&url=https://astra.it-town.org/email.json", {}, function(data){
+          
+      var users = data.users;
+
+      $('.error-msg').hide()
+      $('#contract_email').removeClass('error-field');
+      var emailForCkeck = $('#contract_email').val().toLowerCase();
+
+      function checkValue(value, email){
+        var status = false;
+        for(var i = 0; i < users.length; i++){
+          var userEmail = users[i].email;
+          var curEmail = $('#currentEmail').val();
+          if(userEmail === value && userEmail != curEmail){
+            status = true;
+            $('.error-msg').show();
+            $('.error-msg').text('A user with email address '+ userEmail +' already exists')
+            $('#contract_email').addClass('error-field');
+            $('#contract_email').val("")
+
+            break;
+          }
+        }
+
+        return status;
+        $('.error-msg').hide()
+      }
+
+      checkValue(emailForCkeck, users.email);
+
+      }); //getJSON
+
+      };
+
+      $('.edit_contract').submit(function(event){
+        checkCurrentEmailVal();
+      })
+
+
+
+    function checkTax(){
+      if($('#gst-checked').is(':checked')){
+          $('#contract_gst').mask('99999 9999 RT 0001')
+      }
+      else if($('#sin-checked').is(':checked')){
+          $('#contract_gst').mask('999-999-999')
+      }
+    }
+    $(document).ready(function(){
+      checkTax();
+    })
+    $('.tax-checker').change(function(){
+      checkTax();
+    })
+
+
+    
+  </script>
+
+  <%= render 'one_contract' %>
+<% end %>

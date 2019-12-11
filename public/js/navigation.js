@@ -1,0 +1,3 @@
+$('.loadmore').click(function(){loadmore=$(this);page=loadmore.attr('data-page');side=loadmore.attr('side');$.post('php/loadmore.php',{page:page,side:side},function(data){data_posts=JSON.parse(data);$('.loadhere').append(data_posts.posts);if(page<data_posts.pages){loadmore.attr('data-page',page+1)}else{loadmore.hide()}
+pluso.start()})});function goBack(){window.history.back()}
+var w=window.innerWidth;if(w>2100){$('.container-fluid').removeClass('container-fluid').addClass('container');/*$('.parentscrollside').css('width','18.3%');*/}

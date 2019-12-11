@@ -1,0 +1,62 @@
+<h2 class="text-right">
+  Total: <%= @tasks_no_pagerer.map(&:total_invoice).inject(&:+)&.round(2) || 0.0 %>
+</h2>
+
+<form action="/admin/tasks/invoices/download" method="get">
+  <input hidden name="files" value="true">
+
+  <div style="height: 32px">
+    <button class="btn-primary download-select-btn">Download selected</button>
+  </div>
+
+  <table class="quote-item-section__table" style="table-layout: fixed;">
+    <thead>
+      <tr>
+        <th width="32px"></th>
+        <th width="80px"><%= sort_link(@q, :id, '#') %></th>
+        <th width="10%"><%= sort_link(@q, :title, 'Title') %></th>
+        <th width="22%"><%= sort_link(@q, :concierge_contract_legal_title, 'Contractor') %></th>
+        <th width="11%"><%= sort_link(@q, :project_tasks_name, 'Project') %></th>
+        <th width="8%"><%= sort_link(@q, :budget, 'Budget') %></th>
+        <th width="10%">GST or HST TAX</th>
+        <th width="8%">Sales tax's</th>
+        <th width="10%"> <%= sort_link(@q, :fact_end, 'Date') %></th>
+        <!-- <th>
+          <% if archive %>
+            Status
+          <% end %>
+        </th> -->
+        <th width="186px" class="quotes-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @tasks.each do |entity| %>
+        <%= render 'task_row', entity: entity %>
+      <% end %>
+    </tbody>
+  </table>
+</form>
+
+<section class="pagination">
+  <div class="page-item__amount">Showing <span><%= @tasks.count %></span> of <span><%= @tasks_no_pagerer.count %></span>
+    entries
+  </div>
+  <div class="delimiter"></div>
+  <%= paginate @tasks, theme: 'bootstrap' %>
+</section>
+
+<div id="modals-container"></div>
+
+<script>
+  $(document).ready(function () {
+      $('.download-select-btn').hide()
+  })
+  $('input[type=checkbox]').change(function () {
+      if ($('input[type=checkbox]').is(':checked')) {
+          $('.download-select-btn').show()
+      } else {
+          $('.download-select-btn').hide()
+      }
+  })
+</script>

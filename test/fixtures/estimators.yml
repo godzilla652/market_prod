@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  city: MyString
+  address: MyString
+  sqft: 1
+  stair: 1
+  door: 1
+  closet_door: 1
+  light: 1
+  receptacle: 1
+  new_kitch: false
+  paint_new_kitch: false
+  surround: false
+  vanity: false
+  toilet: false
+  accessory: false
+  cleanfinal: false
+  name: MyString
+  phone: MyString
+  email: MyString
+  comment: 
+
+two:
+  city: MyString
+  address: MyString
+  sqft: 1
+  stair: 1
+  door: 1
+  closet_door: 1
+  light: 1
+  receptacle: 1
+  new_kitch: false
+  paint_new_kitch: false
+  surround: false
+  vanity: false
+  toilet: false
+  accessory: false
+  cleanfinal: false
+  name: MyString
+  phone: MyString
+  email: MyString
+  comment: 

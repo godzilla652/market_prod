@@ -1,0 +1,11 @@
+<div class="modal fade" id="editproject<%= project_task.id %>" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Edit Project</h2>
+      <%= render 'form', locale: @project = project_task %>
+    </div>
+  </div>
+</div>

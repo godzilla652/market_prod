@@ -1,0 +1,116 @@
+<section class="content-section">
+  <div class="row">
+    <div class="col-md-6">
+      <div style="font-size: 24px;margin: 0 0 8px 0;">#<%= @project_task.number %></div>
+      </br>
+      <div class="page__title d-flex align-items-center"><h1 class="mr-3"><%= @project_task.name %></h1>
+        <span class="status-active"><%= @project_task.active ? 'ACTIVE' : 'INACTIVE' %></span></div>
+      <div class="page__subtitle"><%= @project_task.type_pt %></div>
+      <div class="task-detail">
+        <div class="task-detail__title">Address:</div>
+        <div class="task-detail__content"><%= @project_task.address %></div>
+      </div>
+      <div class="task-detail">
+        <div class="task-detail__title">About:</div>
+        <div class="task-detail__content"> <%= @project_task.description %></div>
+      </div>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <%= link_to 'Edit', '', class: "btn-outline mr-4", data: {toggle: "modal", target: "#addproject"} if policy(Project).edit? %>
+      <% if @project_task.active? and policy(Task).create? %>
+        <a href="<%= new_admin_task_path(project: @project_task.id) %>">
+          <button class="btn-primary"><i class="add-project-btn__icon"></i><span>Add new task</span></button>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<% if policy(Task).index? %>
+  <section class="tab-section">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="project-item" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="projectTasks-tab" data-toggle="tab" href="#projectTasks" role="tab" aria-controls="projectTasks" aria-selected="true">Project
+          tasks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="ganttChart-tab" data-toggle="tab" href="#ganttChart" role="tab" aria-controls="ganttChart" aria-selected="false">Gantt
+          Chart</a>
+      </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <%= render 'tasks_tab' %>
+      <!-- Tab 2 -->
+      <div class="tab-pane" id="ganttChart" role="tabpanel" aria-labelledby="ganttChart-tab">
+        <div class="gantt-container ">
+          <div class="scale">
+            <select>
+              <option value="days">Days</option>
+              <option value="weeks">Weeks</option>
+              <option value="months">Months</option>
+            </select>
+          </div>
+          <div class="gantt"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<div class="modal fade" id="addproject" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Edit Project</h2>
+      <%= render 'form', locale: @project = @project_task %>
+    </div>
+  </div>
+</div>
+
+<link href="/assets/gantt/css/style.css" type="text/css" rel="stylesheet">
+<link href="/assets/gantt/css/custom.css" type="text/css" rel="stylesheet">
+
+<% content_for :task_js do %>
+
+  <script src="/assets/gantt/js/scrollbooster.min.js"></script>
+  <script src="/assets/gantt/js/jquery.fn.gantt.js"></script>
+  <script>
+      $(function () {
+          $("#ganttChart-tab").on("click", function () {
+              $('.gantt').gantt({
+                  source: <%= @gantt_data.html_safe -%>,
+                  scale: 'days',
+                  minScale: 'days',
+                  maxScale: 'months',
+                  navigate: 'scroll',
+                  itemsPerPage: 20,
+                  scrollToToday: true,
+                  dow: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                  taskBarHeight: 10,
+                  onItemClick: function (data) {
+                      return;
+                  },
+                  onAddClick: function (dt, rowId) {
+                      return;
+                  },
+                  onRender: function () {
+                      // Adding additional classes
+                      $('.custom_days .row.date').parent().addClass('custom_DScale_dates');
+                      $('.custom_days .row.day').parent().addClass('custom_DScale_days');
+                      // Reappending pseudo grid to elements
+                      $('.row.day').find('.custom_grid').remove();
+                      $('.row.day').append('<div class="custom_grid"></div>');
+                      // Fixing Borders
+                      jQuery('.row.year:last, .row.day:last, .row.month:last, .row.date:last').css({'border-right': 'none'});
+                  }
+              });
+          });
+      });
+  </script>
+
+<% end %>

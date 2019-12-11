@@ -1,0 +1,52 @@
+<div class="page__header">
+
+  <div class="page__title">
+    <%= render 'tabs' %>
+  </div>
+  <div class="delimiter"></div>
+
+  <div class="d-flex align-items-center">
+    <%= search_form_for @q, url: request.path do |f| %>
+      <div class="form-inline">
+
+        <div class="form-group mx-sm-2 contractors-search">
+          <div data-placeholder="category" class="chosen-container wide chosen-container-multi" title="">
+            <%= f.select :concierge_id_eq, options_from_collection_for_select(User.with_role(:concierge), 'id', 'legal_title', params.dig(:q, :concierge_id_eq)), { include_blank: 'All Contractors' }, { class: 'chosen-select' } %>
+          </div>
+        </div>
+
+        <div class="form-group mx-sm-2">
+          <input autocomplete="off" id="datepicker-1" data-provide="datepicker" value='<%= params[:q][:fact_end_gteq] if params[:q].present? %>'
+                 data-date-format="yyyy-mm-dd" class="form-control req-field check-field date-field" type="text" name="q[fact_end_gteq]" style="width: 135px;">
+        </div>
+        <div class="form-group mx-sm-2">
+          <input autocomplete="off" id="datepicker-1" data-provide="datepicker" value='<%= params[:q][:fact_end_lteq] if params[:q].present? %>'
+                 data-date-format="yyyy-mm-dd" class="form-control req-field check-field date-field" type="text" name="q[fact_end_lteq]" style="width: 135px;">
+
+        </div>
+        <div class="form-group mx-sm-2">
+          <%= f.submit 'Search', class: "btn btn-outline-tr" %>
+        </div>
+        <div class="form-group mx-sm-2">
+          <%= link_to 'Clear', request.path, class: "btn-outline-red", style: "margin-left: 0" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-inline ml-sm-2">
+      <%= link_to 'Download all', download_admin_invoices_path(q: { fact_end_lteq: params.dig(:q, :fact_end_lteq), fact_end_gteq: params.dig(:q, :fact_end_gteq), invoice_state_eq: (archive ? 'paid' : 'not_paid') }), class: 'btn-primary' %>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .contractors-search {
+    width: 400px;
+  }
+
+  @media screen and (max-width: 1400px) {
+    .contractors-search {
+      width: 200px;
+    }
+  }
+</style>

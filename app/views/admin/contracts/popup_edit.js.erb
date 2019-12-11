@@ -1,0 +1,39 @@
+$('#addNewUser').html("<%= j render 'admin/contracts/popups/new_user_popup' %>");
+$('#addNewUser').modal('show');
+
+
+$(document).ready(function(){
+  $('.phone-field').mask('(999) 999-9999');
+  /*****************img 1******************/
+  function readFleetURL1(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            console.log(e.target.result)
+            $('#fleet-thumbnail-wrap1').show()
+              $('#fleet-thumbnail1').attr('src', e.target.result);
+              $('#fleet-gallery1').attr('href', e.target.result);
+              $('#fleet-reset1').show();
+              $('#fleet-thumbnail1').addClass('insert-img');
+              $('#fleet_delete_photo1').prop('checked', false);
+          }
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+  $('#fleet-reset1').click(function(){
+    $('#fleet_photo1').value = "";
+    $('#fleet-thumbnail-wrap1').hide();
+    $('#fleet-thumbnail1').attr('src', '');
+      $('#fleet-gallery1').attr('href', '');
+      $('#fleet-reset1').hide();
+      $('#fleet-thumbnail1').removeClass('insert-img');
+      $('#fleet_delete_photo1').prop('checked', false);
+  })
+  $("#fleet_photo1").change(function(){
+      readFleetURL1(this);
+  });
+
+
+  })
+

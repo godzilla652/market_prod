@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @work_zone.name
+%p
+  %b Spot one:
+  = @work_zone.spot_one
+%p
+  %b Spot two:
+  = @work_zone.spot_two
+%p
+  %b Spot three:
+  = @work_zone.spot_three
+%p
+  %b Spot four:
+  = @work_zone.spot_four
+
+= link_to 'Edit', edit_work_zone_path(@work_zone)
+\|
+= link_to 'Back', work_zones_path

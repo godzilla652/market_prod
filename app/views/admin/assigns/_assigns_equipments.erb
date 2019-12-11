@@ -1,0 +1,120 @@
+  <div class="modal-top d-flex align-items-center">
+    <div class="modal-col-left">
+      <h5>List of available equipments</h5>
+    </div>
+    <div class="modal-col-right">
+      <div class="current-role-user d-flex align-items-center">
+        <div class="current-role-user__name"><% @contract.contact_name %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-main d-flex">
+    <div class="modal-col-left">
+      <div class="available-item-search">
+        <input placeholder="search" class="search-field" type="search" name="" id="">
+        <input type="submit" name="" value="" class="search-submit">
+      </div>
+
+      <div class="available-box__title">
+        <div class="available-box__row">
+          <div class="available-box__col equipments-box__col-1"></div>
+          <div class="available-box__col equipments-box__col-2">Name</div>
+          <div class="available-box__col equipments-box__col-3">Assigned</div>
+          <div class="available-box__col equipments-box__col-4">Available</div>
+          <div class="available-box__col equipments-box__col-5"></div>
+          <div class="available-box__col equipments-box__col-6"></div>
+        </div>
+      </div>
+      <div class="available-box equipments-box" id="available-box-all">
+        <% @available.each do |equipment| %>
+            <div class="available-box__item">
+              <%= form_with url: "/admin/assigns/#{@contract.id}/assign_item" do |f| %>
+              <div class="available-box__row">
+                <div class="available-box__col equipments-box__col-1"><img src="<%= url_for(equipment.main_image) if equipment.main_image.attached? %>"></div>
+                <div class="available-box__col equipments-box__col-2"><%= equipment.name %></div>
+                <div class="available-box__col equipments-box__col-3"><%= equipment.assigned %></div>
+                <div class="available-box__col equipments-box__col-4"><%= equipment.available %></div>
+                <div class="available-box__col equipments-box__col-5"></div>
+                <div class="available-box__col equipments-box__col-6">
+                  <%= f.hidden_field :assignable_id, :value => equipment.id %>
+                  <%= f.hidden_field :assignable_type, :value => equipment.class.name %>
+                  <div class="available-qty">
+                    <%= f.number_field :assign_count, max: equipment.available, min: 1, class: "available-qty__count", step: '1' %>
+                  </div>
+                  <%= f.submit 'Add', :class => "add_equipment" %>
+                </div>
+              </div>
+              <% end %>
+            </div>
+
+        <% end %>
+        <% @added.each do |equipment| %>
+          <div class="available-box__item added-item">
+            <div class="available-box__row">
+              <div class="available-box__col equipments-box__col-1"><img src="<%= url_for(equipment.main_image) if equipment.main_image.attached? %>"></div>
+              <div class="available-box__col equipments-box__col-2"><%= equipment.name %></div>
+              <div class="available-box__col equipments-box__col-3"><%= equipment.assigned %></div>
+              <div class="available-box__col equipments-box__col-4"><%= equipment.available %></div>
+              <div class="available-box__col equipments-box__col-5"></div>
+              <div class="available-box__col equipments-box__col-6">Added</div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="modal-col-right">
+      <div class="available-item-search">
+        <input placeholder="search" class="search-field" type="search" name="" id="">
+        <input type="submit" name="" value="" class="search-submit">
+      </div>
+
+      <div class="available-box__title">
+        <div class="available-box__row">
+          <div class="available-box__col equipments-box__col-1"></div>
+          <div class="available-box__col equipments-box__col-2">Name</div>
+          <div class="available-box__col equipments-box__col-3">Current assigned</div>
+          <div class="available-box__col equipments-box__col-4">Assigned</div>
+          <div class="available-box__col equipments-box__col-5">Available</div>
+          <div class="available-box__col equipments-box__col-6"></div>
+        </div>
+      </div>
+      <div class="available-box equipments-box" id="available-box-count">
+        <% @contract.equipments.each do |equipment| %>
+          <% assignable = equipment.assigns.select { |a| a.contract_id == @contract.id }.first %>
+          <%= form_with url: "/admin/assigns/#{assignable.id}", method: :put do |f| %>
+            <div class="available-box__item">
+              <div class="available-box__row">
+                <div class="available-box__col equipments-box__col-1"><img src="<%= url_for(equipment.main_image) if equipment.main_image.attached? %>"></div>
+                <div class="available-box__col equipments-box__col-2"><%= equipment.name %></div>
+                <div class="available-box__col equipments-box__col-3"><%= assignable.assign_count %></div>
+                <div class="available-box__col equipments-box__col-4"><%= equipment.assigned %></div>
+                <div class="available-box__col equipments-box__col-5"><%= equipment.available %></div>
+                <div class="available-box__col equipments-box__col-6">
+                  <div class="available-qty">
+                    <%= f.number_field :assign_count, max: equipment.available, class: "available-qty__count", step: '1' %>
+                    <%= f.submit 'Change', :class => "add_equipment" %>
+                  </div>
+                  <div class="available-del">
+                    <%= link_to "×", "/admin/assigns/#{@contract.id}?" +
+                      { assign_id: equipment.assigns.select { |a| a.contract_id == @contract.id } }.to_param, method: :delete %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<!--  <div class="modal-bottom d-flex align-items-center justify-content-between">-->
+<!--    <select class="form-control modal-select">-->
+<!--      <option value="Equipment">Equipment</option>-->
+<!--      <option value="Vehicle">Vehicle</option>-->
+<!--    </select>-->
+<!--    <div class="d-flex justify-content-end">-->
+<!--      <div class="btn btn-noborder-cancel" data-dismiss="modal" aria-label="Cancel">Cancel</div>-->
+<!--      <input type="submit" name="commit" value="Save" class="btn btn-noborder-ok item-save" data-disable-with="Save">-->
+<!--    </div>-->
+<!--  </div>-->

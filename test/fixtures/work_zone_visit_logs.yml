@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  work_zone: one
+  time_from: 2019-09-07 22:24:31
+  time_to: 2019-09-07 22:24:31
+
+two:
+  user: two
+  work_zone: two
+  time_from: 2019-09-07 22:24:31
+  time_to: 2019-09-07 22:24:31

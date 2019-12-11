@@ -1,0 +1,21 @@
+
+<li class="accordion-list accordion-list__content <%= 'accordion-list__has-child' if @field.group? %>" id="<%= @field.id %>">
+  <%= render 'field_table', locale: @field %>
+  <ul class="accordion-level-2">
+    <% @field.field_estimators.each do |child| %>
+      <li class="accordion-list__content <%= 'accordion-list__has-sub-child' if child.group? %>" id="<%= child.id %>">
+        <%= render 'field_table', locale: @field = child %>
+        <ul class="accordion-level-3">
+
+          <% child.field_estimators.each do |child| %>
+            <li class="accordion-list__content">
+
+              <%= render 'field_table', locale: @field = child %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+
+</li>

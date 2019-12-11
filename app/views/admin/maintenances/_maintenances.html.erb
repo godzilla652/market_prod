@@ -1,0 +1,112 @@
+<% @maintenances.is_progress.each do |obj| %>
+  <div class="maintenance-box">
+    <div class="maintenance-row" id="<%= obj.id %>">
+      <div class="maintenance-cell maintenance-cell-1">
+        <label class="quote-checkbox-container">
+          <input class="check-field quote-checkbox-field" type="checkbox" name="">
+          <span class="checkmark"></span>
+          <%= hidden_field :maintenance, :id, :value => obj.id, class: "get-m-id"  %>
+<!--          <p class="get-m-date" type="hidden"><%#= obj.id %></p>-->
+        </label>
+      </div>
+      <div class="maintenance-cell maintenance-cell-2">
+        <div class="slide-preview__item">
+          <span class="slide-preview__item-title">Type</span>
+          <p class="get-m-type"><%= obj.title %></p>
+        </div>
+      </div>
+      <div class="maintenance-cell maintenance-cell-3">
+        <div class="slide-preview__item">
+          <span class="slide-preview__item-title">Date Due</span>
+          <p class="get-m-date"><%= obj.date %></p>
+        </div>
+      </div>
+      <div class="maintenance-cell maintenance-cell-4">
+        <div class="slide-preview__item">
+          <span class="slide-preview__item-title">Assigned To</span>
+          <p class="get-m-assigned"><%= obj.contractor_name %></p>
+        </div>
+      </div>
+      <div class="maintenance-cell maintenance-cell-5">
+        <%= link_to "x", "/admin/maintenances/#{obj.id}", method: :delete, id: obj.id, class: "maintenance-del", remote: true %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="maintenance-btn d-flex justify-content-between align-items-center">
+  <a href="#" class="add-link" data-toggle="modal" data-target="#scheduleMaintenance<%= @vehicle.id %>">Schedule Maintenance</a>
+  <input type="submit" name="commit" value="Save" id="maintenance-save" class="btn btn-primary-small" data-disable-with="Save" style="display: none;">
+</div>
+
+
+<script>
+
+  $(document).ready(function(){
+    $('.maintenance-row .quote-checkbox-field').change(function(){
+      if($(this).is(':checked')){
+        $('#maintenance-save').show();
+        $(this).closest('.maintenance-row').addClass('selected')
+      }
+      else{
+        $('#maintenance-save').hide();
+        $(this).closest('.maintenance-row').removeClass('selected')
+      }
+    });
+
+    $('.maintenance-del').on('click', function(e){
+      let id = $(this).attr('id');
+      $("#"+id+".maintenance-row").remove();
+    });
+
+    $('.maintenance-row .quote-checkbox-field').change(function(){
+      if($('.maintenance-row .quote-checkbox-field:checked').length > 0){
+        $('#maintenance-save').show()
+      }
+      else{
+        $('#maintenance-save').hide();
+      }
+    });
+
+    $('#maintenance-save').click(function(){
+      let selectedItem = $('.maintenance-row.selected');
+
+      $(selectedItem).each(function(){
+        let selectedItemType = $(this).find('.get-m-type').text();
+        let selectedItemDate = $(this).find('.get-m-date').text();
+        let selectedItemName = $(this).find('.get-m-assigned').text();
+        let selectedItemId = $(this).find('.get-m-id').val();
+        console.log('id', selectedItemId);
+
+        $.ajax({
+          url: `/admin/maintenances/${selectedItemId}`,
+          type: 'PUT',
+          data: { maintenance: { done: true } },
+          success: function(data){
+          console.log(data);
+            let block = '<tr>'+
+              '<td>'+ selectedItemType +'</td>'+
+              '<td>'+ selectedItemDate +'</td>'+
+              '<td>'+ selectedItemName + '</td>'+
+              '</tr>';
+            $('#maintenance-history tbody').append(block);
+            selectedItem.remove()
+          }
+        })
+      })
+      $(this).hide();
+    });
+
+    $('.check-field-val').change(function(){
+      $('.check-field-val').each(function(){
+        if (!$(this).val()) {
+          $('#schedule-maintenance-save').prop('disabled', true);
+          return false;
+        } else {
+          $('#schedule-maintenance-save').prop('disabled', false);
+        }
+      })
+    })
+  });
+</script>
+
+

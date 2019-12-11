@@ -1,0 +1,85 @@
+<!--- Delete Modal ---->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Confirm Delete</h2>
+      <div class="modal-body text-center">
+        <p>Are you sure you want to delete this contract?</p>
+        <p class="tmp-id"></p>
+      </div>
+      <div class="modal-footer">
+
+        <%= link_to '<button type="button" class="btn form-submit-btn btn-confirm-delete">YES</button>'.html_safe, [:admin, @contract], :method => :delete %>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--- Decline Modal ---->
+<div class="modal fade" id="confirm-decline" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Are you sure that you want to decline?</h2>
+      <form action="/admin/new_change_status/<%= @contract.id %>" method="get">
+        <%= hidden_field_tag 'status', 'archive' %>
+        <%= hidden_field_tag 'url', "/admin/contracts/#{@contract.id}" %>
+        <div class="form-group">
+          <label class="control-label">Cause:</label>
+          <textarea type="textarea" class="form-control" name="cause" rows="5" cols="30" required="required"></textarea>
+        </div>
+        <div class="form-group text-center">
+          <input type="submit" value="Submit" class="btn btn-primary-rectangle">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--- Send Message ---->
+<div class="modal fade" id="send-message" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Write your message</h2>
+      <form action="/admin/contracts/<%= @contract.id %>" method="get">
+        <div class="form-group">
+          <label class="control-label">Message</label>
+          <textarea type="textarea" class="form-control" name="cause" rows="5" cols="30" required="required"></textarea>
+        </div>
+        <div class="form-group text-center">
+          <input type="submit" value="Submit" class="btn btn-primary-rectangle">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<% if params[:success].present? %>
+
+  <div class="modal fade show" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="false" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <a href="/admin/contracts/<%= @contract.id %>">
+          <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </a>
+        <h2 class="modal-title text-center">Successfully</h2>
+        <div class="modal-body text-center">
+          <p>Action completed successfully!</p>
+          <p class="tmp-id"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+<% end %>

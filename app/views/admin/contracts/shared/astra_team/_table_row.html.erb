@@ -1,0 +1,44 @@
+<div class="user-table__row" data-href="/admin/contracts/<%= contract.id %>.js" data-id="<%= contract.id %>">
+  <div class="user-table__cell user-table__20"><%= contract.contact_name %></div>
+  <div class="user-table__cell user-table__16"><%= contract.telephone %></div>
+  <div class="user-table__cell user-table__22"><%= contract.email %></div>
+  <div class="user-table__cell user-table__14">
+    <% if contract.user %>
+      <%= link_to_if (current_user.id != contract.user.id && policy(:AstraTeam).update?), contract.user.role&.name || 'Unassigned', admin_user_edit_role_path(contract.user), remote: true, class: "#{'highlight' if !contract.user.role} user-action" %>
+    <% end %>
+  </div>
+  <!-- <div class="user-table__cell user-table__10"><%= contract.tasks.active.count %></div> -->
+  <div class="user-table__cell user-table__9">#112
+    <%= link_to 'Assign', "/admin/assigns/#{contract.id}.js?" + { :assignable_type => 'Vehicle' }.to_param,
+          { :remote => true, "data-toggle" => "modal", 'data-target' => "#show-available-vehicles" } %></div>
+  <div class="user-table__cell user-table__16">
+    <span class="btn-sep">
+      <%= 'Current: ' + contract.assigns.pluck(:assign_count).compact.inject(0, :+).to_s if contract.assigns.present? %>
+    </span>
+    <%= link_to 'Assign', "/admin/assigns/#{contract.id}.js?" + { :assignable_type => 'Equipment' }.to_param,
+                { :remote => true, "data-toggle" => "modal", 'data-target' => "#show-available-equipments" } %></div>
+  <div class="user-table__cell user-table__7">
+    <% if policy(:AstraTeam).update? %>
+      <%= link_to 'Edit', popup_edit_admin_contract_path(contract), remote: true %>
+    <% end %>
+  </div>
+</div>
+<!--  modal-->
+
+<div class="modal fade" id="show-available-vehicles" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-available modal-dialog-centered" role="document">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
+
+<!--  equiplent-->
+<div class="modal fade" id="show-available-equipments" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-available modal-dialog-centered" role="document">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
+
+
+<!--modal-->

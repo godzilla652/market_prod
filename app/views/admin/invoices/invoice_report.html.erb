@@ -1,0 +1,196 @@
+<% task = @task if @task.present? %>
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>ASTRA</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> -->
+
+<style type="text/css">
+html {
+  height: 0;
+}
+body {
+  font-family: Arial,sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #333333;
+}
+.container{
+  width: 100%;
+  margin: 0 auto;
+}
+header img{
+  max-width: 150px;
+  height: auto;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+th{
+  text-align: left;
+  padding: 8px 16px;
+}
+td{
+  vertical-align: top;
+  padding: 8px 16px;
+}
+.total-td{
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  text-align: right;
+  font-weight: bold;
+}
+.text-strong{
+  font-weight: bold;
+}
+.text-underline{
+  text-decoration: underline;
+}
+.subtitle{
+  font-size: 12px;
+  font-weight: bold;
+  text-align: right;
+  padding: 30px 0;
+}
+.invoice {
+  width: 50%;
+  float: right;
+  position: relative;
+  bottom: 0px;
+  top: 10px;
+  left: 16px;
+}
+.logo img{
+  max-width: 200px;
+  height: auto;
+}
+</style>
+
+</head>
+<body>
+  <div class="container">
+    <table class="top-table">
+      <tbody>
+        <tr>
+          <td width="50%">
+            <div class="logo">
+              <img src="https://astra-management.ca/logo.png">
+            </div>
+            <p>
+              <% if task.concierge %>
+                <%= task.concierge.legal_title %><br>
+              <% end %>
+
+              <% if task.concierge && task.concierge.contract && task.concierge.contract.views_mailing_address.present? %>
+                <%= task.concierge.contract.views_mailing_address %><br>
+              <% end %>
+
+              <% if task.concierge && task.concierge.contract && task.concierge.contract.telephone.present? %>
+                <%= task.concierge.contract.telephone %><br>
+              <% end %>
+
+              <p class="text-strong">To</p>
+              <p>
+                ASTRA Construction Management<br>
+                888 – 3rd Street SW, 10th Floor<br>
+                Bankers Hall, West Tower<br>
+                Calgary, Alberta, T2P 5C5
+              </p>
+            </p>
+          </td>
+          <td width="50%" class="text-strong">
+            <header>
+              <span style="font-size: 18px;"><b>INVOICE <%= task.id %></b></span>
+            </header>
+            <p>
+              <% if task.completed_at %>
+                <%= task.completed_at.strftime("%m/%d/%y")  %><br>
+              <% end %>
+              PO: 25700<br>
+              Project №: <%= task.project_task.number %><br>
+              Project name: <%= task.project_task.name %><br>
+              Category: <%= task.task_type %>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="bottom-table" border="1">
+      <tbody>
+        <tr class="text-strong">
+          <td colspan="2" width="50%">Ordered by: Astra-Group</td>
+          <td colspan="4" width="50%">Requested by: <%= task.owner&.full_name %></td>
+        </tr>
+        <tr>
+          <td colspan="2" width="50%">
+            <p class="text-strong">Bill To:</p>
+            <p>ASTRA Construction Management<br>
+            888 – 3rd Street SW, 10th Floor<br>
+            Bankers Hall, West Tower<br>
+            Calgary, Alberta, T2P 5C5</p>
+          </td>
+          <td colspan="4" width="50%">
+            <p class="text-strong">Ship To:</p>
+            <p><%= task.place&.address %></p>
+          </td>
+        </tr>
+        <tr>
+          <th width="10%">Part No.</th>
+          <th width="40%">Description/Details</th>
+          <th width="12.5%">Qty</th>
+          <th width="12.5%">Unit of Measure</th>
+          <th width="12.5%">Unit Price</th>
+          <th width="12.5%">Total Cost</th>
+        </tr>
+        <tr>
+          <td width="10%"></td>
+          <td width="40%"><%= task.description %></td>
+          <td width="12.5%">1.0000</td>
+          <td width="12.5%"></td>
+          <td width="12.5%"><%= task.budget_round %></td>
+          <td width="12.5%"><%= task.budget_round %></td>
+        </tr>
+        <tr>
+          <td colspan="5" width="88.5%" class="total-td">Subtotal</td>
+          <td width="12.5%"><%= task.budget_round %></td>
+        </tr>
+        <tr>
+          <td colspan="5" width="88.5%" class="total-td">GST or HST Tax:</td>
+          <td width="12.5%"><%= sprintf('%.2f', (tax = task.budget * task.gst_calc / 100)) %></td>
+        </tr>
+        <tr>
+          <td colspan="5" width="88.5%" class="total-td">Sales Tax<sup>¹</sup>:</td>
+          <td width="12.5%">0.00</td>
+        </tr>
+        <tr>
+          <td colspan="5" width="88.5%" class="total-td">Total:</td>
+          <td width="12.5%"><%= sprintf('%.2f', (task.budget + tax)) %></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  <table class="middle-table">
+    <tbody>
+      <tr>
+      <td width="50%">
+ <p >WCB: <%= ((task.concierge.contract.financial.ic_wcb if task.concierge.contract.financial) if task.concierge.contract) if task.concierge %></p>
+        <p >GST#: <%= (task.concierge.contract.gst if task.concierge.contract) if task.concierge %></p>
+      </td>
+      <td width="50%">
+        <p ><sup>¹</sup>Either PST or QST dependent on the province</p>
+      </td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

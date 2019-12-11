@@ -1,0 +1,14 @@
+<div class="form-section">
+  <div class="form-group row form-title-section">
+    <div class="col-sm-6">
+      <label class="form-section-label"><%= @field.name %></label>
+    </div>
+    <div class="col-sm-6"></div>
+  </div>
+
+  <div class="form-inner-section">
+      <% @field.front_visible_child_fields.each do |child| %>
+        <%= render (child.group? || (child.type_field.include? 'scope_group')) ? "shared/fields/#{child.type_field}_field" : 'shared/fields/field', locals: @field = child %>
+      <% end %>
+  </div>
+</div>

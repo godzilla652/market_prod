@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Astra</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=0, maximum-scale=0">
+
+  <!-- Style -->
+  <link href="/assets/chosen/chosen.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css" data-turbolinks-track="reload">
+  <link rel="stylesheet" href="/assets/admin/admin.css" data-turbolinks-track="reload">
+
+  <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'admin', 'data-turbolinks-track' => true %>
+
+  <%= csrf_meta_tags %>
+</head>
+
+<body class="page">
+<%= render 'shared/admin_header' %>
+<main class="page-content">
+  <div class="page__container">
+    <%= yield %>
+  </div>
+</main>
+
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.bundle.js"></script> -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.14/js/jquery.tablesorter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+<script src="/assets/chosen/chosen.jquery.min.js"></script>
+<link href="/assets/datepicker/bootstrap-datepicker3.css" rel="stylesheet" type="text/css">
+<script src="/assets/datepicker/bootstrap-datepicker.js"></script>
+
+<%= yield :task_js %>
+
+<script>
+    $(function () {
+        $('.project-table').tablesorter();
+
+        $('.phone-field').mask('(999) 999-9999');
+
+        $('textarea').keyup(function () {
+            if (this.value.length > 600)
+                this.value = this.value.substr(0, 600);
+        });
+    });
+</script>
+<% unless controller_name == 'estimator_types' %>
+<script>
+    $(function () {
+        // $('.contractors-table').tablesorter();
+
+        $(document).ready(function () {
+            $('.research').eq(0).addClass('active');
+            $('.research').eq(0).find('.pending-table_category-title').addClass('open');
+            $('.research').eq(0).find('.contract_prew').show();
+
+            $('.accordion').click(function () {
+                $(this).parent().toggleClass('test');
+                $(this).parent().toggleClass('active');
+                $(this).siblings().toggle(700);
+                $(this).find('.pending-table_category-title').toggleClass('open');
+            })
+
+            $('.contract_prew').click(function () {
+                $('.contract_prew').removeClass('select');
+                $(this).addClass('select');
+            })
+        });
+
+        $(document).on('click', '#table-id tr', function () {
+            var link = $(this).data('href');
+            $.ajax({
+                type: 'GET',
+                url: link
+            });
+        });
+        $(document).on('click', '#vehicles .img-table__row.clearfix.vehicle', function () {
+            var link = $(this).data('href');
+            $.ajax({
+                type: 'GET',
+                url: link
+            });
+        });
+    });
+</script>
+<% end %>
+<script>
+    $(function () {
+        $(".chosen-select").chosen();
+
+        $('#confirm-delete').on('show.bs.modal', function (e) {
+            $(this).find('.btn-confirm-delete').attr('href', $(e.relatedTarget).data('href'));
+        });
+
+
+        $('.inputfile').each(function () {
+            var $input = $(this),
+                $label = $input.next('label'),
+                labelVal = $label.html();
+
+            $input.on('change', function (e) {
+                var fileName = '';
+
+                if (this.files && this.files.length > 1)
+                    fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+                else if (e.target.value)
+                    fileName = e.target.value.split('\\').pop();
+
+                if (fileName)
+                    $label.next('span').html(fileName);
+                else
+                    $label.html(labelVal);
+            });
+
+            $input
+                .on('focus', function () {
+                    $input.addClass('has-focus');
+                })
+                .on('blur', function () {
+                    $input.removeClass('has-focus');
+                });
+        });
+
+
+    });
+</script>
+
+<script>
+    (function ($) {
+        function checkEmailVal() {
+
+            $.getJSON("https://jsonp.afeld.me/?callback=?&url=https://admin.astra-management.ca/email.json", {}, function (data) {
+
+                var users = data.users;
+
+                $('.error-msg').hide()
+                $('.emailAddress').removeClass('error-field');
+                var emailForCkeck = $('.emailAddress').val().toLowerCase();
+
+                function checkValue(value, email) {
+                    var status = false;
+                    for (var i = 0; i < users.length; i++) {
+                        var userEmail = users[i].email;
+                        if (userEmail === value) {
+                            status = true;
+                            $('.error-msg').show();
+                            $('.error-msg').text('A user with email address ' + userEmail + ' already exists')
+                            $('.emailAddress').closest('.form-group').addClass('invalid');
+                            $('.emailAddress').addClass('error-field');
+                            $('.emailAddress').val("")
+
+                            break;
+                        }
+                    }
+
+                    return status;
+                    $('.error-msg').hide()
+                }
+
+                checkValue(emailForCkeck, users.email);
+
+            }); //getJSON
+
+        };
+        $(document).ready(function () {
+            $('.emailAddress').blur(function () {
+                checkEmailVal()
+                console.log('test')
+            });
+        });
+    })(jQuery);
+</script>
+
+</body>
+</html>

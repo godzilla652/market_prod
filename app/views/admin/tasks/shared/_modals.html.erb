@@ -1,0 +1,96 @@
+<!-- Modal Add Back Charge-->
+<div class="modal fade" id="addBackCharge" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Add back charge</h2>
+      <%= form_for [:admin, @line_task] do |f| %>
+        <div class="form-group">
+          <label class="control-label">Title *</label>
+          <%= f.text_field :title, class: "form-control", required: true %>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Back charge (C$) *</label>
+          <%= f.number_field :budget, step: :any, lang: "en-150", required: true, id: 'baskline', class: "form-control" %>
+        </div>
+        <div class="form-group text-center">
+          <%= f.hidden_field :task_id, value: @entity.id %>
+          <%= f.hidden_field :type_line, value: 'Back Charge' %>
+          <%= f.hidden_field :status, value: 'confirmed' %>
+          <%= f.submit 'Send Back Charge', class: "btn btn-primary-rectangle", 'data-disable-with': "Send Back Charge" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Add Change Order-->
+<div class="modal fade" id="addChangeOrder" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Add Change Order</h2>
+      <%= form_for [:admin, @line_task] do |f| %>
+        <div class="form-group">
+          <label class="control-label">Title *</label>
+          <%= f.text_field :title, class: "form-control", required: true %>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Budget (C$) *</label>
+          <input class="form-control" type="text" name="" id="budget-1" value="<%= @entity.profent_full.round(2) %>" readonly>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Change budget (C$) *</label>
+          <%= f.number_field :budget, step: :any, lang: "en-150", required: true, id: 'task_budget3', class: "form-control", placeholder: "Budget" %>
+          <input type="hidden" value="<%= @entity.gst_calc %>" id="gst_tax_value">
+        </div>
+        <div class="form-group d-flex justify-content-center">
+          <div class="budget-result">
+            <div class="budget-result__tax">GST OR HST TAX:
+              <span id="gst_tax3">
+                <%= action_name =~ /(edit|show)/ ? line_task_tax(@line_task) : '0.0' %>
+                </span>
+            </div>
+            <div class="budget-result__tax">Sales Tax’s: <span id="sales_tax3">0%</span></div>
+            <div class="budget-result__total">TOTAL:
+              <span id="task_total3">
+                <%= line_task_budget(@line_task) %>
+              </span> $
+            </div>
+          </div>
+        </div>
+        <div class="form-group text-center">
+          <%= f.hidden_field :task_id, value: @entity.id %>
+          <%= f.hidden_field :type_line, value: 'Change Order' %>
+          <%= f.hidden_field :status, value: 'new' %>
+          <%= f.submit 'Send Change Order', class: "btn btn-primary-rectangle", 'data-disable-with': "Send Change Order" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!--- Delete Modal ---->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center">Confirm Delete</h2>
+      <div class="modal-body text-center">
+        <p>Are you sure you want to delete this object?</p>
+        <p class="tmp-id"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary-rectangle form-submit-btn btn-confirm-delete">YES</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+

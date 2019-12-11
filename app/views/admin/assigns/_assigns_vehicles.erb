@@ -1,0 +1,114 @@
+  <div class="modal-top d-flex align-items-center">
+    <div class="modal-col-left">
+      <h5>List of available vehicles</h5>
+    </div>
+    <div class="modal-col-right">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="current-role-user d-flex align-items-center">
+            <div class="current-role-user__name"><%= @contract.contact_name %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-main d-flex">
+    <div class="modal-col-left">
+      <div class="available-item-search">
+        <input placeholder="search" class="search-field" type="search" name="" id="">
+        <input type="submit" name="" value="" class="search-submit">
+      </div>
+
+      <div class="available-box__title vehicle-box__title">
+        <div class="available-box__row">
+          <div class="available-box__col vehicle-box__col-1"></div>
+          <div class="available-box__col vehicle-box__col-2">#</div>
+          <div class="available-box__col vehicle-box__col-3">Year</div>
+          <div class="available-box__col vehicle-box__col-4">Model</div>
+          <div class="available-box__col vehicle-box__col-5">KM</div>
+          <div class="available-box__col vehicle-box__col-6">License</div>
+          <div class="available-box__col vehicle-box__col-7"></div>
+        </div>
+      </div>
+      <div class="available-box vehicle-box" id="available-box-all">
+        <% @available.each do |vehicle| %>
+          <div class="available-box__item">
+            <div class="available-box__row">
+              <div class="available-box__col vehicle-box__col-1"><img src="<%= url_for(vehicle.driver) if vehicle.driver.attached? %>"></div>
+              <div class="available-box__col vehicle-box__col-2"><%= vehicle.fleet %></div>
+              <div class="available-box__col vehicle-box__col-3"><%= vehicle.year %></div>
+              <div class="available-box__col vehicle-box__col-4"><%= vehicle.make %></div>
+              <div class="available-box__col vehicle-box__col-5"><%= vehicle.km %></div>
+              <div class="available-box__col vehicle-box__col-6"><%= vehicle.license %></div>
+              <div class="available-box__col vehicle-box__col-7">
+                <%= link_to "Add", "/admin/assigns/#{@contract.id}/assign_item?" +
+                  { assignable_type: 'Vehicle', assignable_id: vehicle.id }.to_param,
+                  method: :post %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% @added.each do |vehicle| %>
+          <div class="available-box__item added-item">
+            <div class="available-box__row">
+              <div class="available-box__col vehicle-box__col-1"><img src="<%= url_for(vehicle.driver) if vehicle.driver.attached? %>"></div>
+              <div class="available-box__col vehicle-box__col-2"><%= vehicle.fleet %></div>
+              <div class="available-box__col vehicle-box__col-3"><%= vehicle.year %></div>
+              <div class="available-box__col vehicle-box__col-4"><%= vehicle.make %></div>
+              <div class="available-box__col vehicle-box__col-5"><%= vehicle.km %></div>
+              <div class="available-box__col vehicle-box__col-6"><%= vehicle.license %></div>
+              <div class="available-box__col vehicle-box__col-7">Added</div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="modal-col-right">
+      <div class="available-item-search">
+        <input placeholder="search" class="search-field" type="search" name="" id="">
+        <input type="submit" name="" value="" class="search-submit">
+      </div>
+      <div class="available-box__title vehicle-box__title">
+        <div class="available-box__row">
+          <div class="available-box__col vehicle-box__col-1"></div>
+          <div class="available-box__col vehicle-box__col-2">#</div>
+          <div class="available-box__col vehicle-box__col-3">Year</div>
+          <div class="available-box__col vehicle-box__col-4">Model</div>
+          <div class="available-box__col vehicle-box__col-5">KM</div>
+          <div class="available-box__col vehicle-box__col-6">License</div>
+          <div class="available-box__col vehicle-box__col-7"></div>
+        </div>
+      </div>
+      <div class="available-box vehicle-box" id="available-box-count">
+        <% @contract.vehicles.each do |vehicle| %>
+          <div class="available-box__item">
+            <div class="available-box__row">
+              <div class="available-box__col vehicle-box__col-1"><img src="<%= url_for(vehicle.driver) if vehicle.driver.attached? %>"></div>
+              <div class="available-box__col vehicle-box__col-2"><%= vehicle.fleet %></div>
+              <div class="available-box__col vehicle-box__col-3"><%= vehicle.year %></div>
+              <div class="available-box__col vehicle-box__col-4"><%= vehicle.make %></div>
+              <div class="available-box__col vehicle-box__col-5"><%= vehicle.km %></div>
+              <div class="available-box__col vehicle-box__col-6"><%= vehicle.license %></div>
+              <div class="available-box__col vehicle-box__col-7">
+                <div class="available-del">
+                  <%= link_to "×", "/admin/assigns/#{@contract.id}?" + { assign_id: vehicle.assign.id}.to_param, method: :delete %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<!--  <div class="modal-bottom d-flex align-items-center justify-content-between">-->
+<!--    <select class="form-control modal-select">-->
+<!--      <option value="Vehicle">Vehicle</option>-->
+<!--      <option value="Equipment">Equipment</option>-->
+<!--    </select>-->
+<!--    <div class="d-flex justify-content-end">-->
+<!--      <div class="btn btn-noborder-cancel" data-dismiss="modal" aria-label="Cancel">Cancel</div>-->
+<!--      <input type="submit" name="commit" value="Save" class="btn btn-noborder-ok item-save" data-disable-with="Save">-->
+<!--    </div>-->
+<!--  </div>-->

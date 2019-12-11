@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @equipment.name
+%p
+  %b Category:
+  = @equipment.category
+%p
+  %b Description:
+  = @equipment.description
+%p
+  %b Total owned:
+  = @equipment.total_owned
+%p
+  %b Available:
+  = @equipment.available
+%p
+  %b Assigned:
+  = @equipment.assigned
+%p
+  %b Damaged:
+  = @equipment.damaged
+
+= link_to 'Edit', edit_equipment_path(@equipment)
+\|
+= link_to 'Back', equipment_index_path

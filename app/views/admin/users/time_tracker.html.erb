@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a href="/admin/tracker" class="nav-link " role="tab">Map</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/time_tracker" class="nav-link active" role="tab">Time Tracker</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/work_zones" class="nav-link " role="tab">Work Zones</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<br>
+
+<br>
+
+<div class="tab-pane" id="timeTracker" role="tabpanel" aria-labelledby="timeTracker-tab">
+  <div class="page__header">
+    <div class="delimiter"></div>
+    <%= search_form_for @q, url: admin_time_tracker_url, class: "location_hire_search", id: "location_hire_search" do |f| %>
+      <div class="inline-form-wrap d-flex justify-content-end">
+        <div class="inline-form-group">
+
+          <%= f.select :user_id_eq, options_from_collection_for_select(User.with_role(:hire), "id", "full_name", @q.user_id_eq),
+                       {prompt: 'All'}, class: "inline-form-control " %>
+        </div>
+        <div class="inline-form-group">
+          <label class="inline-control-label">from</label>
+          <%= f.date_field :date_gteq, class: 'inline-form-control input-sm' %>
+
+        </div>
+        <div class="inline-form-group">
+          <label class="inline-control-label">to</label>
+          <%= f.date_field :date_lteq, class: 'inline-form-control input-sm' %>
+        </div>
+        <div class="inline-form-group">
+          <%= f.submit "Search", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <table class="project-table">
+    <thead>
+    <tr>
+      <th class="sort__title">Worker name <i class="sort__icon"></i></th>
+      <th class="sort__title">Zone name <i class="sort__icon"></i></th>
+      <th class="sort__title">Work log <i class="sort__icon"></i></th>
+      <th class="sort__title">Date (UTC) <i class="sort__icon"></i></th>
+
+    </tr>
+    </thead>
+    <tbody>
+      <% @logs.each do |log| %>
+        <tr>
+          <td><%= log.user.full_name || log.user.email %></td>
+          <td><span class="td__project-title"><%= log.work_zone.name %></span></td>
+          <td><%= humanize_seconds log.spended_seconds %></td>
+          <td><%= log.date.strftime("%d.%m.%Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

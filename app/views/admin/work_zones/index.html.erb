@@ -1,0 +1,474 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a href="/admin/tracker" class="nav-link " role="tab">Map</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/time_tracker" class="nav-link" role="tab">Time Tracker</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/work_zones" class="nav-link active" role="tab">Work Zones</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<br>
+<div class="tab-content">
+  <div class="tab-pane active" id="zones" role="tabpanel" aria-labelledby="zones-tab">
+
+    <table class="project-table">
+      <thead>
+      <tr>
+        <th class="sort__title">Name <i class="sort__icon"></i></th>
+        <th class="sort__title">Spot 1 <i class="sort__icon"></i></th>
+        <th class="sort__title">Spot 2 <i class="sort__icon"></i></th>
+        <th class="sort__title">Spot 3 <i class="sort__icon"></i></th>
+        <th class="sort__title">Spot 4 <i class="sort__icon"></i></th>
+        <th class="fixed-width-140">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @work_zones.each do |work_zone| %>
+        <tr>
+          <td><span class="td__project-title"><%= work_zone.name %></span></td>
+          <td><%= work_zone.spot_one %></td>
+          <td><%= work_zone.spot_two %></td>
+          <td><%= work_zone.spot_three %></td>
+          <td><%= work_zone.spot_four %></td>
+          <td>
+            <% if policy(:Tracker).edit? %>
+              <a href="#edit-modal-window<%= work_zone.id %>" class="td__edit"><i class="edit-project__icon"></i></a>
+            <% end %>
+            <% if policy(:Tracker).destroy? %>
+              <%= link_to '<i class="delete-project__icon"></i>'.html_safe, [:admin, work_zone], method: :delete, data: {confirm: 'Are you sure?'}, class: "td__delete" %>
+            <% end %>
+
+
+            <div class="edit-modal-window" id="edit-modal-window<%= work_zone.id %>">
+              <%= form_for [:admin, work_zone], class: "edit_work_zone edit_work_zone#{work_zone.id}" do |f| %>
+
+                <button type="button" class="close modal-close edit-zone-close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <div class="new-zone-title">Edit work zone</div>
+                <div class="zone-form-group">
+                  <label>Name</label>
+                  <%= f.text_field :name, required: true, class: "form-control", placeholder: "Name" %>
+
+                </div>
+                <div class="zone-form-row clearfix">
+                  <div class="zone-form-group-half">
+                    <label>Spot 1</label>
+                    <%= f.text_field :spot_one, required: true, class: "form-control address-field", placeholder: "Spot 1", :id => "location_attributes_latitude" %>
+
+                  </div>
+                  <div class="zone-form-group-half">
+                    <label>Spot 2</label>
+                    <%= f.text_field :spot_two, required: true, class: "form-control address-field", placeholder: "Spot 2" %>
+                  </div>
+                </div>
+                <div class="zone-form-row clearfix">
+                  <div class="zone-form-group-half">
+                    <label>Spot 3</label>
+                    <%= f.text_field :spot_three, required: true, class: "form-control address-field", placeholder: "Spot 3" %>
+                  </div>
+                  <div class="zone-form-group-half">
+                    <label>Spot 4</label>
+                    <%= f.text_field :spot_four, required: true, class: "form-control address-field", placeholder: "Spot 4" %>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <%= f.submit 'Save', class: "btn btn-small-rectangle" %>
+
+                </div>
+              <% end %>
+            </div>
+
+
+          </td>
+
+        </tr>
+
+
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="modal-map" class="modal-window">
+  <div class="text-right">
+    <div class="modal-close-btn btn btn-outline">Close</div>
+  </div>
+  <div class="modal-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <input id="pac-input" class="form-control" type="text" placeholder="Search Box">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('.project-table').tablesorter();
+    });
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRKKwRzF3ZIuEwEIqml_t_OYPmn2sTvQk&libraries=places"></script>
+<script src="https://cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
+<script src='https://cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js' type='text/javascript'></script> <!-- only if you need custom infoboxes -->
+
+<script>
+    $(function () {
+        $('.project-table').tablesorter();
+    });
+</script>
+
+<script type="text/javascript">
+
+    /*************Init main map******************/
+    google.maps.event.addDomListener(window, 'load', init);
+
+    function init() {
+
+
+        /************* tmp start *********************/
+
+        var locations = [
+            ['Supervisor 1', -33.890542, 151.274856, 'pin01'],
+            ['Supervisor 2', -33.923036, 151.259052, 'pin02'],
+            ['Supervisor 3', -34.028249, 151.157507, 'pin03'],
+            ['Supervisor 4', -33.80010128657071, 151.28747820854187, 'pin04'],
+        ];
+        var zone = [{
+            'name': 'Work Zone 1',
+            'centerLat': -33.890542,
+            'centerLng': 151.274856,
+            'title': 'zone01',
+            'zonePaths': [
+                {lat: -33.882580, lng: 151.252562},
+                {lat: -33.882825, lng: 151.283318},
+                {lat: -33.909597, lng: 151.268896},
+                {lat: -33.907689, lng: 151.231338}
+            ]
+        },
+            {
+                'name': 'Work Zone 3',
+                'centerLat': -33.890542,
+                'centerLng': 151.274856,
+                'title': 'zone03',
+                'zonePaths': [
+                    {lat: -34.019878, lng: 151.144922},
+                    {lat: -34.016242, lng: 151.167679},
+                    {lat: -34.041278, lng: 151.169722},
+                    {lat: -34.041698, lng: 151.132056}
+                ]
+            },
+            {
+                'name': 'Work Zone 4',
+                'centerLat': -33.890542,
+                'centerLng': 151.274856,
+                'title': 'zone04',
+                'zonePaths': [
+                    {lat: -33.797239, lng: 151.276493},
+                    {lat: -33.792603, lng: 151.291340},
+                    {lat: -33.804989, lng: 151.299622},
+                    {lat: -33.805494, lng: 151.279410}
+                ]
+            },
+        ];
+        /************* tmp end *********************/
+
+        var mapMain = new google.maps.Map(document.getElementById('map-main'), {
+            zoom: 12,
+            center: new google.maps.LatLng(51.0501100, -114.0852900),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        $('#select-location').change(function () {
+
+            var posLat = $('#select-location').find('option:selected').attr('data-lat');
+            var posLng = $('#select-location').find('option:selected').attr('data-lng');
+
+            var posLatNum = parseFloat(posLat);
+            var posLngNum = parseFloat(posLng);
+            mapMain.setCenter({lat: posLatNum, lng: posLngNum});
+            mapMain.setZoom(13);
+
+            var checkedItem = $('#select-location').val();
+            $('#' + checkedItem).addClass('active').siblings().removeClass('active');
+
+            $('div[title=' + checkedItem + ']').addClass('active-pin').siblings().removeClass('active-pin');
+            $('.active-pin img').attr('src', 'http://159.203.42.111/pin-active.svg');
+
+            if ($('#select-location .unselect').is(':selected')) {
+                $('.right-panel').removeClass('active');
+                $('#map-main div').removeClass('active-pin');
+            }
+
+        })
+
+        var setZone, y;
+        for (y = 0; y < zone.length; y++) {
+            setZone = new google.maps.Polygon({
+                paths: zone[y].zonePaths,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 3,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35
+            });
+            setZone.setMap(mapMain);
+        }
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: mapMain,
+                title: locations[i][3],
+                icon: 'http://159.203.42.111/pin.svg'
+            });
+
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    var pinID = $(this).attr('title');
+                    $('#' + pinID).addClass('active').siblings().removeClass('active');
+
+                    $('#map-main div[title=' + pinID + ']').addClass('active-pin').siblings().removeClass('active-pin');
+                    $('.active-pin img').attr('src', 'http://159.203.42.111/pin-active.svg');
+
+                    $('#select-location').val(pinID).attr('selected', true);
+
+                    var latLng = marker.getPosition();
+                    mapMain.setCenter(latLng);
+                }
+
+
+            })(marker, i));
+
+        }
+
+        $('.select-zone-list li').click(function () {
+            var posLat = $(this).attr('data-lat');
+            var posLng = $(this).attr('data-lng');
+            var posLatNum = parseFloat(posLat);
+            var posLngNum = parseFloat(posLng);
+            mapMain.setCenter({lat: posLatNum, lng: posLngNum});
+            mapMain.setZoom(18);
+
+            var zoneTarget = $(this).attr('id');
+            $('#target-' + zoneTarget).addClass('active');
+        })
+        $('.zone-close-btn').click(function () {
+            $('.zone-info-item').removeClass('active');
+        })
+
+    } //init
+
+    /****************Modal map*****************/
+    $(document).ready(function () {
+        $('.address-field').click(function () {
+            $('#modal-map').show();
+            $(this).addClass('current-input');
+        })
+
+        $(document).keyup(function (e) {
+            if (e.keyCode === 27) {
+                $('#modal-map').hide();
+                $('.address-field').removeClass('current-input');
+            }
+        });
+
+        $('.modal-close-btn').click(function () {
+            $('#modal-map').hide();
+        })
+    });
+
+    google.maps.event.addDomListener(window, 'load', initModal);
+
+    function initModal() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: new google.maps.LatLng(51.0501100, -114.0852900),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var geocoder = new google.maps.Geocoder();
+
+        var searchBox = new google.maps.places.SearchBox(document.getElementById('pac-input'));
+
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('pac-input'));
+
+        google.maps.event.addListener(searchBox, 'places_changed', function () {
+            searchBox.set('map', null);
+
+
+            var places = searchBox.getPlaces();
+
+            var bounds = new google.maps.LatLngBounds();
+            var i, place;
+            for (i = 0; place = places[i]; i++) {
+                (function (place) {
+                    var marker = new google.maps.Marker({
+                        position: place.geometry.location
+                    });
+                    clearMarkers();
+                    markers.push(marker);
+
+                    marker.bindTo('map', searchBox, 'map');
+                    google.maps.event.addListener(marker, 'map_changed', function () {
+                        if (!this.getMap()) {
+                            this.unbindAll();
+                        }
+                    });
+                    bounds.extend(place.geometry.location);
+
+                    infowindow = new google.maps.InfoWindow();
+
+
+                    var latlng = marker.getPosition();
+                    geocoder.geocode({'location': latlng}, function (results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                infowindow.setContent('<div class="address-result-wrap">Coordinates: <span class="address-result">' + latlng + '</span></div>' + '<button class="btn btn-primary" onclick="addAddress()">Add this coordinates</button>');
+                                infowindow.open(map, marker);
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+
+
+                }(place));
+
+            }
+            map.fitBounds(bounds);
+            searchBox.set('map', map);
+            map.setZoom(Math.min(map.getZoom(), 13));
+        });
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng, map);
+        });
+
+    } //init
+
+
+    function addAddress() {
+        var addressResult = $('.address-result').text();
+
+        $('.current-input').val(addressResult);
+        $('#modal-map').hide();
+        $('.address-field').removeClass('current-input');
+    }
+
+    var markers = [];
+
+    function placeMarker(latLng, map) {
+
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+        });
+
+        clearMarkers();
+        markers.push(marker);
+
+
+        map.panTo(latLng);
+        var latlng = marker.getPosition();
+        var geocoder = new google.maps.Geocoder();
+        var infowindow = new google.maps.InfoWindow();
+
+        geocoder.geocode({'location': latlng}, function (results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    infowindow.setContent('<div class="address-result-wrap">Coordinates: <span class="address-result">' + latlng + '</span></div>' + '<button class="btn btn-primary" onclick="addAddress()">Add this coordinates</button>');
+                    infowindow.open(map, marker);
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
+    }
+
+    function clearMarkers(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers = [];
+    }
+
+
+    /********** New zone window ********/
+    $('.new-zone-btn').click(function () {
+        $('.tab-pane').removeClass('active');
+        $('.nav-link').removeClass('active');
+        $('#mapZone-tab').addClass('active');
+        $('#mapZone').addClass('active');
+        $('#select-zone').hide();
+        $('#zone-info').hide();
+        $('#new_work_zone').show();
+    })
+
+    $('.new-zone-close').click(function () {
+        $('#select-zone').show();
+        $('#zone-info').show();
+        $('#new_work_zone').hide();
+    })
+
+
+    //---------------- NEW START ------------------
+    $('.td__edit').click(function (e) {
+        var formID = $(this).attr("href");
+        console.log(formID)
+        $(formID).show();
+    })
+
+    $('.edit-zone-close').click(function () {
+        $('.edit-modal-window').hide();
+    })
+
+    //---------------- NEW END ------------------
+</script>
+
+<!---------------- NEW START ------------------>
+<style>
+  .edit-modal-window {
+    display: none;
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    top: 0;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    background: #F2F3F8;
+    padding: 30px;
+  }
+
+  .edit_work_zone {
+    position: relative;
+    background: #fff;
+    margin: 10vh auto 0 auto;
+    padding: 24px;
+    max-width: 450px;
+  }
+</style>
+

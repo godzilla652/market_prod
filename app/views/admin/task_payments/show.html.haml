@@ -1,0 +1,68 @@
+.admin-page.show
+  .row
+    %h1{:class => 'col-sm-offset-3 col-sm-6'}
+      = @class_name
+
+  .row
+    .col-sm-6.col-sm-offset-3
+      %ul
+        %li
+          %span user ID:
+          =@entity.user.id
+        %li
+          %span Email:
+          =@entity.user.email
+        %li
+          %span Role
+          = "hire" if @entity.hire?
+          = "concierge" if @entity.concierge?
+        %li
+          %span Payment budget:
+          ="$#{@entity.budget}"
+        %li
+          %span Percents:
+          ="$#{@entity.persents}"
+        %li
+          %span Task Id:
+          =@entity.task.id
+        %li
+          %span Task Title:
+          =@entity.task.title
+        %li
+          %span Task Description:
+          =@entity.task.description
+        %li
+          %span Task Type:
+          =@entity.task.task_type
+        %li
+          %span Budget of task:
+          = "#{@entity.task.budget}$"
+        %li
+          %span Plan end:
+          =@entity.task.date_limit
+        %li
+          %span Image1:
+          -if @entity.task.photo.exists?
+            %div
+              =image_tag @entity.task.photo.url(:medium)
+        %li
+          %span Image2:
+          -if @entity.task.photo1.exists?
+            %div
+              =image_tag @entity.task.photo1.url(:medium)
+        %li
+          %span Image3:
+          -if @entity.task.photo2.exists?
+            %div
+              =image_tag @entity.task.photo2.url(:medium)
+        %li
+          %span Image4:
+          -if @entity.task.photo3.exists?
+            %div
+              =image_tag @entity.task.photo3.url(:medium)
+        %li
+          %span Updated:
+          =@entity.task.updated_at
+        %li
+          %span Created:
+          =@entity.task.created_at

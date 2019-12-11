@@ -1,0 +1,20 @@
+%header.header
+  .state.col-xs-12
+    - if user_signed_in?
+      %span.name.pull-right
+        Logged in as:
+        = current_user.email
+
+        = link_to 'Logout', destroy_user_session_path, method: :delete, class: "btn-red"
+        - if current_user.admin?
+          = link_to "Admin panel", admin_users_path, class: "btn-red"
+    - else
+      %span.name.pull-right
+        = link_to "Login", new_user_session_path, class: "btn-red"
+  %br
+  %br
+  %br
+  %br
+  %div.col-sm-offset-4.col-sm-6
+    -if flash[:notice] == "Your password has been changed successfully. You are now signed in."
+      Your password has been changed successfully.

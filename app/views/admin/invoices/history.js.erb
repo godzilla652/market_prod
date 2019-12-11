@@ -1,0 +1,2 @@
+$("#modals-container").html('<%= j render "history_modal", task: @task %>')
+$('#task-<%= @task.id %>-invoice-history').modal('show');

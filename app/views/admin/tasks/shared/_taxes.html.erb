@@ -1,0 +1,15 @@
+<div class="form-group">
+  <div class="budget-result">
+    <div class="budget-result__tax">
+      GST OR HST TAX: <span id="gst_tax"><%= action_name == "edit" ? task_tax(@entity) : '0.0' %></span>
+    </div>
+
+    <div class="budget-result__tax">
+      Sales Tax’s: <span id="sales_tax">0%</span>
+    </div>
+
+    <div class="budget-result__total">
+      TOTAL: <span id="task_total"><%= task_profent_full(@entity) %></span> $
+    </div>
+  </div>
+</div>

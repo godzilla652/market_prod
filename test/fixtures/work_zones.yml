@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  spot_one: MyString
+  spot_two: MyString
+  spot_three: MyString
+  spot_four: MyString
+
+two:
+  name: MyString
+  spot_one: MyString
+  spot_two: MyString
+  spot_three: MyString
+  spot_four: MyString

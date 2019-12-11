@@ -1,0 +1,24 @@
+<div class="tab-pane" id="history" role="tabpanel" aria-labelledby="workOrder-tab">
+  <table class="project-table">
+    <thead>
+      <th>Time</th>
+      <th>User</th>
+      <th>Activity</th>
+      <th>Changes</th>
+    </thead>
+    <tbody>
+      <% @entity.versions.reverse.each do |version| %>
+        <tr>
+          <td><%= version.created_at.in_time_zone('MST').strftime('%d.%m.%Y %H:%M %Z') %></td>
+          <td><%= User.find(version.whodunnit)&.full_name rescue nil %></td>
+          <td><%= version.event %></td>
+          <td>
+            <% version.changeset.each do |key, value| %>
+              <%= render 'admin/tasks/show/history_change', key: key, value: value %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

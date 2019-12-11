@@ -1,0 +1,25 @@
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <%= active_link_to "/admin/estimators", class: 'nav-link', id: 'quotesPending-tab' do %>
+      Pending
+      <span class="pending-number"><%= Estimator.where(status: 'pending').count %></span>
+    <% end %>
+  </li>
+  <li class="nav-item">
+    <%= active_link_to "/admin/estimators_approved", class: 'nav-link', id: 'quotesApproved-tab' do %>
+      Approved
+      <span class="pending-number"><%= Estimator.where(status: 'approved').count %></span>
+    <% end %>
+  </li>
+  <li class="nav-item">
+    <%= active_link_to "/admin/estimators_finished", class: 'nav-link', id: 'quotesFinished-tab' do %>
+      Finished
+    <% end %>
+  </li>
+  <li class="nav-item">
+    <%= active_link_to "/admin/estimators_archive", class: 'nav-link', id: 'quotesArchive-tab' do %>
+      Archive
+    <% end %>
+  </li>
+</ul>

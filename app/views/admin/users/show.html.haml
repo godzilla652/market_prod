@@ -1,0 +1,43 @@
+.admin-page.show
+  .row
+    %h1{:class => 'col-sm-offset-3 col-sm-6'}
+      = @class_name
+
+  .row
+    .col-sm-6.col-sm-offset-3
+      %ul
+        %li
+          %span Image:
+          -if @entity.photo.exists?
+            %div
+              =image_tag @entity.photo.url(:medium)
+        %li
+          %span Email:
+          =@entity.email
+        %li
+          %span First name:
+          =@entity.first_name
+        %li
+          %span Last name:
+          =@entity.last_name
+        %li
+          %span Street:
+          =@entity.street
+        %li
+          %span City:
+          =@entity.city
+        %li
+          %span Postal code:
+          =@entity.postal_code
+        %li
+          %span Phone#1:
+          =@entity.phone1
+        %li
+          %span Phone#2:
+          =@entity.phone2
+        %li
+          %span Updated:
+          =@entity.updated_at
+        %li
+          %span Created:
+          =@entity.created_at

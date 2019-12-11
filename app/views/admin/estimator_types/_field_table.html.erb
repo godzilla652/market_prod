@@ -1,0 +1,31 @@
+<div class="accordion-list__container">
+  <div class="accordion-list__cell drop-cell"><em class="drag__icon"></em></div>
+  <div class="accordion-list__cell number-cell">
+    <% if @field.group? %>
+      <% if @field.field_estimator.present? %>
+          <span class="accordion-sub-child-icon"></span>
+      <% else %>
+        <span class="accordion-child-icon"></span>
+      <% end %>
+    <% end %>
+    <%= @field.id %>
+  </div>
+  <div class="accordion-list__cell name-cell"><%= @field.name %></div>
+  <div class="accordion-list__cell unit-cell"><%= @field.machine_name %></div>
+  <div class="accordion-list__cell group-cell"><%= @field.type_field_show %></div>
+  <div class="accordion-list__cell type-cell"><% if @field.active? %>
+          <span class="icon-true"></span>
+        <% else %>
+          <span class="icon-false"></span>
+        <% end %></div>
+  <div class="accordion-list__cell price-cell"><%= @field.astra_price %></div>
+  <div class="accordion-list__cell price-cell"><%= @field.trade_price %></div>
+  <div class="accordion-list__cell actions-cell">
+    <%= link_to '<i class="edit-project__icon"></i>'.html_safe,
+                update_admin_field_path(@estimator_type, @field), class: "td__edit", title: "Edit", remote: true %>
+
+    <%= link_to '<i class="delete-project__icon"></i>'.html_safe, "/admin/estimator_types/#{@estimator_type.id}/destroy_field/#{@field.id}",
+                class: "td__delete", title: "Delete", data: {confirm: 'Are you sure?'} %>
+  </div>
+
+</div>

@@ -1,0 +1,290 @@
+
+/**** List of available equipments / List of available vehicle ****/
+.modal-available{
+    max-width: 1090px;
+}
+.modal-available .modal-content{
+    max-height: 640px;
+    padding: 0;
+}
+.modal-col-left{
+    float: left;
+    width: 50%;
+    padding: 16px 4px 16px 16px;
+}
+.modal-col-right{
+    float: left;
+    width: 50%;
+    padding: 16px 4px 16px 16px;
+    border-left: 0.5px solid #DBDCE7;
+}
+.modal-top h5{
+    font-size: 16px;
+    font-weight: 600;
+    padding-right: 12px;
+}
+.modal-select{
+    width: 184px;
+    background: url(../img/select-grey-icon.svg) no-repeat right #fff;
+    background-position: right 8px center;
+    height: 32px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.modal-main{
+    background: #F2F3F8;
+}
+.available-item-search{
+    position: relative;
+    width: calc(100% - 12px);
+}
+.available-item-search .search-field{
+    width: 100%;
+    border: 1px solid #C5D7FF;
+}
+.modal-bottom{
+    padding: 16px 24px 24px 16px;
+}
+.available-box{
+    max-height: 360px;
+    overflow-y: auto;
+    margin-bottom: 24px;
+    position: relative;
+}
+.available-box__title{
+    font-weight: 500;
+    font-size: 13px;
+    color: #C4C5D6;
+    padding-right: 12px;
+}
+.available-box__item{
+    padding-right: 12px;
+}
+.available-box__row{
+    width: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.available-box__title .available-box__col{
+    padding: 16px 4px;
+}
+.available-box__item .available-box__row{
+    min-height: 64px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 10px rgba(22, 84, 152, 0.1);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+.equipments-box__col-1{
+    width: 15%;
+}
+.equipments-box__col-2{
+    width: 20%;
+}
+.equipments-box__col-3{
+    width: 20%;
+}
+.equipments-box__col-4{
+    width: 14%;
+}
+.equipments-box__col-5{
+    width: 12%;
+}
+.equipments-box__col-6{
+    width: 19%;
+    text-align: right;
+}
+.available-box__item .available-box__col{
+    padding: 8px 4px;
+}
+.available-box__item .equipments-box__col-6{
+    padding-right: 12px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+.available-box__item.added-item{
+    color: #C4C5D6;
+}
+.available-qty{
+    width: 48px;
+    position: relative;
+}
+.available-qty input{
+    width: 100%;
+    height: 32px;
+    padding: 4px 4px 4px 4px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    box-sizing: border-box;
+    border-radius: 2px;
+}
+.available-qty__plus{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background: #14589C;
+    border-radius: 0px 2px 0px 0px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+.available-qty__minus{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background: #14589C;
+    border-radius: 0px 0px 2px 0px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+.available-del{
+    font-size: 20px;
+    color: #C4C5D6;
+    padding-left: 12px;
+    cursor: pointer;
+}
+.vehicle-box__title{
+    padding-left: 4px;
+}
+.available-box__item .available-box__row{
+    border-left: 4px solid #fff;
+}
+.vehicle-box__col-1{
+    width: 15%;
+}
+.vehicle-box__col-2{
+    width: 9%;
+}
+.vehicle-box__col-3{
+    width: 10%;
+}
+.vehicle-box__col-4{
+    width: 20%;
+}
+#available-box-count .vehicle-box__col-4{
+    width: 31%;
+}
+.vehicle-box__col-5{
+    width: 15%;
+}
+.vehicle-box__col-6{
+    width: 15%;
+}
+.vehicle-box__col-7{
+    width: 5%;
+}
+.available-box__item.added-item .available-box__row{
+    border-left: 4px solid #165498;
+}
+.available-box__item .vehicle-box__col-7{
+    width: 16%;
+    padding-right: 24px;
+    text-align: right;
+}
+.vehicle-box__col-7 .available-del{
+    padding: 0;
+}
+
+
+
+/**** Pop-up ****/
+.modal-role-dialog .modal-content {
+    padding: 24px 0 0 0;
+    border: none;
+    border-radius: 4px;
+}
+.form-group-separator,
+.form-group-separator-padding{
+    display: none;
+}
+.form-group-header{
+    padding: 0 18px;
+    margin-bottom: 15px;
+}
+.role-user-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.role-user-col {
+    width: 33.3%;
+}
+.form-group-body{
+    background: #F2F3F8;
+    padding: 9px 24px 24px 24px;
+    margin-bottom: 0;
+}
+.form-group-footer{
+    margin-bottom: 0;
+    padding: 16px 24px 24px 24px;
+}
+.current-role-user__img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+}
+.current-role-user__name{
+    font-size: 16px;
+    font-weight: 700;
+    padding-left: 8px;
+}
+.modal-available .modal-content {
+    border: none;
+    border-radius: 4px;
+}
+#role-select .dd-selected {
+    padding: 0 12px 0 0;
+}
+.available-box {
+    margin-bottom: 16px;
+}
+.modal-col-left {
+    padding: 24px 4px 12px 16px;
+}
+.modal-col-right {
+    padding: 24px 4px 12px 16px;
+}
+#role-select .dd-option-image, 
+#role-select .dd-selected-image {
+    margin-right: 8px;
+}
+#addNewUser .phone-field {
+    background: transparent;
+}
+.preview-box__user-img {
+    width: 40px;
+    height: 40px;
+}
+.dd-option-image{
+    display: none;
+}
+.modal-content {
+    padding: 24px 24px 8px 24px;
+}
+.modal-title {
+    font-size: 18px;
+}
+.modal-close span {
+    font-size: 40px;
+    line-height: 1;
+    color: #E0E0E0;
+    font-weight: 400;
+}
+.error-msg-general-size{
+    font-size: 13px;
+    padding-top: 4px;
+}

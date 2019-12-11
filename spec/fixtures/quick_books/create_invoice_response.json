@@ -1,0 +1,96 @@
+{
+  "Invoice": {
+    "Deposit": 0,
+    "AllowIPNPayment": false,
+    "AllowOnlinePayment": false,
+    "AllowOnlineCreditCardPayment": false,
+    "AllowOnlineACHPayment": false,
+    "InvoiceLink": "https://connect.intuit.com/portal/app/CommerceNetwork/view/56f7509cf5ac4f61adbbc187bf738aeed6c82a2ea5dc40cf9efea172354c6f29a8a3fba7b7d641e4b4385e5a2f7876a8?cta=v3invoicelinku0026locale=en_UA",
+    "domain": "QBO",
+    "sparse": false,
+    "Id": "18",
+    "SyncToken": "0",
+    "MetaData": {
+      "CreateTime": "2019-09-07T06:13:31-07:00",
+      "LastUpdatedTime": "2019-09-07T06:13:31-07:00"
+    },
+    "CustomField": [],
+    "DocNumber": "534",
+    "TxnDate": "2019-08-13",
+    "CurrencyRef": {
+      "value": "UAH",
+      "name": "Ukrainian Hryvnia"
+    },
+    "LinkedTxn": [],
+    "Line": [
+      {
+        "Id": "1",
+        "LineNum": 1,
+        "Description": "jhkg,red",
+        "Amount": 1501.1,
+        "DetailType": "SalesItemLineDetail",
+        "SalesItemLineDetail": {
+          "ItemRef": {
+            "value": "1",
+            "name": "Sales"
+          },
+          "Qty": 1,
+          "ItemAccountRef": {
+            "value": "76",
+            "name": "Sales"
+          },
+          "TaxCodeRef": {
+            "value": "2"
+          }
+        }
+      },
+      {
+        "Amount": 1501.1,
+        "DetailType": "SubTotalLineDetail",
+        "SubTotalLineDetail": {}
+      }
+    ],
+    "TxnTaxDetail": {
+      "TotalTax": 75.06,
+      "TaxLine": [
+        {
+          "Amount": 75.06,
+          "DetailType": "TaxLineDetail",
+          "TaxLineDetail": {
+            "TaxRateRef": {
+              "value": "3"
+            },
+            "PercentBased": true,
+            "TaxPercent": 5,
+            "NetAmountTaxable": 1501.1
+          }
+        }
+      ]
+    },
+    "CustomerRef": {
+      "value": "3",
+      "name": "Name of Project"
+    },
+    "BillAddr": {
+      "Id": "10",
+      "Line1": "dnipro",
+      "City": "dnipro"
+    },
+    "ShipAddr": {
+      "Id": "2",
+      "Line1": "dnipro",
+      "City": "dnipro"
+    },
+    "FreeFormAddress": true,
+    "DueDate": "2019-09-15",
+    "GlobalTaxCalculation": "TaxExcluded",
+    "TotalAmt": 1576.16,
+    "PrintStatus": "NeedToPrint",
+    "EmailStatus": "NotSet",
+    "BillEmail": {
+      "Address": "page.aleks@gmail.com"
+    },
+    "Balance": 1576.16
+  },
+  "time": "2019-09-07T06:13:31.402-07:00"
+}

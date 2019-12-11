@@ -1,0 +1,42 @@
+[
+    {
+        "name": "mm",
+        "lat": 48.419797,
+        "lng": 35.0644618,
+        "id": 82,
+        "phone1": "(111) 111-1111",
+        "phone2": "(222) 111-1111",
+        "email": "tatyanakipot@yahoo.com",
+        "address": "Traktorobudivnykiv Ave, 86/137, Kharkiv, Kharkivs'ka oblast, Ukraine, 61000"
+    },
+    {
+        "name": "legal",
+        "lat": 49.9900572,
+        "lng": 36.3409427,
+        "id": 107,
+        "phone1": "(3331) 111-1111",
+        "phone2": "",
+        "email": "mm@mm.mm",
+        "address": "Hetmana Petra Doroshenka St, 2, Dnipropetrovs'k, Dnipropetrovs'ka oblast, Ukraine, 49000"
+    },
+    {
+        "name": "Supervisor33",
+        "lat": 51.0501100,
+        "lng": -114.0852900,
+        "id": 111,
+        "phone1": "(555) 111-1111",
+        "phone2": "",
+        "email": "mail2@mm.mm",
+        "address": "Hetmana Petra Doroshenka"
+    },
+    {
+        "name": "Supervisor35",
+        "lat": -33.890542,
+        "lng": 151.274856,
+        "id": 112,
+        "phone1": "(666) 111-1111",
+        "phone2": "",
+        "email": "mail3@mm.mm",
+        "address": "Traktorobudivnykiv Ave"
+    }
+]

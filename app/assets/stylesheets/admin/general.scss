@@ -1,0 +1,217 @@
+@import "sortable_tree";
+html body {
+  .admin-page {
+
+    textarea {
+      min-height: 150px;
+    }
+
+    &.index {
+      .table {
+        margin-top: 20px;
+
+        th {
+          font-weight: bold;
+        }
+
+        tr {
+          td {
+            .state {
+              display: inline-block;
+              color: white;
+              background-color: #0074af;
+              border-radius: 4px;
+              text-transform: uppercase;
+              padding: 2px 15px;
+              font-size: 0.8em;
+
+              &.creating {
+                background-color: $g-blue-dark;
+              }
+
+              &.processing {
+                background-color: $g-red-dark;
+              }
+
+              &.reviewing {
+                background-color: $g-orange-dark;
+              }
+
+              &.published {
+                background-color: $g-green-dark;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.publish {
+      td.action {
+        width: 230px;
+      }
+    }
+
+    .read-only {
+      color: white;
+      display: inline-block;
+      background-color: $g-red-dark;
+      padding: 6px 20px;
+      font-size: 0.7em;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($g-red-dark, 5);
+      }
+    }
+
+    td.action {
+      width: 130px;
+      text-align: right;
+
+      a {
+        padding: 0 10px;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    h1 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+      margin-top: 0;
+
+      .state {
+        display: inline-block;
+        float: right;
+        color: white;
+        background-color: #0074af;
+        border-radius: 4px;
+        text-transform: uppercase;
+        padding: 5px 20px;
+        font-size: 0.6em;
+
+        &.creating {
+          background-color: $g-blue-dark;
+        }
+
+        &.processing {
+          background-color: $g-red-dark;
+        }
+
+        &.reviewing {
+          background-color: $g-orange-dark;
+        }
+
+        &.published {
+          background-color: $g-green-dark;
+        }
+      }
+    }
+
+    .top-bar-action {
+      .btn {
+        margin-left: 20px;
+      }
+    }
+
+    &.show {
+      ul {
+        li {
+          position: relative;
+          padding-left: 190px;
+          list-style: none;
+          margin-bottom: 10px;
+          min-height: 20px;
+
+          span {
+            position: absolute;
+            left: 0;
+            text-align: right;
+            font-weight: bold;
+            width: 180px;
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 5px;
+          }
+
+          img {
+            max-width: 180px;
+          }
+        }
+      }
+    }
+
+    th {
+      &.number {
+        text-align: center;
+      }
+    }
+
+    #sortable, .numerable {
+      counter-reset: rowNumber;
+    }
+
+    #sortable tr, .numerable tr {
+      counter-increment: rowNumber;
+      position: relative;
+
+      td {
+        position: relative;
+
+        &.number {
+          text-align: center;
+        }
+
+        &.duration {
+          width: 160px;
+        }
+
+        &.legs {
+          width: 70px;
+        }
+      }
+
+      .legs, .duration {
+        padding: 0;
+      }
+    }
+
+    #sortable tr td:first-child::before {
+      content: counter(rowNumber);
+      position: absolute;
+      top: 0;
+      line-height: 37px;
+      margin: auto;
+      left: -25px;
+    }
+
+    .actions {
+      .btn {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  #screen {
+    width: 100%;
+    height: 280px;
+    min-height: 280px;
+  }
+
+  .lesson {
+    .legs {
+      width: 100px;
+      display: inline-block;
+    }
+
+    .asana {
+      width: 250px;
+      display: inline-block;
+    }
+  }
+
+}

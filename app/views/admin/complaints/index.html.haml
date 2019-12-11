@@ -1,0 +1,33 @@
+.admin-page.index
+
+  .row
+    = search_form_for @q, url: url_for(:action => :index) do |f|
+      .col-xs-6
+        .input-group
+          = f.search_field :id, :class=>"form-control", :placeholder => "Search by name"
+          %span{:class => "input-group-btn"}
+            = f.submit 'Search', :class => "btn btn-default"
+
+  %table{:class => 'table table-striped'}
+    %tr
+      %th ID
+      %th= sort_link @q, :user, "Owner"
+      %th= sort_link @q, :user, "User"
+      %th= sort_link @q, :complaint_type, "complaint_type"
+      %th= sort_link @q, :created_at, "Created"
+      %th= sort_link @q, :updated_at, "Updated"
+
+      %th
+    - @entities.each do |entity|
+      %tr
+        %td= entity.id
+        %td= entity.owner.email
+        %td= entity.user.email
+        %td= entity.complaint_types
+        %td= entity.created_at.strftime("%m/%d/%y   %I:%M%p")
+        %td= entity.updated_at.strftime("%m/%d/%y   %I:%M%p")
+        %td{:class => 'action'}
+          = link_to  url_for(:action => :show, :id => entity.id), :title => "View #{@class_name}" do
+            %span{:class=>"glyphicon glyphicon-eye-open"}
+
+  = paginate @entities, :theme => 'bootstrap'

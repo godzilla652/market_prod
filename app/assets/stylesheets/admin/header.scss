@@ -1,0 +1,74 @@
+
+html body {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+
+  .wrapper {
+    min-height: 100%;
+    position: relative;
+
+    .header {
+      background-color: $bg-black;
+      height: 100px;
+      width: 100%;
+      color: #333;
+      line-height: 100px;
+      font-style: italic;
+      font-size: 18px;
+
+      .name {
+        a {
+          color: #3c763d;
+        }
+      }
+
+      .logo {
+        //position: absolute;
+        //top: -15px;
+        //left: 0;
+        //height: 90px;
+        //background: #0089ff;
+        //padding: 0 20px 0 20px;
+      }
+
+      .state {
+        text-align: right;
+        position: relative;
+
+        .name a {
+          color: white;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .content {
+      padding-bottom: 50px;
+      padding-top: 20px;
+    }
+
+    .footer {
+      background-color: $bg-black;
+      height: 40px;
+      color: white;
+      line-height: 40px;
+
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+      .env {
+        color: white;
+      }
+
+      .logo {
+        img {
+          height: 20px;
+        }
+      }
+    }
+  }
+}

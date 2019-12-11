@@ -1,0 +1,92 @@
+<% if defined?(contract) && contract %>
+  <div class="preview-top-block d-flex justify-content-between">
+    <div class="preview-top-block_text">User Details</div>
+  </div>
+  <div class="slide-preview-wrap">
+    <% if contract.user %>
+      <div class="preview-box">
+          <h3 class="preview-box__title">User Information</h3>
+          <div class="preview-box__user-img" style="background-image: url(<%= contract.user.photo %>)"></div>
+          <div class="preview-box__wrap">
+              <div class="user-info-box clearfix">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="slide-preview__item">
+                      <span class="slide-preview__item-title">Full Name</span>
+                      <p><%= contract.user.first_name.present? ? contract.user.first_name : 'N/A' %></p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="slide-preview__item">
+                      <span class="slide-preview__item-title">Role</span>
+                      <p><%= contract.user.role&.name || 'N/A' %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="slide-preview__item">
+                      <span class="slide-preview__item-title">Phone #</span>
+                      <p><%= contract.user.phone1 %></p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="slide-preview__item">
+                      <span class="slide-preview__item-title">Email</span>
+                      <p><%= contract.user.email %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="slide-preview__item">
+                      <span class="slide-preview__item-title">Address</span>
+                      <p><%= contract.user.address_m %></p>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="slide-preview__item">
+                      <span class="slide-preview__item-title">Emergency Contact</span>
+                      <p><%= contract.authority_person_name %></p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="slide-preview__item">
+                      <span class="slide-preview__item-title">Phone</span>
+                      <p><%= contract.authority_person_phone %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    <% end %>
+
+    <%= render 'admin/contracts/shared/astra_team/sub_contract_info', contract: contract.sub_contract if contract.sub_contract.present? %>
+
+    <div class="slide-preview-box">
+      <h3 class="slide-preview-box__title">Fleet</h3>
+      <div class="slide-preview-box__wrap">
+      </div>
+    </div>
+
+    <div class="slide-preview-box">
+      <h3 class="slide-preview-box__title">Equipment</h3>
+      <div class="slide-preview-box__wrap">
+      </div>
+    </div>
+
+  </div>
+<% else %>
+  <div class="preview-top-block d-flex justify-content-between">
+    <div class="preview-top-block_text">User Details</div>
+  </div>
+  <div class="slide-preview-wrap">
+    <div class="preview-box">
+      <div style="margin:0 0 12px 16px;">No  item</div>
+    </div>
+  </div>
+<% end %>

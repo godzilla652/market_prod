@@ -1,0 +1,22 @@
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="contractors" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link
+      <% if @active == "contracts" %>active
+      <% end %>" id="pendingApplicants-tab" href="/admin/contracts">Pending applicants
+      <span class="pending-number"><%= Contract.where(status: :pending, team: [nil, false]).count %></span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link
+      <% if @active == "contracts_approved" %>active
+      <% end %>" id="approvedContractors-tab" href="/admin/contracts_approved">
+      Approved contractors
+      <span class="pending-number"><%= Contract.where(status: :approved, team: [nil, false]).count %></span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link
+      <% if @active == "contracts_archive" %>active
+      <% end %>" id="declinedContractors-tab" href="/admin/contracts_archive">Declined contractors</a>
+  </li>
+</ul>
+

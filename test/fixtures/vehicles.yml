@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fleet: MyString
+  year: 1
+  make: MyString
+  km: 1
+  license: MyString
+  assignable: one
+
+two:
+  fleet: MyString
+  year: 1
+  make: MyString
+  km: 1
+  license: MyString
+  assignable: two

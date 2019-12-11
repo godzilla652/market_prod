@@ -1,0 +1,63 @@
+%div{:class=> 'login-full-wrap'}
+  %div{:class=> 'loginform-full'}
+    %div{:class=> 'loginform-full-body'}
+      %div{:class=> 'loginform-full-header'}
+        %img{:src=>"/logo-singin.png", :class=>"loginform-full-logo"}
+      %h2{:class=>'loginform-full-title'} Change your password
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { class: 'form-horizontal' , method: :put}) do |f|
+        .form-group
+          = f.label :password, "New password", :class => 'control-label'
+          = f.password_field :password, autocomplete: "off",  :class => 'form-control'
+        .form-group
+          = f.label :password_confirmation, "Confirm new password", :class => 'control-label'
+          = f.password_field :password_confirmation, autocomplete: "off",  :class => 'form-control'
+        .form-group.text-center
+          = f.submit "Change my password", :class => 'btn singin-btn'
+  - if resource.errors.count > 0
+    %div{:class=> 'alert alert-warning'}
+      %ul
+        - resource.errors.each do |name, msg|
+          %li= msg
+
+
+%style{:media => "screen"}
+  html,body{height:100%;margin:0;padding:0}
+  body{background-color:#14589C!important;padding:64px 0;font-family:'Ubuntu',sans-serif!important;color:#444!important;font-size:13px!important}
+  \.login-full-wrap{min-height:100vh; height:100%;background-color:#14589C}
+  \.loginform-full{width:420px;padding:24px 16px 32px;margin:0 auto 8px;background:#fff}
+  \.loginform-full-body{padding:0 40px;text-align:center}
+  \.loginform-full-header{border-bottom:1px solid #ccc;text-align:center}
+  \.loginform-full-header img{max-width:60%;padding-bottom:8px}
+  \.loginform-full-title{font-size:24px;font-weight:500;color:#444;margin:24px 0 0;padding:0 0 16px;text-align:center}
+  \.loginform-full-subtitle{font-size:16px;font-weight:400;color:#444;margin:0 0 24px;padding:0;text-align:center}
+  \.google-singin__wrap{padding:24px 0 32px}
+  \.google-singin{width:100%;padding:8px;border-radius:2px;background:#fff;box-shadow:none;border:2px solid #ccc;font-size:14px;height:40px}
+  \.google-singin img{padding-right:8px;vertical-align:middle}
+  \.loginform-divider{position:relative;font-size:16px;margin-bottom:24px}
+  \.loginform-divider:before{content:'';width:40%;height:1px;background:#ccc;position:absolute;left:0;top:50%}
+  \.loginform-divider:after{content:'';width:40%;height:1px;background:#ccc;position:absolute;right:0;top:50%}
+  \#new_user{text-align:left}
+  \#new_user label{color:#444;font-weight:400;line-height:normal;font-size:16px;padding-bottom:8px;padding-left:0;text-align:left}
+  \#new_user .form-control{border:1px solid #ccc;height:40px;border-radius:2px;padding:0 20px 0 12px;font-weight:400;line-height:normal;font-size:16px}
+  \.singin-btn{width:100%;height:40px;background-color:#21a44a;border-radius:2px;color:#fff;font-size:16px;position:relative;margin:8px 0 0}
+  \.singin-btn:hover{color:#fff}
+  \.new-password{display:block;font-size:16px;padding-bottom:24px}
+  \.loginform-full hr{margin:16px 0}
+  \.loginform-full-footer{background:#eceef1;padding:16px;font-size:11px;text-align:center}
+  \.quote-checkbox-container{display:block;position:relative;padding-top:0!important;margin-top:-8px;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+  \.quote-checkbox-container input{position:absolute;opacity:0;cursor:pointer;height:0;width:0}
+  \.quote-checkbox-container .checkmark{position:absolute;top:0;left:0;width:16px;height:16px;background:transparent;border:1px solid #C4C5D6;box-sizing:border-box;border-radius:4px}
+  \.quote-checkbox-container:hover input ~ .checkmark{border:1px solid #C4C5D6;background:transparent}
+  \.quote-checkbox-container input:checked ~ .checkmark{background-color:#14589C;border:1px solid #14589C}
+  \.quote-checkbox-container .checkmark:after{content:"";position:absolute;display:none}
+  \.quote-checkbox-container input:checked ~ .checkmark:after{display:block}
+  \.quote-checkbox-container .checkmark:after{left:4px;top:0;width:5px;height:10px;border:solid #fff;border-width:0 1px 1px 0;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}
+  \.checkmark-label{padding-left:24px}
+  a{font-size: 16px;color: #14589C;}
+  a:hover{text-decoration:none; opacity:0.8}
+  \.alert-warning {color: #fff;background-color: #EB5757;border-color: #EB5757;box-shadow: 0px 2px 10px rgba(22, 84, 152, 0.1);border-radius: 4px;width:420px;margin: 0 auto;padding: 24px 32px;}
+  \.alert-warning ul{padding:0; margin:0; list-style:none;}
+  \.alert-warning ul li{font-size: 16px; padding-left: 32px; position:relative;}
+  \.alert-warning ul li:before{content:'';width: 24px; height: 24px; background-image: url(../warning.svg); position: absolute; left: 0;}
+  \#new_user .field_with_errors label{color: #EB5757;}
+  \#new_user .field_with_errors .form-control{border: 1px solid #EB5757;}

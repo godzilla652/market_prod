@@ -1,0 +1,199 @@
+<% url = @contract.new_record? ? popup_create_admin_contracts_path : popup_update_admin_contract_path(@contract) %>
+
+<%= form_for @contract, url: url, remote: true, authenticity_token: true do |cf| %>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      <h2 class="modal-title text-center">Add New User</h2>
+    <form class="" id="" action="" accept-charset="UTF-8" method="post">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+              <ul class="file-list-fleet">
+                <!-------img 1---------->
+                <li class="file-list-fleet__item file-one-item">
+                  <div class="file-fleet__wrap">
+                    <label class="file-fleet-btn">
+                      <%= cf.file_field :photo, id: 'fleet_photo1', class: 'fleet-photo' %>
+                      <!-- <input type="file" name="" id="fleet_photo1" class="fleet-photo"> -->
+                    </label>
+                    <figure class="fleet-thumbnail-wrap" id="fleet-thumbnail-wrap1" style="display:none;">
+                      <a data-fancybox="gallery" href="" id="fleet-gallery1">
+                        <img class="fleet-thumbnail" id="fleet-thumbnail1" src="">
+                      </a>
+                    </figure>
+                      <label class="fleet-file-reset" id="fleet-reset1" for="fleet_delete_photo1" style="display:none;"><span class="reset__icon"></span></label>
+                      <input type="checkbox" value="1" name="" id="fleet_delete_photo1" class="delete_photo">
+                    </div>
+                  </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="control-label">Existing Sub-Contractor Link</label>
+            <% if cf.object.new_record? %>
+              <%= cf.select :sub_contract_id, options_from_collection_for_select(Contract.where(status: :approved, team: [nil, false]), 'id', 'legal_title', cf.object.sub_contract_id), { include_blank: '' }, { class: 'form-control' } %>
+            <% else %>
+              <%= cf.select :sub_contract_id, options_from_collection_for_select(Contract.where(id: cf.object.sub_contract_id), 'id', 'legal_title', cf.object.sub_contract_id), { include_blank: '' }, { class: 'form-control', disabled: true } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="control-label">Full Name *</label>
+            <%= cf.text_field :contact_name, required: true, class: 'form-control check-field' %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">Email *</label>
+            <%= cf.text_field :email, required: true, class: 'form-control check-field check-email' %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">Password <%= '*' if @contract.new_record? %></label>
+            <% if @contract.new_record? %>
+              <%= cf.password_field :password, required: true, class: 'form-control check-field' %>
+            <% else %>
+              <%= cf.password_field :password, value: nil, class: 'form-control' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">Phone *</label>
+            <%= cf.text_field :telephone, required: true, class: 'form-control phone-field check-field' %>
+          </div>
+        </div>
+
+        <%= cf.fields_for :mailing_address do |cmaf| %>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Street *</label>
+              <%= cmaf.text_field :street, class: 'form-control check-field', required: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">City *</label>
+              <%= cmaf.text_field :city, class: 'form-control check-field', required: true %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="control-label">Province *</label>
+              <%= cmaf.select :province, Addressc::PROVINCES_LIST, required: true, class: 'form-control check-field' %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="control-label">Postal Code *</label>
+              <%= cmaf.text_field :postal_code, class: 'form-control check-field', required: true, maxlength: 7 %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">Emergency Contact *</label>
+            <%= cf.text_field :authority_person_name, class: 'form-control check-field', required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">Phone *</label>
+            <%= cf.phone_field :authority_person_phone, class: 'form-control phone-field check-field', required: true %>
+          </div>
+        </div>
+      </div>
+
+      <%= cf.hidden_field :team, value: true %>
+      <div class="d-flex align-items-center form-btn-wrap">
+        <div class="req-info mr-auto">* All fields are required</div>
+        <button type="button" class="btn btn-noborder-cancel" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">CANCEL</span>
+            </button>
+        <input type="submit" name="commit" value="SAVE" class="btn btn-noborder-ok" disabled>
+      </div>
+    </form>
+    </div>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $('#contract_sub_contract_id').change(function($event){
+    let subContractId = $(this)[0].value;
+
+    $.ajax({
+      url: `/api/contracts/${subContractId}`,
+      dataType: 'json',
+      success: function(data) {
+        $('#contract_contact_name').val(data.contact_name);
+        $('#contract_email').val(data.email);
+        $('#contract_email').val(data.email);
+        $('#contract_telephone').val(data.telephone);
+        $('#contract_mailing_address_attributes_street').val(data.mailing_address.street);
+        $('#contract_mailing_address_attributes_city').val(data.mailing_address.city);
+        $('#contract_mailing_address_attributes_province').val(data.mailing_address.province);
+        $('#contract_mailing_address_attributes_postal_code').val(data.mailing_address.postal_code);
+        $('#contract_authority_person_name').val(data.authority_person_name);
+        $('#contract_authority_person_phone').val(data.authority_person_phone);
+      }
+    })
+  });
+
+  $(document).ready(function(){
+        $('.check-email').blur(function(){
+          var reVal = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          var emailVal = $(this).val();
+
+        if(!reVal.test(emailVal)){
+          $(this).closest('.form-group').addClass('invalid');
+          $(this).next('.error-msg-general').remove();
+          $(this).val('');
+          $(this).after('<p class="fw300 italic error-msg-general error-msg-general-size">Please enter valid email address (for example mail@example.com)</p>')
+        }
+        else{
+          $(this).closest('.form-group').removeClass('invalid');
+          $(this).next('.error-msg-general').remove();
+        }
+      });
+
+      $('.check-field').on('change keypress input', function(){
+        $('.check-field').each(function(){
+          if (!$(this).val()) {
+                $('.btn-noborder-ok').prop('disabled', true);
+                return false;
+            } else {
+                $('.btn-noborder-ok').prop('disabled', false);
+            }
+        })
+      })
+  })
+
+  $('.new_contract').submit(function(){
+    $("input[type='submit']", this)
+      .attr('disabled', 'disabled');
+    return true;
+  });
+
+</script>

@@ -1,0 +1,96 @@
+<div class="preview-box">
+  <div class="d-flex justify-content-between align-items-center">
+      <h3 class="preview-box__title">Sub Contractor Details</h3>
+      <%= link_to 'FULL VERSION', admin_contract_path(contract), class: 'box__link' %>
+  </div>
+    <div class="preview-box__wrap">
+        <div class="user-info-box clearfix">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Organization Name</span>
+                <p><%= contract.legal_title  || 'N/A' %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Category</span>
+                <p><%= contract.type_work %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Phone #</span>
+                <p><%= contract.telephone %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Email</span>
+                <p><%= contract.email %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Address</span>
+                <p><%= contract.mailing_address&.to_s %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Applied On</span>
+                <p><%= contract.date_submitted || 'N/A' %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Business Type</span>
+                <p><%= contract.business&.type_one  || 'N/A' %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Date of Corporation</span>
+                <p><%= contract.business&.datecorp  || 'N/A' %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title"># of Emplyees</span>
+                <p><%= contract.business&.number_employees  || 'N/A' %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Union Affiliated</span>
+                <p><% if contract.business&.union_text.present? %><%= contract.business&.union_text %><% else %>N/A<% end %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">ID #</span>
+                <p><%= contract.financial&.acct || 'N/A' %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">GST #</span>
+                <p><%= contract.gst || 'N/A' %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

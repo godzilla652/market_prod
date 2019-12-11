@@ -1,0 +1,14 @@
+{
+  "cities": [
+    <% count = @cities.count %>
+    <% n=0 %>
+    <%  @cities.each do |u| %>
+    <% n+=1 %>
+    {
+      "name": "<%= u%>"
+    }
+    <% unless n == count %>,
+    <% end %>
+    <% end %>
+  ]
+}

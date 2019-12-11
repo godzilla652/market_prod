@@ -1,0 +1,47 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contractor_name: MyString
+  type_work: MyString
+  legal_title: MyString
+  mailing_address_id: 1
+  remittance_address_id: 1
+  contact_name: MyString
+  email: MyString
+  password: MyString
+  telephone: MyString
+  gst: MyString
+  authority_person_name: MyString
+  authority_person_phone: MyString
+  serv_req_name: MyString
+  serv_req_email: MyString
+  serv_req_phone: MyString
+  bil_req_name: MyString
+  bil_req_email: MyString
+  bil_req_phone: MyString
+  full_name: MyString
+  title: MyString
+  date_submitted: 2018-08-18
+
+two:
+  contractor_name: MyString
+  type_work: MyString
+  legal_title: MyString
+  mailing_address_id: 1
+  remittance_address_id: 1
+  contact_name: MyString
+  email: MyString
+  password: MyString
+  telephone: MyString
+  gst: MyString
+  authority_person_name: MyString
+  authority_person_phone: MyString
+  serv_req_name: MyString
+  serv_req_email: MyString
+  serv_req_phone: MyString
+  bil_req_name: MyString
+  bil_req_email: MyString
+  bil_req_phone: MyString
+  full_name: MyString
+  title: MyString
+  date_submitted: 2018-08-18

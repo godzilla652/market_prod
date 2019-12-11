@@ -1,0 +1,63 @@
+[
+  <% @not_nil_contract =  @contracts.where.not(type_work: nil) %>
+  <% ca = Category.where(active: true) %>
+  <% last = ca.count %>
+  <% n=0 %>
+  <% ca.each do |cat| %>
+  <% @con = [] %>
+  <% @not_nil_contract.ransack(params[:q]).result.each do |contr| %>
+  <% @con << contr if contr.type_work.include? cat.name %>
+  <% end %>
+
+  {
+    "name_cat": "<%= cat.name %>",
+    "count_cat": "<%= @con.count %> contractors",
+    "count": "<%= @con.count %>",
+    "contracts": [
+      <% lastc = @con.compact.count %>
+      <% en=0 %>
+      <% @con.compact.each do |contract| %>
+      {
+        "contract": {
+          "id": <%= contract.id  || nil %>,
+          "legal_title": "<%= contract.legal_title %>",
+          "contact_name": "<%= contract.contact_name %>",
+          "concierge_rating": <%= contract.user.rating('concierge') if contract.user %>,
+          "email": "<%= contract.email %>",
+          "city": "<%= contract.city %>",
+          "gst_percent": "<%= contract.gst_percent %>",
+          "type_work": "<%= contract.type_work %>",
+          "serv_req_name": "<%= contract.serv_req_name %>",
+          "serv_req_email": "<%= contract.serv_req_email %>",
+          "serv_req_phone": "<%= contract.serv_req_phone %>",
+          "bussines_serv_req_phone": "<%= contract.bussines_serv_req_phone %>",
+          "tasks": [
+            <% lastct = contract.contasks.count %>
+            <% wn=0 %>
+            <% contract.contasks.each do |task| %>
+            {
+              "task": {
+                "title": "<%= task.title %>",
+                "description": "<%= task.description %>",
+                "date_limit": "<%= task.date_limit %>",
+                "budget": <%= task.budget %>
+              }
+            }
+            <% wn+=1 %><% unless lastct == wn%>,
+            <% end %>
+            <% end %>
+          ],
+          "mailing_address": "<%= contract.views_mailing_address %>",
+          "phone": "<%= contract.telephone %>"
+        }
+      }
+      <% en+=1 %><% unless lastc == en %>,
+      <% end %>
+      <% end %>
+    ]
+  }
+  <% n+=1 %><% unless last == n %>,
+  <% end %>
+
+  <% end %>
+]

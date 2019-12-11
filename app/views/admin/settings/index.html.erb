@@ -1,0 +1,39 @@
+<!-- <div class="page__title"><h1>Settings</h1></div> -->
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a href="/admin/settings" class="nav-link active" role="tab">Emails</a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/admin/categories" class="nav-link " role="tab">Categories</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<br>
+
+<table>
+  <% @settings.to_h["email"].each do |key, value| %>
+
+    <tr>
+      <td>
+        <%= t("settings.email.#{key}.title") %>
+      </td>
+      <td><%= t("settings.email.#{key}.description") %></td>
+      <td>
+        <%= value %>
+      </td>
+      <td>
+        <% if policy(:Setting).update? %>
+          <%= link_to edit_admin_setting_path("email.#{key}"), title: "Edit" do %>
+            <i class="edit-project__icon"></i>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+
+
+  <% end %>
+</table>

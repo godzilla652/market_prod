@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>ASTRA</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <style type="text/css">
+    html {
+      height: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.3;
+      color: #333333;
+    }
+
+    .container {
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .page-title {
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 8px 16px;
+      background: #C5D7FF;
+      text-transform: uppercase;
+    }
+
+    td {
+      vertical-align: top;
+      padding: 8px 16px;
+    }
+
+    td:first-child,
+    th:first-child {
+      width: 10%;
+    }
+
+    /* td:nth-child(2) {
+      width: 55%;
+    }
+
+    td:nth-child(3) {
+      width: 15%;
+    } */
+
+    .border-table th,
+    .border-table td {
+      border: 1px solid #14589C;
+    }
+
+    .top-table {
+      #margin-bottom: 40px;
+    }
+
+    .total-table {
+      text-align: right;
+    }
+
+    .no-paddding {
+      padding: 0;
+    }
+
+    .total-border {
+      border-left: 1px solid #14589C;
+      border-right: 1px solid #14589C;
+      border-bottom: 1px solid #14589C;
+    }
+
+
+    .text-strong {
+      font-weight: bold;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    /* .padding-bottom td{
+        padding-bottom: 32px;
+    } */
+    .hen2 {
+      float: left;
+      width: 50%;
+    }
+
+    .hen2--right {
+      float: right;
+      width: 32%;
+    }
+  </style>
+
+</head>
+<body>
+<div class="container">
+  <table class="top-table">
+
+    <div class='hen'>
+      <div class='hen2'>
+        <!-- </br> -->
+        <p><strong>ASTRA Construction Management</strong><br>
+          888 – 3rd Street SW, 10th Floor<br>
+          Bankers Hall, West Tower<br>
+          Calgary, Alberta, T2P 5C5</p>
+        <div style="padding-top: 30px;">
+          <p class="text-strong">To</p>
+          <p>
+            <%= @estimator.estimator_type.name %><br>
+            400 - 4820 Richard Rd SW, Calgary, AB T3E 6L1<br>
+            Phone: (403) 984-9363
+          </p>
+        </div>
+      </div>
+
+      <div class='hen2 hen2--right'>
+<span>
+												<h1 class="page-title">QUOTE NO. <%= @estimator.id %></h1>
+												<p><strong>Name:</strong> <%= @estimator.name %></p>
+												<p><strong>City:</strong> <%= @estimator.city %></p>
+												<p><strong>Address:</strong> <%= @estimator.address %></p>
+												<p><strong>E-mail:</strong> <%= @estimator.email %></p>
+												<p><strong>Date:</strong> <%= Date.current %></p>
+</span>
+      </div>
+    </div>
+    <br>
+    <br>
+
+    <tbody class="middle-table border-table" style='margin_top:140px;'>
+    <!-- <tr class="text-strong">
+        <td colspan="2" width="60%">Ordered by: Astra-Group</td>
+        <td colspan="2" width="40%">Requested by:  <%= @estimator.name %></td>
+    </tr> -->
+    <tr class="padding-bottom">
+      <td colspan='4' width="100%"> <%= @estimator.comment %></td>
+    </tr>
+
+
+  </table>
+</div>
+</body>
+
+</html>

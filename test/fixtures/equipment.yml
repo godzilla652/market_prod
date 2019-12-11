@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  category: one
+  description: MyText
+  total_owned: 1
+  available: 1
+  assigned: 1
+  damaged: 1
+
+two:
+  name: MyString
+  category: two
+  description: MyText
+  total_owned: 1
+  available: 1
+  assigned: 1
+  damaged: 1

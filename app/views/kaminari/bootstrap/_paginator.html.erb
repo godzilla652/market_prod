@@ -1,0 +1,14 @@
+<%= paginator.render do %>
+<div class="page-pagination">
+  <a class="prev-page disable"><i class="prev-page__icon"></i></a>
+  <ul class="pages">
+    <% each_page do |page| %>
+      <% if page.left_outer? || page.right_outer? || page.inside_window? %>
+        <%= page_tag page %>
+      <% elsif !page.was_truncated? %>
+        ...
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+<% end %>

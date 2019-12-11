@@ -1,0 +1,6 @@
+<tr>
+  <td><%= role.name %></td>
+  <td>
+    <%= link_to '<i class="delete-project__icon"></i>'.html_safe, admin_role_path(role), method: :delete, data: { confirm: "Are you sure want destroy role '#{role.name}'?" } %>
+  </td>
+</tr>

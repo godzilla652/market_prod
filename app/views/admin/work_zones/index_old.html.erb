@@ -1,0 +1,314 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a href="/admin/tracker" class="nav-link " role="tab">Map</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/time_tracker" class="nav-link" role="tab">Time Tracker</a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/admin/work_zones" class="nav-link active" role="tab">Work Zones</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<br>
+<div class="row">
+  <button data-toggle="modal" data-target="#side-modal-r" class="btn btn-primary">New Zone</button>
+  <table class="table table-bordered table-hover">
+    <thead class="thead-light">
+    <tr>
+      <th>Name</th>
+      <th>Spot one</th>
+      <th>Spot two</th>
+      <th>Spot three</th>
+      <th>Spot four</th>
+      <th>Action</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <% @work_zones.each do |work_zone| %>
+      <tr>
+        <td><%= work_zone.name %></td>
+        <td><%= work_zone.spot_one %></td>
+        <td><%= work_zone.spot_two %></td>
+        <td><%= work_zone.spot_three %></td>
+        <td><%= work_zone.spot_four %></td>
+        <td>
+          <a href="" data-toggle="modal" data-target="#side-modal-r<%= work_zone.id %>"><i class="mdi mdi-pen"></i></a>
+          <%= link_to '<i class="mdi mdi-delete"></i>'.html_safe, [:admin, work_zone], method: :delete, data: {confirm: 'Are you sure?'} %>
+        </td>
+      </tr>
+
+      <div class="modal modal-right fade " id="side-modal-r<%= work_zone.id %>">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="side-modal-wrapper">
+              <div class="vertical-align">
+                <div class="table-cell">
+                  <div class="modal-body">
+                    <div class="p-h-15">
+                      <h4>ADD NEW WORK ZONE</h4>
+
+                      <%= form_for [:admin, work_zone], remote: true do |f| %>
+                        <div class="err_form">
+                          <%= render "admin/general/form_errors", object: (@entity = work_zone) %>
+
+                        </div>
+                        <div class="form-group">
+                          <%= f.text_field :name, required: true, class: "form-control", placeholder: "Name" %>
+                        </div>
+                        <div class="form-group">
+                          <%= f.text_field :spot_one, required: true, class: "form-control address-field", placeholder: "Spot 1", :id => "location_attributes_latitude" %>
+                        </div>
+                        <div class="form-group">
+                          <%= f.text_field :spot_two, required: true, class: "form-control address-field", placeholder: "Spot 2" %>
+                        </div>
+                        <div class="form-group">
+                          <%= f.text_field :spot_three, required: true, class: "form-control address-field", placeholder: "Spot 3" %>
+                        </div>
+                        <div class="form-group">
+                          <%= f.text_field :spot_four, required: true, class: "form-control address-field", placeholder: "Spot 4" %>
+                        </div>
+
+                        <%= f.submit 'Save', class: "btn btn-success" %>
+
+                      <% end %>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <span>New Work Zone</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </tbody>
+  </table>
+
+
+</div>
+
+
+<div class="modal modal-right fade " id="side-modal-r">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="side-modal-wrapper">
+        <div class="vertical-align">
+          <div class="table-cell">
+            <div class="modal-body">
+              <div class="p-h-15">
+                <h4>ADD NEW WORK ZONE</h4>
+
+                <%= form_for [:admin, @work_zone], remote: true do |f| %>
+                  <div class="err_form">
+                    <%= render "admin/general/form_errors", object: (@entity = @work_zone) %>
+
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.text_field :name, required: true, class: "form-control", placeholder: "Name" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_field :spot_one, required: true, class: "form-control address-field", placeholder: "Spot 1", :id => "location_attributes_latitude" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_field :spot_two, required: true, class: "form-control address-field", placeholder: "Spot 2" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_field :spot_three, required: true, class: "form-control address-field", placeholder: "Spot 3" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_field :spot_four, required: true, class: "form-control address-field", placeholder: "Spot 4" %>
+                  </div>
+
+                  <%= f.submit 'Save', class: "btn btn-success" %>
+
+                <% end %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span>New Work Zone</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+<div id="modal-map" class="modal-window">
+  <div class="text-right">
+    <div class="modal-close-btn btn btn-dark">Close</div>
+  </div>
+  <div class="modal-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <input id="pac-input" class="form-control" type="text" placeholder="Search Box">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.address-field').click(function () {
+            $('#modal-map').show();
+            $(this).addClass('current-input');
+        })
+
+        $(document).keyup(function (e) {
+            if (e.keyCode === 27) {
+                $('#modal-map').hide();
+                $('.address-field').removeClass('current-input');
+            }
+        });
+
+        $('.modal-close-btn').click(function () {
+            $('#modal-map').hide();
+        })
+    });
+
+    google.maps.event.addDomListener(window, 'load', initModal);
+
+    function initModal() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: new google.maps.LatLng(51.0501100, -114.0852900),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var geocoder = new google.maps.Geocoder();
+
+        var searchBox = new google.maps.places.SearchBox(document.getElementById('pac-input'));
+
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('pac-input'));
+
+        google.maps.event.addListener(searchBox, 'places_changed', function () {
+            searchBox.set('map', null);
+
+
+            var places = searchBox.getPlaces();
+
+            var bounds = new google.maps.LatLngBounds();
+            var i, place;
+            for (i = 0; place = places[i]; i++) {
+                (function (place) {
+                    var marker = new google.maps.Marker({
+                        position: place.geometry.location
+                    });
+                    clearMarkers();
+                    markers.push(marker);
+
+                    marker.bindTo('map', searchBox, 'map');
+                    google.maps.event.addListener(marker, 'map_changed', function () {
+                        if (!this.getMap()) {
+                            this.unbindAll();
+                        }
+                    });
+                    bounds.extend(place.geometry.location);
+
+                    infowindow = new google.maps.InfoWindow();
+
+                    // google.maps.event.addListener(marker, 'click', function() {
+
+                    var latlng = marker.getPosition();
+                    geocoder.geocode({'location': latlng}, function (results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                // infowindow.setContent('<div class="address-result-wrap">Address: <span class="address-result">' + results[0].formatted_address + '<span></div>' +'<button class="btn btn-success" onclick="addAddress()">Add this address</button>');
+                                infowindow.setContent('<div class="address-result-wrap">Coordinates: <span class="address-result">' + latlng + '</span></div>' + '<button class="btn btn-success" onclick="addAddress()">Add this coordinates</button>');
+                                infowindow.open(map, marker);
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+
+                    // });
+
+
+                }(place));
+
+            }
+            map.fitBounds(bounds);
+            searchBox.set('map', map);
+            map.setZoom(Math.min(map.getZoom(), 13));
+        });
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng, map);
+        });
+
+    } //init
+
+
+    function addAddress() {
+        var addressResult = $('.address-result').text();
+
+        $('.current-input').val(addressResult);
+        $('#modal-map').hide();
+        $('.address-field').removeClass('current-input');
+    }
+
+    var markers = [];
+
+    function placeMarker(latLng, map) {
+
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+        });
+
+        clearMarkers();
+        markers.push(marker);
+
+
+        map.panTo(latLng);
+
+        var latlng = marker.getPosition();
+        var geocoder = new google.maps.Geocoder();
+        var infowindow = new google.maps.InfoWindow();
+
+        geocoder.geocode({'location': latlng}, function (results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    // infowindow.setContent('<div class="address-result-wrap">Address: <span class="address-result">' + results[0].formatted_address + '</span></div>' +'<button class="btn btn-success" onclick="addAddress()">Add this address</button>');
+                    infowindow.setContent('<div class="address-result-wrap">Coordinates: <span class="address-result">' + latlng + '</span></div>' + '<button class="btn btn-success" onclick="addAddress()">Add this coordinates</button>');
+                    infowindow.open(map, marker);
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
+
+    }
+
+    function clearMarkers(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers = [];
+    }
+
+</script>

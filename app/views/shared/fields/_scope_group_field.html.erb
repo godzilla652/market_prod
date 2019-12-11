@@ -1,0 +1,100 @@
+<style>
+.delete-project__icon:before {
+    content: url(../img/icon-delete.svg);
+}
+.window-coverings-item{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: space-between;
+  justify-content: space-between;
+}
+.window-coverings-item label{
+  margin-bottom: 0;
+  line-height: 1;
+}
+.window-coverings-item .form-check{
+  padding-top: 10px;
+}
+</style>
+
+<div class="form-section">
+  <div class="form-group row clearfix mobile-form-group">
+    <label class="col-sm-12 col-form-label"><h4 class="form-section__title"><%= @field.name %> </h4></label>
+  </div>
+  <div id="window-coverings-list<%= id = @field.id %>" >
+    <div class="window-coverings-list-inner" class="form-group clearfix ">
+      <div id="replace<%= id %>">
+        <% if @estimator.id.present? %>
+        <% field_ids = @field.front_visible_child_fields.map{|e| e.id} %>
+          <% if @estimator.lines.where(field_estimator_id: field_ids).count >0 %>
+        <% @estimator.lines.where(field_estimator_id: field_ids).each_slice(field_ids.count) do |slice| %>
+            <div class="col-sm-12 clearfix window-coverings-item" >
+              <div class="w_number w_number<%= id %>">1</div>
+              <% slice.each do |line| %>
+          <%= render (line.field_estimator.group? || (line.field_estimator.type_field.include? 'scope_group')) ? "shared/fields/#{line.field_estimator.type_field}_field" : 'shared/fields/field',
+                     locals: [@field = line.field_estimator, @line = line] %>
+                <% end %>
+              <div class="w_btn"><span class="w_delete-btn<%= id %> w_delete-btn">Delete</span></div>
+            </div>
+            <% end %>
+            <% else %>
+              <div class="col-sm-12 clearfix window-coverings-item" >
+                <div class="w_number w_number<%= id %>"></div>
+                <% @field.front_visible_child_fields.each do |child| %>
+
+                  <%= render (child.group? || (child.type_field.include? 'scope_group')) ? "shared/fields/#{child.type_field}_field" : 'shared/fields/field', locals: @field = child %>
+                <% end %>
+                <div class="w_btn"><span class="w_delete-btn<%= id %> w_delete-btn"><i class="delete-project__icon"></i></span></div>
+              </div>
+
+            <% end %>
+
+        <% else %>
+          <div class="col-sm-12 clearfix window-coverings-item" >
+            <div class="w_number w_number<%= id %>"></div>
+          <% @field.front_visible_child_fields.each do |child| %>
+
+            <%= render (child.group? || (child.type_field.include? 'scope_group')) ? "shared/fields/#{child.type_field}_field" : 'shared/fields/field', locals: @field = child %>
+          <% end %>
+            <div class="w_btn"><span class="w_delete-btn<%= id %> w_delete-btn"><i class="delete-project__icon"></i></span></div>
+          </div>
+
+        <% end %>
+        
+        </div> 
+    </div>
+    <div class="w_add-btn<%= id %> w_add-btn"><span>+</span> Add</div>
+  </div>
+</div>
+
+<script>
+    /*** Window coverings fields ***/
+    
+$(document).on('click', '.w_add-btn<%= id %>', function (e) {
+  var windowNum = 0;
+  e.preventDefault();
+  var container = $('#window-coverings-list<%= id %> .window-coverings-list-inner');
+  var block = document.getElementById('replace<%= id %>').innerHTML;
+
+  container.append(block);
+  windowNum += 1;
+
+  $('#window-coverings-list<%= id %> .window-coverings-item').each(function () {
+      $(this).find('.w_number<%= id %>').text(windowNum);
+      windowNum++;
+  })
+})
+
+
+$(document).on('click', '.w_delete-btn<%= id %>', function () {
+$(this).closest('.window-coverings-item').remove();
+
+var windowNum = 1;
+$('#window-coverings-list<%= id %> .window-coverings-item').each(function () {
+      $(this).find('.w_number<%= id %>').text(windowNum);
+      windowNum++;
+  })
+
+// return windowNum;
+});
+</script>

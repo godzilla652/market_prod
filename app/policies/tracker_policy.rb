@@ -1,0 +1,3 @@
+class TrackerPolicy < ApplicationPolicy
+
+end

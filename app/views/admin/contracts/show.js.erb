@@ -1,0 +1,6 @@
+<% if @contract.team? %>
+  $('.tab-pane-left-col').html("<%= j render('admin/contracts/shared/astra_team/contract_info', contract: @contract) %>");
+<% else %>
+  $('.preview-section').html("<%= escape_javascript render('preview', locals: @contract ) %>");
+  $('.showprint').html("<%= escape_javascript render('show', locals: @contract ) %>");
+<% end %>

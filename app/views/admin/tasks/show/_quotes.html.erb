@@ -1,0 +1,29 @@
+<div class="tab-pane" id="quotes" role="tabpanel" aria-labelledby="workOrder-tab">
+  <table class="project-table">
+  <thead>
+  <tr>
+    <th class="sort__title" width="15%">QTY <i class="sort__icon"></i></th>
+    <th class="sort__title" width="36%">Description <i class="sort__icon"></i></th>
+    <th class="sort__title" width="15%">Unit price <i class="sort__icon"></i></th>
+    <th class="sort__title" width="15%">Line total <i class="sort__icon"></i></th>
+    <th width="15%">
+      <div class="">Actions</div>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @entity.lines.each do |line| %>
+    <tr>
+
+      <td><strong><%= number_format(line.estimator.body_qty_clear(line)) %></strong></td>
+      <td><%= line.name_scope %></td>
+      <td><%= price_format(line.trade_price) %></td>
+      <td><%= price_format(line.trade_total) %></td>
+      <td><a href="<%= admin_estimator_path(line.estimator) %>"
+             target="_blank" class="btn-outline-tr">Go to quote</a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>

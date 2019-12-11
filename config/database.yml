@@ -1,0 +1,31 @@
+default: &default
+  adapter: postgis
+  host: localhost
+  schema_search_path: public
+  pool: 5
+  timeout: 5000
+#  database: <%= ENV['DATABASE'] %>
+  database: 'astra'
+#  username: <%= ENV['DB_USER'] %>
+  username: 'boo'
+  password: 'pqp'
+#  password: <%= ENV['DB_PASS'] %>
+
+development:
+  <<: *default
+
+#production:
+#  adapter: postgresql
+#  username: postgres
+#  pool: 5
+#  host: ec2-54-243-197-180.compute-1.amazonaws.com
+#  encoding: utf8
+#  database: 'd3elo4htq5si2r'
+#  username: 'jxignrluqdwqiw'
+#  password: "a786c291452e4e6a342a6b65c217454d055326491afde8ec51733e797e289465"
+
+test:
+  <<: *default
+
+production:
+  <<: *default

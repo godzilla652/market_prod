@@ -1,0 +1,47 @@
+<%= render 'show_main' %>
+
+<section class="quote-item-section">
+
+  <ul class="nav nav-tabs" id="contractors" role="tablist">
+    <li class="nav-item active">
+      <%= active_link_to 'Fields', admin_estimator_type_url(@estimator_type), class: 'nav-link active' %>
+    </li>
+    <% if @estimator_type.admin_dv? %>
+      <li class="nav-item">
+        <%= active_link_to 'Display views', admin_estimator_types_display_views_url(@estimator_type, @estimator_type.display_views&.first&.id), class: 'nav-link' %>
+      </li>
+    <% end %>
+  </ul>
+  <div class="row">
+    <div class="col-md-8 fields-box">
+      <ul class="accordion-list__wrap ">
+        <li class="accordion-list accordion-list__header">
+          <div class="accordion-list__container">
+            <div class="accordion-list__cell drop-cell"></div>
+            <div class="accordion-list__cell number-cell">#</div>
+            <div class="accordion-list__cell name-cell">Name (Description) </div>
+            <div class="accordion-list__cell unit-cell">Machine Name</div>
+            <div class="accordion-list__cell group-cell">Type</div>
+            <div class="accordion-list__cell type-cell">Active</div>
+            <div class="accordion-list__cell price-cell">Unit price</div>
+            <div class="accordion-list__cell price-cell">Astra price</div>
+            <div class="accordion-list__cell actions-cell">Actions</div>
+          </div>
+        </li>
+        <% @estimator_type.fields.field_roots.each do |field| %>
+          <%= render 'field', locale: @field = field %>
+        <% end %>
+      </ul>
+
+    </div>
+    <div class="col-md-4 form-box">
+      <div class="position-mark"></div>
+      <div class="content-section" id="edit_field_estimator" style="margin-top: 46px">
+
+          <%= render 'form_field', locale: @field = nil %>
+
+      </div>
+    </div>
+  </div>
+</section>
+<%= render 'show_script' %>

@@ -1,0 +1,14 @@
+<div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input check-radio" type="radio" id="<%= @field.machine_name %>"
+           name="estimator[body][<%= @field.machine_name %>]" value="3/8"
+           <%= default_value_check(@field, @estimator, true) %>>
+    <label class="form-check-label" for="<%= @field.machine_name %>">3/8</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input check-radio" type="radio" id="<%= @field.machine_name %>2"
+           name="estimator[body][<%= @field.machine_name %>]" value="5/8"
+           <%= default_value_check(@field, @estimator, false) %>>
+    <label class="form-check-label" for="<%= @field.machine_name %>2">5/8</label>
+  </div>
+</div>

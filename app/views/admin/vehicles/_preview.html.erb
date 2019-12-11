@@ -1,0 +1,84 @@
+
+        <div class="vehicle-info__col-1">
+          <div class="vehicle-gallery d-flex flex-wrap">
+              <div class="vehicle-gallery__big">
+                <a data-fancybox="gallery-<%= @vehicle.fleet %>" href="<%= url_for(@vehicle.driver) if @vehicle.driver.attached? %>">
+                  <img class="vehicle-gallery__img" src="<%= url_for(@vehicle.driver) if @vehicle.driver.attached? %>">
+                </a>
+              </div>
+              <div class="vehicle-gallery__thumb-item">
+                <a data-fancybox="gallery-<%= @vehicle.fleet %>" href="<%= url_for(@vehicle.passenger) if @vehicle.passenger.attached? %>">
+                  <img src="<%= url_for(@vehicle.passenger) if @vehicle.passenger.attached? %>">
+                </a>
+              </div>
+              <div class="vehicle-gallery__thumb-item">
+                <a data-fancybox="gallery-<%= @vehicle.fleet %>" href="<%= url_for(@vehicle.front) if @vehicle.front.attached? %>">
+                  <img src="<%= url_for(@vehicle.front) if @vehicle.front.attached? %>">
+                </a>
+              </div>
+              <div class="vehicle-gallery__thumb-item">
+                <a data-fancybox="gallery-<%= @vehicle.fleet %>" href="<%= url_for(@vehicle.rear) if @vehicle.rear.attached? %>">
+                  <img src="<%= url_for(@vehicle.rear) if @vehicle.rear.attached? %>">
+                </a>
+              </div>
+          </div>
+        </div>
+        <div class="vehicle-info__col-2">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Fleet #</span>
+                <p><%= @vehicle.fleet %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Year</span>
+                <p><%= @vehicle.year %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Make / Model</span>
+                <p><%= @vehicle.make %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">KM</span>
+                <p><%= @vehicle.km %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">License</span>
+                <p><%= @vehicle.license %></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title"></span>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Assigned To</span>
+                <%= select_tag 'assignable_id', options_for_select(Contract.where(team: true, status: 'approved').map { |c| [c.legal_title, c.id] }),
+                             {class: 'no-border-select'} %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="slide-preview__item">
+                <span class="slide-preview__item-title">Since</span>
+                <p><%= @vehicle.since %></p>
+              </div>
+            </div>
+          </div>
+        </div>

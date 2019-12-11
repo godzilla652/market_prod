@@ -1,0 +1,9 @@
+<tr class="" data-href="/admin/contracts/<%= contract.id %>.js" data-id="<%= contract.id %>">
+  <td><%= contract.gst %></td>
+  <td><%= contract.contact_name %></td>
+  <td><%= contract.telephone %></td>
+  <td><%= contract.email %></td>
+  <td>
+    <%= link_to contract.user.role&.name || 'Unassigned', admin_user_edit_role_path(contract.user), remote: true, class: "#{'highlight' if !contract.user.role} user-action" %>
+  </td>
+</tr>

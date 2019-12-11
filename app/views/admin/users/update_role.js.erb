@@ -1,0 +1,2 @@
+$('#changeRole').modal('hide');
+$('[data-id=<%= @user.contract.id %>]').replaceWith("<%= j render 'admin/contracts/shared/astra_team/table_row', contract: @user.contract %>");

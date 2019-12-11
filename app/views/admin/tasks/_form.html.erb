@@ -1,0 +1,301 @@
+<%= form_for [:admin, @entity], html: {class: 'form-task', multipart: true} do |f| %>
+  <%= render 'admin/general/form_errors', object: @entity %>
+
+  <%= render 'admin/tasks/edit/photo_inputs', object: @entity, f: f %>
+
+
+  <div class="form-group">
+    <label class="control-label">Attachment</label><br>
+    <% @entity.documents.each do |file| %>
+
+      <span class="file_attach"><img src="/img/metal-paper-clip.svg">
+        <% if file.previewable? %>
+      <%= image_tag file.preview(resize_to_limit: [100, 100]) %>
+        <% else %>
+      <%= link_to file.blob.filename, rails_blob_path(file, disposition: "attachment") %>
+        <% end %>
+    </span>
+      <% if !@entity.accepted? %>
+        <a href="/admin/tasks/<%= @entity.id %>/delete_document/<%= file.id %>"><span class="destroy_doc" style="color:grey">X</span></a>
+      <% end %>
+      <br>
+    <% end %>
+    <!-- <ul class="fileupload-list"></ul>
+    <a id="fileupload">+ Attach File</a><%= f.file_field :documents, multiple: true, id: 'files' %> -->
+
+    <% if !@entity.accepted? %>
+      <div class="fileupload-list"></div>
+      <div id="fileupload">+ Attach File</div>
+    <% end %>
+
+
+    <style>
+      .files {
+        display: none !important;
+      }
+      .fileupload-list__item label {
+        display: block;
+      }
+      #fileupload {
+        cursor: pointer;
+      }
+      .fileupload-list {
+        padding: 8px 0;
+      }
+      .fileupload-list li {
+        padding: 2px 0;
+      }
+      .fileupload-list li img {
+        padding-right: 4px;
+      }
+      .destroy_doc {
+        cursor: pointer;
+        color: grey;
+      }
+      .chosen-container .chosen-drop {
+        position: absolute;
+        top: calc(100% + 2px);
+      }
+    </style>
+    <script>
+        // $("#fileupload").click(function(){
+        //     $("#upload-file").click();
+        // });
+        // $('#upload-file').change(function () {
+        //   for (var i=0, len = this.files.length; i < len; i++) {
+        //       (function (j, self) {
+        //           var reader = new FileReader()
+        //           reader.onload = function (e) {
+        //               $('.fileupload-list').append('<li><img src="/img/metal-paper-clip.svg">' + self.files[j].name + ' <span class="destroy_doc">X</span></li>')
+        //           }
+        //           reader.readAsDataURL(self.files[j])
+        //       })(i, this);
+        //   }
+        // });
+    </script>
+  </div>
+  <div class="form-group">
+    <% project = ProjectTask.find(@entity.project_task_id || params[:project].to_i) %>
+    <% if project.present? %>
+    <% end %>
+    <label class="control-label">Project</label>
+    <%= f.select(:project_task_id, options_for_select(ProjectTask.all.map { |e| ["##{e.number} - #{e.name}", e.id] }, @entity.project_task_id || params[:project].to_i), {}, class: 'form-control', disabled: @entity.accepted?) %>
+  </div>
+  <% @supervisors = Contract.where(status: :approved, team: true).map { |e| e.user } %>
+  <div class="form-group">
+    <label class="control-label">Supervisor</label>
+    <%= f.select(:owner_id, options_for_select(@supervisors.map { |e| [e.full_name, e.id] }, @entity.owner_id || params[:owner_id].to_i), {}, {class: 'form-control', disabled: @entity.accepted?}) %>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Title <span class="text-danger">*</span></label>
+    <%= f.text_field :title, value: (@line&.name_scope || @entity.title), required: true, class: 'form-control req-field check-field', placeholder: 'Title', disabled: @entity.accepted? %>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Description</label>
+    <%= f.text_area :description, value: (@body || @entity.description), class: 'form-control', placeholder: 'description', rows: 4, disabled: @entity.accepted? %>
+  </div>
+
+  <%= f.fields_for :place, @entity.place do |place| %>
+    <div class="form-group">
+      <label class="control-label">Address <span class="text-danger">*</span></label>
+      <% if @line %>
+        <%= place.text_field :address, value: @line&.estimator&.address, required: true, class: 'form-control address-field req-field check-field', placeholder: 'Address', disabled: @entity.accepted? %>
+      <% else %>
+        <%= place.text_field :address, required: true, class: 'form-control address-field req-field check-field', placeholder: 'Address', disabled: @entity.accepted? %>
+      <% end %>
+      <% if !@entity.accepted? %>
+        <input type="button" value="Pin on map" class="address-btn btn-primary mt-4">
+        <% if project.present? %>
+          <input type="button" value="Add from project" class="from-project-btn btn-primary mt-4" style="margin-left: 16px;">
+          <div class="project-address" style="visibility: hidden;"><%= project.address %></div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Аpartment</label>
+      <%= place.text_field :apartment, class: 'form-control form-control-half', placeholder: 'Apartment', disabled: @entity.accepted? %>
+    </div>
+  <% end %>
+
+
+
+  <div class="form-group">
+    <label class="control-label">Phone</label>
+    <%= f.text_field :phone, class: 'form-control phone-field', placeholder: 'Phone', disabled: @entity.accepted? %>
+    <% if !@entity.accepted? %>
+      <input type="button" value="Add phone from Supervisor account" class="phone-btn btn-primary mt-4" style="display: none;">
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Category <span class="text-danger">*</span></label>
+
+    <select <%= 'disabled' if @entity.accepted? %> id="category_select" data-placeholder="category" name='task[task_type][]' class="form-control chosen-select req-field check-field">
+      <option value="">Set category</option>
+      <% @categories.each do |typec, cats| %>
+        <optgroup label="<%= typec %>">
+          <% cats.each do |cat| %>
+            <option
+              <% if ((@entity.task_type.include? cat.name) unless @entity.task_type.nil?) %>selected
+              <% end %> value="<%= cat.name %>"><%= cat.name %></option>
+          <% end %>
+        </optgroup>
+      <% end %>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="control-label">City</label>
+
+    <select <%= 'disabled' if @entity.accepted? %> id="city_select" data-placeholder="city" name='task[city]' class="form-control chosen-select req-field check-field">
+      <option value="">All</option>
+      <% Contract.cities_canada.each do |city| %>
+
+        <option
+          <% if ((@entity.city.include? city) unless @entity.city.nil?) %>selected
+          <% end %> value="<%= city %>"><%= city %></option>
+
+      <% end %>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-check control-label quote-checkbox-container">
+      <%= f.check_box :tender, class: 'check-field quote-checkbox-field', disabled: @entity.accepted? %>
+      <span class="checkmark"></span><span style="padding-left: 24px;">Tender</span></label>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Contractor <span class="text-danger" id="req-mark">*</span></label>
+
+    <%= f.select :concierge_id, @users.map { |e| ([(e.contract.present? ? e.contract.legal_title : e.full_name), e.id] if e.present?) }, {include_blank: 'Set contractor'}, {class: 'form-control req-field check-field', required: true, disabled: true, id: (@entity.accepted? ? 'task_concierge_id_disabled' : 'task_concierge_id')} %>
+
+    <% if action_name == 'new' %>
+      <%= f.hidden_field :status, value: 'posted' %>
+    <% end %>
+  </div>
+  <%= (f.hidden_field :line, value: params[:line]) if params[:line].present? %>
+
+  <div class="form-group">
+    <label class="control-label">Plan start<span class="text-danger">*</span></label>
+    <%= f.text_field :date_start, required: true, value: (@entity.date_start.strftime("%m/%d/%Y") if @entity.date_start), autocomplete: "off", id: "datepicker-1", data: {provide: "datepicker"}, class: "form-control req-field check-field date-field" %>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Plan end<span class="text-danger">*</span></label>
+    <%= f.text_field :date_limit, required: true, value: (@entity.date_limit.strftime("%m/%d/%Y") if @entity.date_limit), autocomplete: "off", id: "datepicker-2", data: {provide: "datepicker"}, class: "form-control req-field check-field date-field" %>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Actual start</label>
+    <%= f.text_field :fact_start, value: (@entity.fact_start.strftime("%m/%d/%Y") if @entity.fact_start), autocomplete: "off", id: "datepicker-2", data: {provide: "datepicker"}, class: "form-control req-field check-field date-field" %>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Budget (C$) <span class="text-danger">*</span></label>
+    <%= f.number_field :budget, value: (@price || @entity.budget), step: :any, lang: "en-150", required: true, class: "form-control req-field check-field", placeholder: "Budget", disabled: @entity.accepted? %>
+  </div>
+
+  <%= render 'admin/tasks/shared/taxes', object: @entity %>
+
+  <div class="form-group">
+    <%= f.submit 'Submit', class: 'btn btn-primary-rectangle', id: 'task-form-submit-btn', value: "Submit", 'data-disable-with': 'SUBMIT' %>
+    <% if @entity.project_task_id.present? %>
+      <%= link_to 'CANCEL', "/admin/project_tasks/#{@entity.project_task_id}", class: 'btn btn-default' %>
+    <% elsif params[:project].present? %>
+      <%= link_to 'CANCEL', "/admin/project_tasks/#{params[:project]}", class: 'btn btn-default' %>
+    <% else %>
+      <%= link_to 'CANCEL', '/admin/tasks/', class: 'btn btn-default' %>
+    <% end %>
+  </div>
+<% end %>
+
+<!-------Modal map start------->
+<div id="modal-map" class="modal-window">
+  <div class="text-right">
+    <div class="modal-close-btn btn btn-outline">Close</div>
+  </div>
+  <div class="modal-wrap">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 map-container">
+          <input id="pac-input" class="form-control" type="text" placeholder="Enter a location">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-------Modal map end------->
+
+<div id="page_variables" data-line_sum="<%= @entity.line_sum %>"></div>
+
+<% content_for :task_js do %>
+  <script type="text/javascript" src="/assets/admin/tasks/task.js"></script>
+  <script type="text/javascript" src="/assets/admin/tasks/photos.js"></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRKKwRzF3ZIuEwEIqml_t_OYPmn2sTvQk&libraries=places"></script>
+  <script type="text/javascript" src="/assets/admin/tasks/map.js"></script>
+
+  <script type="text/javascript">
+      // $(".chosen-select").chosen()
+      //   .on('change', function(evt, params) {
+      //     updateUsers(params.selected);
+      //   });
+      $(document).ready(function () {
+          var date = new Date();
+          $('#datepicker-1').datepicker({
+              // startDate: date
+          }).on('changeDate', function (selected) {
+              var minDate = new Date(selected.date.valueOf());
+              $('#datepicker-2').datepicker('setStartDate', minDate);
+          });
+          $('#datepicker-2').datepicker({
+              // startDate: date
+          }).on('changeDate', function (selected) {
+              var minDate = new Date(selected.date.valueOf());
+              $('#datepicker-1').datepicker('setEndDate', minDate);
+          });
+      });
+      $(document).ready(function () {
+          var supervisors = [
+              <% @supervisors.each do |supervisor| %>
+              {
+                  id: <%= supervisor.id %>,
+                  tel: '<%= supervisor.contract.present? ? supervisor.contract.telephone : '' %>'
+              },
+              <% end %>
+          ]
+          //load
+          for (var i = 0; i < supervisors.length; i++) {
+              var supervisorId = supervisors[i].id;
+              if (supervisorId == $('#task_owner_id').val()) {
+                  var currentTel = supervisors[i].tel;
+                  if (currentTel.length > 0) {
+                      $('.phone-btn').show();
+                  } else {
+                      $('.phone-btn').hide();
+                  }
+                  $('.phone-btn').click(function () {
+                      $('#task_phone').val(currentTel);
+                  })
+              }
+          }
+          //change
+          $('#task_owner_id').change(function () {
+              for (var i = 0; i < supervisors.length; i++) {
+                  var supervisorId = supervisors[i].id;
+                  if (supervisorId == $(this).val()) {
+                      var currentTel = supervisors[i].tel;
+                      if (currentTel.length > 0) {
+                          $('.phone-btn').show();
+                      } else {
+                          $('.phone-btn').hide();
+                      }
+                      $('.phone-btn').click(function () {
+                          $('#task_phone').val(currentTel);
+                      })
+                  }
+              }
+          })
+      });
+  </script>
+
+<% end %>

@@ -1,0 +1,29 @@
+
+      <div class="equipment-info__col-1">
+        <div class="equipment-img">
+
+          <figure class="equipment-img__big">
+            <a data-fancybox="gallery" href="<%= url_for(@equipment.main_image) if @equipment.main_image.attached? %>">
+              <img src="<%= url_for(@equipment.main_image) if @equipment.main_image.attached? %>">
+            </a>
+          </figure>
+        </div>
+      </div>
+      <div class="equipment-info__col-2">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="slide-preview__item">
+              <span class="slide-preview__item-title">Name</span>
+              <p><%= @equipment.name %></p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="slide-preview__item">
+              <span class="slide-preview__item-title">Description</span>
+              <p><%= @equipment.description %></p>
+            </div>
+          </div>
+        </div>
+      </div>

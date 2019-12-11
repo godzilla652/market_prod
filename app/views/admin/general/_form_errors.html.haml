@@ -1,0 +1,11 @@
+- if @success
+  %h3{style: "color: green"} Success!
+- if object.errors.any?
+  .alert.alert-warning
+    %button{ :type => "button", :class => "close", 'data-dismiss' => "alert"}
+      %span{'aria-hidden' => "true"} ×
+      %span{:class => "sr-only"}
+        Close
+    %ul
+      - object.errors.full_messages.each do |msg|
+        %li= msg

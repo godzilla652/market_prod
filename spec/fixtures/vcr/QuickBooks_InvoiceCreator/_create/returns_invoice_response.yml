@@ -1,0 +1,237 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://developer.intuit.com/.well-known/openid_sandbox_configuration/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Intuit-OAuthClient-Ruby0.0.1-x86_64-darwin18
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Sep 2019 15:56:33 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1006'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Last-Modified:
+      - Mon, 11 Feb 2019 22:12:55 GMT
+      X-Amz-Version-Id:
+      - WZRcfJRMBtHEh7ZR0pEzrStfLvNTNqpu
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"665940ee6c04a65f93fc17b219716c4e"'
+      X-Cache:
+      - RefreshHit from cloudfront
+      Via:
+      - 1.1 cc939d428763f6bf98a05191227da596.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - SEA19
+      X-Amz-Cf-Id:
+      - yRjf_2oaRPF45ebIXng6m9kszANe5KFKqgCMkdYU9SNTEJrVsxDmFA==
+    body:
+      encoding: UTF-8
+      string: "\r\n{  \r\n   \"issuer\":\"https://oauth.platform.intuit.com/op/v1\",\r\n
+        \  \"authorization_endpoint\":\"https://appcenter.intuit.com/connect/oauth2\",\r\n
+        \  \"token_endpoint\":\"https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer\",\r\n
+        \  \"userinfo_endpoint\":\"https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo\",\r\n
+        \  \"revocation_endpoint\":\"https://developer.api.intuit.com/v2/oauth2/tokens/revoke\",\r\n
+        \  \"jwks_uri\":\"https://oauth.platform.intuit.com/op/v1/jwks\",\r\n   \"response_types_supported\":[
+        \ \r\n      \"code\"\r\n   ],\r\n   \"subject_types_supported\":[  \r\n      \"public\"\r\n
+        \  ],\r\n   \"id_token_signing_alg_values_supported\":[  \r\n      \"RS256\"\r\n
+        \  ],\r\n   \"scopes_supported\":[  \r\n      \"openid\",\r\n      \"email\",\r\n
+        \     \"profile\",\r\n      \"address\",\r\n      \"phone\"\r\n   ],\r\n   \"token_endpoint_auth_methods_supported\":[
+        \ \r\n      \"client_secret_post\",\r\n      \"client_secret_basic\"\r\n   ],\r\n
+        \  \"claims_supported\":[  \r\n      \"aud\",\r\n      \"exp\",\r\n      \"iat\",\r\n
+        \     \"iss\",\r\n      \"realmid\",\r\n      \"sub\"\r\n   ]\r\n}\r\n"
+    http_version: 
+  recorded_at: Mon, 09 Sep 2019 15:56:33 GMT
+- request:
+    method: post
+    uri: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+    body:
+      encoding: US-ASCII
+      string: grant_type=refresh_token&refresh_token=AB11576770249CLsdxXhiS1Kv7gVpzBm0I63CdhJSoiDvYUPDV
+    headers:
+      User-Agent:
+      - Intuit-OAuthClient-Ruby0.0.1-x86_64-darwin18
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - Basic QUJaZzNKNFJ5ZWxlaTR5MTBWTWdZWU1HUzR2a3N0Q2Y2bVgwQW80WjkxUmJxR2pMZXY6OUJ1MnN6ajd2dXRVTmZCakZ5M1lqUFFLUHZ3RFFHRW14ZkxldnJWbg==
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Sep 2019 15:56:34 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '1007'
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000
+      Intuit-Tid:
+      - fb22a960-d938-486a-b436-217a8646b07f
+      Cache-Control:
+      - no-cache, no-store
+      Pragma:
+      - no-cache
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"refresh_token":"AB11576770249CLsdxXhiS1Kv7gVpzBm0I63CdhJSoiDvYUPDV","access_token":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..l8IbRCk6WL2Ek_Iu2BxOcA.qv1gBuFoDsCVWGwC1dWE-AnMs-dldDhaq6n9TkOCVgXgXz2qdi5ZDT3gI9-xpjQgIhGTvzsLe-k0z773FUEtNYPsRjMJpw4uuID0TuTfiIspUL6nWXh5wGRTUL9dPAtNcMo4iCJCQUJ_i4V_yzvRG6ujc4Co79J-fb6wc54RN89PGX9HpKIoyxcy3Q0Lob33PzcgzA_y2bwWJyXQeA43y6jBGafxaqCb4j2NFVzhjlPJ0qEPg_pYLOVueIbMHnFfn78udVwpcKyKYPXUJ9_VEnvsfLyJsOfT4mMCFZJuklefsvlvO9aUAO-zl0E-Y0JTI1cHPT3ed7-3gjQXNx0xdLTSgcLpB4CRqhPjCVd9LYkA3V9k3fPb0wbX5y5gHp3fvrFMDRwKCFg_93zp5Sn_cQSq-CZvqO3ANCplnMJ8zjol9dP28CyLBkQPmcz9_pM1yZn23K0bcTlR8Zu8_HFiNY0sd1BsUTPIBpAbwiNOp55CI84d3XP1u4MWhlkTUW55NLXq5XpPzrbMl0b_c5A2Jbm8N9EJfTfKZ4F4r-2jJGkmp_jIVWP2-JJ7ZSVyflTFUYzuGdL7mT_CVtBDIqFgIIbyT0yMK1fJATBZCgKC7mAXkqTrjbstSJSf2ynHRIaBHzweAQslvb1ZCoxdiE8tdzPkHDYO6paXzE1pr4WGSug90qfJ_A38Y6pbfzEYjnuZpxm6_FRKEP7pSjRyhF3NT3YAW-pPGBP7rbpq1S3L4dM.RQk1BHQnAfg6i-IS1AuTaQ","x_refresh_token_expires_in":8725656,"token_type":"bearer","expires_in":3600}'
+    http_version: 
+  recorded_at: Mon, 09 Sep 2019 15:56:34 GMT
+- request:
+    method: get
+    uri: https://quickbooks.api.intuit.com/v3/company/9130346928765026/query?minorversion=40&query=select%20*%20from%20Customer
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - rest-client/2.1.0 (darwin18.7.0 x86_64) ruby/2.6.3p62
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..l8IbRCk6WL2Ek_Iu2BxOcA.qv1gBuFoDsCVWGwC1dWE-AnMs-dldDhaq6n9TkOCVgXgXz2qdi5ZDT3gI9-xpjQgIhGTvzsLe-k0z773FUEtNYPsRjMJpw4uuID0TuTfiIspUL6nWXh5wGRTUL9dPAtNcMo4iCJCQUJ_i4V_yzvRG6ujc4Co79J-fb6wc54RN89PGX9HpKIoyxcy3Q0Lob33PzcgzA_y2bwWJyXQeA43y6jBGafxaqCb4j2NFVzhjlPJ0qEPg_pYLOVueIbMHnFfn78udVwpcKyKYPXUJ9_VEnvsfLyJsOfT4mMCFZJuklefsvlvO9aUAO-zl0E-Y0JTI1cHPT3ed7-3gjQXNx0xdLTSgcLpB4CRqhPjCVd9LYkA3V9k3fPb0wbX5y5gHp3fvrFMDRwKCFg_93zp5Sn_cQSq-CZvqO3ANCplnMJ8zjol9dP28CyLBkQPmcz9_pM1yZn23K0bcTlR8Zu8_HFiNY0sd1BsUTPIBpAbwiNOp55CI84d3XP1u4MWhlkTUW55NLXq5XpPzrbMl0b_c5A2Jbm8N9EJfTfKZ4F4r-2jJGkmp_jIVWP2-JJ7ZSVyflTFUYzuGdL7mT_CVtBDIqFgIIbyT0yMK1fJATBZCgKC7mAXkqTrjbstSJSf2ynHRIaBHzweAQslvb1ZCoxdiE8tdzPkHDYO6paXzE1pr4WGSug90qfJ_A38Y6pbfzEYjnuZpxm6_FRKEP7pSjRyhF3NT3YAW-pPGBP7rbpq1S3L4dM.RQk1BHQnAfg6i-IS1AuTaQ
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - quickbooks.api.intuit.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Sep 2019 15:56:35 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000
+      Intuit-Tid:
+      - 35f3fd53-0a3b-4fe2-8116-e0002bc52936
+      Set-Cookie:
+      - JSESSIONID=903C30F0435AC9BCA67F3C1F80B5240B.c4-pprdc4uw2apv017034-stack-b;
+        Domain=qbo.intuit.com; Path=/; Secure; HttpOnly
+      - qboeuid=6db239ae.59220d514d144; path=/; expires=Tue, 08-Sep-20 15:56:35 GMT;
+        domain=.intuit.com
+      Qbo-Version:
+      - '1918.202'
+      Service-Time:
+      - total=163, db=55
+      Expires:
+      - '0'
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate, private
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"QueryResponse":{"Customer":[{"Taxable":true,"BillAddr":{"Id":"2","Line1":"dnipro","City":"dnipro"},"ShipAddr":{"Id":"2","Line1":"dnipro","City":"dnipro"},"Job":false,"BillWithParent":false,"Balance":0,"BalanceWithJobs":35482.91,"CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"PreferredDeliveryMethod":"None","IsProject":false,"domain":"QBO","sparse":false,"Id":"2","SyncToken":"1","MetaData":{"CreateTime":"2019-08-28T14:00:43-07:00","LastUpdatedTime":"2019-09-09T08:48:29-07:00"},"Title":"213","GivenName":"321321","MiddleName":"321321","FamilyName":"123213","FullyQualifiedName":"Astra","CompanyName":"Company","DisplayName":"Astra","PrintOnCheckName":"Astra","Active":true,"PrimaryPhone":{"FreeFormNumber":"321031293018"},"Mobile":{"FreeFormNumber":"321321321"},"PrimaryEmailAddr":{"Address":"page.aleks@gmail.com"}},{"Taxable":false,"Job":true,"BillWithParent":true,"ParentRef":{"value":"2"},"Level":1,"Balance":1576.16,"BalanceWithJobs":1576.16,"CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"PreferredDeliveryMethod":"None","IsProject":true,"domain":"QBO","sparse":false,"Id":"7","SyncToken":"0","MetaData":{"CreateTime":"2019-09-09T08:43:53-07:00","LastUpdatedTime":"2019-09-09T08:48:29-07:00"},"FullyQualifiedName":"Astra:170719
+        - Test number name","DisplayName":"170719 - Test number name","PrintOnCheckName":"170719
+        - Test number name","Active":true},{"Taxable":false,"Job":true,"BillWithParent":true,"ParentRef":{"value":"2"},"Level":1,"Balance":14781.96,"BalanceWithJobs":14781.96,"CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"PreferredDeliveryMethod":"None","IsProject":true,"domain":"QBO","sparse":false,"Id":"3","SyncToken":"2","MetaData":{"CreateTime":"2019-08-28T14:12:03-07:00","LastUpdatedTime":"2019-09-09T01:41:47-07:00"},"FullyQualifiedName":"Astra:Name
+        of Project","DisplayName":"Name of Project","PrintOnCheckName":"Name of Project","Active":true,"PrimaryEmailAddr":{"Address":"page.aleks@gmail.com"}},{"Taxable":false,"Job":true,"BillWithParent":true,"ParentRef":{"value":"2"},"Level":1,"Balance":5304.27,"BalanceWithJobs":5304.27,"CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"PreferredDeliveryMethod":"None","IsProject":true,"domain":"QBO","sparse":false,"Id":"6","SyncToken":"0","MetaData":{"CreateTime":"2019-09-08T06:35:18-07:00","LastUpdatedTime":"2019-09-09T05:03:14-07:00"},"FullyQualifiedName":"Astra:Renovation","DisplayName":"Renovation","PrintOnCheckName":"Renovation","Active":true},{"Taxable":false,"Job":true,"BillWithParent":true,"ParentRef":{"value":"2"},"Level":1,"Balance":13820.52,"BalanceWithJobs":13820.52,"CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"PreferredDeliveryMethod":"None","IsProject":true,"domain":"QBO","sparse":false,"Id":"5","SyncToken":"0","MetaData":{"CreateTime":"2019-08-29T02:09:01-07:00","LastUpdatedTime":"2019-09-07T04:26:36-07:00"},"FullyQualifiedName":"Astra:test","DisplayName":"test","PrintOnCheckName":"test","Active":true}],"startPosition":1,"maxResults":5},"time":"2019-09-09T08:56:35.213-07:00"}'
+    http_version: 
+  recorded_at: Mon, 09 Sep 2019 15:56:35 GMT
+- request:
+    method: post
+    uri: https://quickbooks.api.intuit.com/v3/company/9130346928765026/invoice?minorversion=40
+    body:
+      encoding: UTF-8
+      string: '{"DocNumber":7,"TxnDate":"2019-09-13","DueDate":"2019-10-15","Line":[{"DetailType":"SalesItemLineDetail","Amount":0.0,"SalesItemLineDetail":{"ItemRef":{"name":"Services","value":"1"},"Qty":"1","TaxCodeRef":{"value":"2"}},"Description":"Kitchen
+        renovation"}],"CustomerRef":{"value":"7"},"BillEmail":{"Address":"page.aleks@gmail.com"},"BillAddr":{"Id":"2","Line1":"dnipro","City":"dnipro"}}'
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - rest-client/2.1.0 (darwin18.7.0 x86_64) ruby/2.6.3p62
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..l8IbRCk6WL2Ek_Iu2BxOcA.qv1gBuFoDsCVWGwC1dWE-AnMs-dldDhaq6n9TkOCVgXgXz2qdi5ZDT3gI9-xpjQgIhGTvzsLe-k0z773FUEtNYPsRjMJpw4uuID0TuTfiIspUL6nWXh5wGRTUL9dPAtNcMo4iCJCQUJ_i4V_yzvRG6ujc4Co79J-fb6wc54RN89PGX9HpKIoyxcy3Q0Lob33PzcgzA_y2bwWJyXQeA43y6jBGafxaqCb4j2NFVzhjlPJ0qEPg_pYLOVueIbMHnFfn78udVwpcKyKYPXUJ9_VEnvsfLyJsOfT4mMCFZJuklefsvlvO9aUAO-zl0E-Y0JTI1cHPT3ed7-3gjQXNx0xdLTSgcLpB4CRqhPjCVd9LYkA3V9k3fPb0wbX5y5gHp3fvrFMDRwKCFg_93zp5Sn_cQSq-CZvqO3ANCplnMJ8zjol9dP28CyLBkQPmcz9_pM1yZn23K0bcTlR8Zu8_HFiNY0sd1BsUTPIBpAbwiNOp55CI84d3XP1u4MWhlkTUW55NLXq5XpPzrbMl0b_c5A2Jbm8N9EJfTfKZ4F4r-2jJGkmp_jIVWP2-JJ7ZSVyflTFUYzuGdL7mT_CVtBDIqFgIIbyT0yMK1fJATBZCgKC7mAXkqTrjbstSJSf2ynHRIaBHzweAQslvb1ZCoxdiE8tdzPkHDYO6paXzE1pr4WGSug90qfJ_A38Y6pbfzEYjnuZpxm6_FRKEP7pSjRyhF3NT3YAW-pPGBP7rbpq1S3L4dM.RQk1BHQnAfg6i-IS1AuTaQ
+      Content-Length:
+      - '388'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - quickbooks.api.intuit.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Sep 2019 15:56:36 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000
+      Intuit-Tid:
+      - 2d5d884c-b4cb-4f97-94c3-67a45678384d
+      Set-Cookie:
+      - JSESSIONID=141A252B77E7E753E084A6E6CBD81DC2.c4-pprdc4uw2apv017034-stack-b;
+        Domain=qbo.intuit.com; Path=/; Secure; HttpOnly
+      - qboeuid=baca4dc6.59220d52409b3; path=/; expires=Tue, 08-Sep-20 15:56:36 GMT;
+        domain=.intuit.com
+      Qbo-Version:
+      - '1918.202'
+      Service-Time:
+      - total=457, db=193
+      Expires:
+      - '0'
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate, private
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Invoice":{"Deposit":0,"AllowIPNPayment":false,"AllowOnlinePayment":false,"AllowOnlineCreditCardPayment":false,"AllowOnlineACHPayment":false,"InvoiceLink":"https://connect.intuit.com/portal/app/CommerceNetwork/view/178dcf67e9224586b0d4f9558b925fd97807461b36e54bd588aee4f5d403ecb02354db425825471489d65c969b9bff40?cta=v3invoicelink&locale=en_UA","domain":"QBO","sparse":false,"Id":"28","SyncToken":"0","MetaData":{"CreateTime":"2019-09-09T08:56:36-07:00","LastUpdatedTime":"2019-09-09T08:56:36-07:00"},"CustomField":[],"DocNumber":"7","TxnDate":"2019-09-13","CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"LinkedTxn":[],"Line":[{"Id":"1","LineNum":1,"Description":"Kitchen
+        renovation","Amount":0,"DetailType":"SalesItemLineDetail","SalesItemLineDetail":{"ItemRef":{"value":"1","name":"Sales"},"Qty":1,"ItemAccountRef":{"value":"76","name":"Sales"},"TaxCodeRef":{"value":"2"}}},{"Amount":0,"DetailType":"SubTotalLineDetail","SubTotalLineDetail":{}}],"TxnTaxDetail":{"TotalTax":0,"TaxLine":[{"Amount":0,"DetailType":"TaxLineDetail","TaxLineDetail":{"TaxRateRef":{"value":"3"},"PercentBased":true,"TaxPercent":5,"NetAmountTaxable":0}}]},"CustomerRef":{"value":"7","name":"170719
+        - Test number name"},"BillAddr":{"Id":"20","Line1":"dnipro","City":"dnipro"},"ShipAddr":{"Id":"2","Line1":"dnipro","City":"dnipro"},"FreeFormAddress":true,"DueDate":"2019-10-15","GlobalTaxCalculation":"TaxExcluded","TotalAmt":0,"PrintStatus":"NeedToPrint","EmailStatus":"NotSet","BillEmail":{"Address":"page.aleks@gmail.com"},"Balance":0},"time":"2019-09-09T08:56:36.082-07:00"}'
+    http_version: 
+  recorded_at: Mon, 09 Sep 2019 15:56:36 GMT
+recorded_with: VCR 5.0.0

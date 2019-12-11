@@ -1,0 +1,207 @@
+en:
+  settings:
+    email:
+      title: Email
+      invoices:
+        title: Invoices email
+        description: Email to send invoice copies
+      sender:
+        title: Sender email
+        description: Default 'From' email
+      work_order:
+        title: Work order email
+        description: Email to send Work order copies
+      quota:
+        title: Quota email
+        description: "Email to send quota. Example: example1@gmail.com, example2@gmail.com"
+    estimator:
+      sqftdemo:
+        title: Demolition & Disposal
+        description: SQFT
+      sqftkitch:
+        title: Paint all walls, doors, trim & Kitchen
+        description: SQFT
+      sqftfloor:
+        title: Flooring  - Supply & Install
+        description: SQFT
+      sqftstairs:
+        title: Stairs Nosings & Materials
+        description: SQFT
+      sqftdoors:
+        title: Doors
+        description: SQFT
+      sqftclosetdoors:
+        title: Closet Doors
+        description: SQFT
+      sqftbaseboard:
+        title: Baseboards 4"
+        description: SQFT
+      sqftlight:
+        title: Electrical - Light Fixture
+        description: Electrical
+      sqftreceptacle:
+        title: Electrical - Switch / Receptacle
+        description: Electrical
+      kitchcabinet:
+        title: Supply and Install Cabinets & Counter & backsplash
+        description: Kitchen
+      kitchsink:
+        title: New Sink and Faucet & Valves
+        description: Kitchen
+      kitchpaint:
+        title: Paint New Kitchen
+        description: Kitchen
+      roomtrim:
+        title: Tub Surround & Board and Tape, Shower Trim
+        description: Bathroom
+      roomfaucet:
+        title: Supply and Install Vanity, sink and faucet
+        description: Bathroom
+      roomtoilet:
+        title: Supply and Install new Toilet
+        description: Bathroom
+      roomacces:
+        title: Accessories - Mirror & Accessories
+        description: Bathroom
+      otherclean:
+        title: Final Clean & Garbage Removal
+        description: Other
+      baseboardprocent:
+        title: Baseboard percent
+        description: Percent
+      sqft:
+        title: Sqft percent
+        description: Percent
+    chs:
+      floor_demolition:
+        title: Demolition & Disposal of Flooring & Base
+        description: Flooring
+      floor_tokyomoon:
+        title: Supply, Deliver, Install LVT Tokyo Moonlight
+        description: Flooring
+      floor_plywood:
+        title: Supply and Install Plywood
+        description: Flooring
+      floor_stairs:
+        title: Stairs Nosings & Materials
+        description: Flooring
+      floor_miscaccessories:
+        title: Misc Accessories & Transition
+        description: Flooring
+      floor_plumbingremove:
+        title: Plumbing Remove & Reinstall Toilet
+        description: Flooring
+      tub_demolition:
+        title: Demolition of Tub, Tile and Drywall
+        description: Tub & Tile
+      tub_bathroom:
+        title: Bathroom ( drywall & repairs )
+        description: Tub & Tile
+      tub_supply:
+        title: TUB Supply and Install
+        description: Tub & Tile
+      tub_bath_surround:
+        title: Bathroom Tub Surround Tile Supply and Install
+        description: Tub & Tile
+      tub_plumbing:
+        title: Plumbing Labor & Shower Valve, Trim and Drain
+        description: Tub & Tile
+      cab_demolition:
+        title: Demolition & Disposal
+        description: Cabinetry
+      cab_kitchen:
+        title: Kitchen
+        description: Cabinetry
+      cab_laminate:
+        title: Laminate Counter Top
+        description: Cabinetry
+      cab_vanity_one:
+        title: Vanity 1 & Sink + Plumbing
+        description: Cabinetry
+      cab_vanity_two:
+        title: Vanity 2 & Sink + Plumbing
+        description: Cabinetry
+      cab_plumbing:
+        title: Plumbing & Sink
+        description: Cabinetry
+      cab_backsplash:
+        title: Kitchen Backsplash Supply & Install
+        description: Cabinetry
+      cab_ventilation:
+        title: Supply and Install Ventilation for hood range
+        description: Cabinetry
+      int_door:
+        title: Supply and Install Doors
+        description: Interior Repairs
+      int_various:
+        title: Various ( cold air returns, railings, etc )
+        description: Interior Repairs
+      int_baseboard:
+        title: Baseboards
+        description: Interior Repairs
+      int_switch:
+        title: Switch / Receptacle
+        description: Interior Repairs
+      int_light:
+        title: Light Fixture
+        description: Interior Repairs
+      int_labor:
+        title: Misc Labor
+        description: Interior Repairs
+      int_patching:
+        title: Drywall Patching
+        description: Interior Repairs
+      int_accessories:
+        title: Accessories ( Bathroom & Doors )
+        description: Interior Repairs
+      int_cleaning:
+        title: Final Cleaning & Garbage Removal
+        description: Interior Repairs
+      paint_all:
+        title: Paint all walls, doors, trim
+        description: Interior Repairs
+      int_closet_doors:
+        title: Total Closet Doors
+        description: Interior Repairs
+      paint_wall:
+        title: Wall Prep ( patches, holes, corners, etc )
+        description: Interior Repairs
+      paint_ceiling:
+        title: Ceiling Prep, Repair and Paint
+        description: Interior Repairs
+      contractor:
+        title: Contractor Fee ( Potentially in Interior Repairs )
+        description: Interior Repairs
+      baseboardprocent:
+        title: Baseboard percent
+        description: Flooring
+      sqftpercent:
+        title: Sqft percent
+        description: Flooring
+      stairs_plus:
+        title: Stairs flooring plus SQFT
+        description: Flooring
+      app_fridge:
+        title: Fridge
+        description: Appliances
+      app_stove:
+        title: Stove
+        description: Appliances
+      app_hoodfan:
+        title: Hood Fan
+        description: Appliances
+      app_dishwasher:
+        title: Dishwasher
+        description: Appliances
+      windows_cover:
+        title: Windows Cover
+        description: Windows Cover
+      bathroom_surround_count:
+        title: Bathroom Tub Surround Tile Supply and Install
+        description: Tub & Tile
+      paintpercent:
+        title: Percent Paint all walls, doors, trim
+        description: Paint
+      abatement:
+        title: Abatement
+        description: Abatement

@@ -1,0 +1,65 @@
+<%= form_for [:admin, @estimator_type], html: {class: 'form-task'} do |f| %>
+  <% if @estimator_type.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(@estimator_type.errors.count, "error")} prohibited this estimator_type from being saved:" %>
+      </h2>
+      <ul>
+        <% @estimator_type.errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-section">
+    <div class="form-group">
+      <label class="control-label">Name: *</label>
+      <%= f.text_field :name, class: "form-control", required: true %>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">Description for admin: *</label>
+      <%= f.text_field :admin_descr, class: "form-control", required: true %>
+    </div>
+
+   <!-- <div class="form-group">
+      <label class="control-label">Rewrite Email for default: </label>
+      <%= f.text_field :email, class: "form-control" %>
+    </div>-->
+
+    <div class="form-group">
+      <label class="form-check control-label quote-checkbox-container">
+        <%= f.check_box :active, class: 'check-field quote-checkbox-field' %>
+        <span class="checkmark"></span><span style="padding-left: 24px;">Active</span></label>
+    </div>
+
+    <div class="form-group">
+      <label class="form-check control-label quote-checkbox-container">
+        <%= f.check_box :admin_dv, class: 'check-field quote-checkbox-field' %>
+        <span class="checkmark"></span><span style="padding-left: 24px;">Enabled tasks construction</span></label>
+    </div>
+
+
+   <!-- <div class="form-group">
+      <label class="form-check control-label quote-checkbox-container">
+        <%= f.check_box :widget, class: 'check-field quote-checkbox-field' %>
+        <span class="checkmark"></span><span style="padding-left: 24px;">Create widget for sites</span></label>
+    </div>-->
+
+    <div class="form-group">
+      <label class="form-check control-label quote-checkbox-container">
+        <%= f.check_box :standard_field, class: 'check-field quote-checkbox-field' %>
+        <span class="checkmark"></span><span style="padding-left: 24px;">Standard fields (etc. name, email, phone, comment, city)</span></label>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.submit 'Save', class: "btn btn-primary-rectangle" %>
+    <%= link_to 'CANCEL', '/admin/estimator_types/', class: 'btn btn-default' %>
+
+  </div>
+<% end %>

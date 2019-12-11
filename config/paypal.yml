@@ -1,0 +1,38 @@
+#development: &default
+#  mode: sandbox
+#  client_id: AcD7Wcf4Diha3d2wowWtzYbZvKh0PYXPP9vldggeerE8dGWMN8WisJ5AnKAcxpZ9AaUqJJ0w9ozce_zk
+#  client_secret: ELi_SWCvMOUIBI7_OatnsL2cqg5EcVqTowrOZHtugOraQNR6ZTzpRfxQWPumZgPHq108o419rg8sHHyS
+#  username: se.gajdyk_api1.gmail.com
+#  password: GEH5C3P3UJ6X44W6
+#  signature: AFcWxV21C7fd0v3bYYYRCpSSRl31A-sYTrXoBjDlXXBwYCc5fN2bYyta
+#  app_id: app_id
+#  # # with Proxy
+#  # http_proxy: http://proxy-ipaddress:3129/
+#  # # with CA File
+#  # ssl_options:
+#  #   ca_file: config/cacert.pem
+#  # # Override Endpoint
+#  # rest_endpoint: https://api.sandbox.paypal.com
+#test:
+#  <<: *default
+production:
+  mode: live
+  #client_id: Acd6all2KoykWFCbeaEBFpa9un7pUACwacwp33_a2ZFBJMGLnC2R_lXxYWnldcd8RCzOcEfArjVJYBbJ
+  #client_secret: EBKnjplwBzf6T7ZyId5tYx0U4abjNrrgNBl8dDWTUK3R8lcTKrT2UJnaKvSttqKK_PdZNPYY35EXCWEH
+
+  client_id: Acd6all2KoykWFCbeaEBFpa9un7pUACwacwp33_a2ZFBJMGLnC2R_lXxYWnldcd8RCzOcEfArjVJYBbJ
+  client_secret: EBKnjplwBzf6T7ZyId5tYx0U4abjNrrgNBl8dDWTUK3R8lcTKrT2UJnaKvSttqKK_PdZNPYY35EXCWEH
+
+development:
+  # Mode can be 'live' or 'sandbox'
+  mode: sandbox
+
+  # Credentials for Classic APIs
+  client_id: AX7b34xcd7veX5126knmuHDqz_gggn0FQgwRgswU29wTHTkSpAKTiHogMAyV5ys7HKiLUGfDyYFWZxYH
+  client_secret: EDeFsPBFnYhQI4VV9LUIjEqQxmLr_AzdVSqr51wdqaDa9JH3SZlOr9J1RMoq-_DxCeM_Msq4FcWmUUtE
+
+#  username: m_m_api1.mm.mm
+#  password: UQ89EG2DZF4G8QKF
+#  signature: AFcWxV21C7fd0v3bYYYRCpSSRl31AcDsYshZCpiwI3sEz4SRqJEkrxFS
+#  app_id: APP-80W284485P519543T
+

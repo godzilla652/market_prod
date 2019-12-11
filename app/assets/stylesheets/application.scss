@@ -1,0 +1,102 @@
+/*
+ *= require_self
+ */
+//$icon-font-path: 'free-be/assets/bootstrap/';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "compass";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+//@import 'bootstrap/glyphicons';
+@import "variables";
+@import "mobile";
+@import "buttons";
+@import "layout";
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
+
+html {
+  height: 100%;
+  min-width: 100%;
+  font-size: 14px;
+
+  body {
+    color: #fff;
+    height: 100%;
+    min-width: 100%;
+    font-family: "proxima-nova", sans-serif;
+    font-size: 14px;
+    background-color: $grey;
+
+    .notification {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .content {
+        background-color: white;
+        border-radius: $border-radius;
+        position: relative;
+        z-index: 1010;
+        min-width: 200px;
+        max-width: 600px;
+        width: 30%;
+        padding: 30px;
+        text-align: center;
+
+        h1 {
+          color: $orange-light;
+          text-transform: capitalize;
+        }
+
+        .message {
+          line-height: 3rem;
+          color: black;
+        }
+
+        .btn {
+          margin-top: 30px;
+          text-transform: uppercase;
+        }
+
+        .btn-red {
+          color: #fff;
+          font-weight: 700;
+          padding: 12px 30px 9px;
+          background: $orange-light;
+          border: none;
+          border-bottom: 2px solid $orange-dark;
+
+          &:hover {
+            color: #fff;
+            border-color: $orange-dark-hover;
+            background: $orange-light-hover;
+          }
+
+          &:active, &:focus {
+            color: #fff;
+          }
+        }
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0.9;
+        background-color: $background;
+      }
+    }
+
+    .centered {
+      float: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

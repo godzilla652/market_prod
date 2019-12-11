@@ -1,0 +1,45 @@
+.admin-page.index
+
+  .row
+    .col-sm-4
+      = search_form_for @q, url: url_for(:action => :index) do |f|
+        .form-group
+          .input-group
+            = f.search_field :email_or_last_name_or_first_name_cont, :class=>"form-control", :placeholder => "Search by Email/First name/Last name"
+            %span{:class => "input-group-append"}
+              = f.submit 'Search', :class => "btn btn-default"
+
+  %table{:class => 'table table-striped'}
+    %tr
+      %th ID
+      %th= sort_link @q, :email, "Emails"
+      %th= sort_link @q, :last_sign_iqwn_at, "Last Sign In"
+      %th= sort_link @q, :last_sign_iqwn_at, "Role"
+      %th= sort_link @q, :created_at, "Created"
+      %th= sort_link @q, :updated_at, "Updated"
+
+      %th
+
+    - @entities.each do |entity|
+      %tr
+        %td= entity.id
+        %td= entity.admin? ? "(A) #{entity.email}" : "#{entity.email}"
+        %td= entity.last_sign_in_at.strftime("%m/%d/%y   %I:%M%p") unless  entity.last_sign_in_at.nil?
+        %td= entity.roles.map{|r| r.name}
+        %td= entity.created_at.strftime("%m/%d/%y   %I:%M%p")
+        %td= entity.updated_at.strftime("%m/%d/%y   %I:%M%p")
+
+        %td{:class => 'action'}
+          = link_to  url_for(:action => :show, :id => entity.id), :title => "View #{@class_name}" do
+            %span{:class=>"glyphicon glyphicon-eye-open"}
+
+          = link_to  url_for(:action => :destroy, :id => entity.id), :method => :delete, :data => { :confirm => 'Are you sure?' } , :title => "Remove #{@class_name}" do
+            %span{:class=>"glyphicon glyphicon-remove-circle"}
+
+          %br
+          = link_to "Edit #{@class_name}", url_for(:action => :edit, :id => entity.id)
+          %br
+          = link_to "Edit Contract" , edit_admin_contract_path(entity.contract.id) if entity.contract
+
+
+  = paginate @entities, :theme => 'bootstrap'

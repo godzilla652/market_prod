@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  year_completion: 1
+  value: MyString
+  owner_name: MyString
+  project_address_id: 1
+  owner_contact_one: MyString
+  phone_one: MyString
+  email_one: MyString
+  owner_contact_two: MyString
+  consultant_two: MyString
+  phone_two: MyString
+  email_two: MyString
+  contract: one
+
+two:
+  description: MyString
+  year_completion: 1
+  value: MyString
+  owner_name: MyString
+  project_address_id: 1
+  owner_contact_one: MyString
+  phone_one: MyString
+  email_one: MyString
+  owner_contact_two: MyString
+  consultant_two: MyString
+  phone_two: MyString
+  email_two: MyString
+  contract: two

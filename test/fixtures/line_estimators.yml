@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: MyString
+  field_estimator: one
+  estimator: one
+  task: one
+  astra_total: 9.99
+  trade_total: 9.99
+
+two:
+  value: MyString
+  field_estimator: two
+  estimator: two
+  task: two
+  astra_total: 9.99
+  trade_total: 9.99

@@ -1,0 +1,13 @@
+:concurrency: 10
+:pidfile: tmp/pids/sidekiq.pid
+:timeout: 90
+staging:
+  :concurrency: 20
+  :namespace: 'free-be_development'
+production:
+  :concurrency: 20
+  :namespace: 'free-be_production2'
+:queues:
+  - [notification_sender, 1]
+  - default
+  - mailers

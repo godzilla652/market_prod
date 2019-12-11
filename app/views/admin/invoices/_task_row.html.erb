@@ -1,0 +1,66 @@
+<tr id="invoice-<%= entity.id %>">
+  <td>
+    <label class="quote-checkbox-container">
+      <input type="checkbox" name="q[id_in][]" value="<%= entity.id %>" class="quote-checkbox-field">
+      <span class="checkmark"></span>
+    </label>
+  </td>
+  <td>
+    <%= entity.id %>
+  </td>
+  <td>
+    <%= entity.title %>
+  </td>
+  <td>
+    <%= entity.concierge&.legal_title %>
+  </td>
+  <td>
+    <%= entity.project_task.name %>
+  </td>
+
+  <td>
+    $<%= sprintf('%.2f', entity.total_invoice) %>
+  </td>
+
+  <td>
+
+    $<%= sprintf('%.2f', entity.tax_invoice) %>
+  </td>
+  <td>
+    $0.00
+  </td>
+  <td>
+    <%= entity.fact_end&.strftime("%Y-%m-%d") %>
+  </td>
+  <td class="action quotes-center">
+    <div class="d-flex align-items-center justify-content-center" style="">
+      <% if entity.paid? %>
+        <div class="">
+          <span class="td__status status-active" style="line-height: 32px;">
+            PAID
+          </span>
+        </div>
+      <% else %>
+        <% if policy(Invoice).update? %>
+          <%= link_to 'Pay', pay_admin_invoice_path(entity), method: :post, remote: true, class: "btn btn-primary", style: "min-width: auto; padding: 8px 16px;", data: { confirm: 'Are you sure?' } %>
+        <% end %>
+      <% end %>
+
+      <div class="table-actions table-cell" style="margin-left: 20px;">
+        <% if entity.paid? && policy(Invoice).update? %>
+          <%= link_to unpay_admin_invoice_path(entity), method: :post, remote: true, title: 'Not paid', style: 'margin-right:20px;', data: { confirm: 'Are you sure?' } do %>
+            <%= image_tag 'coin.png', size: '18x18' %>
+          <% end %>
+        <% end %>
+
+        <%= link_to entity.invoice_pdf_path, target: '_blank', class: 'to__pdf', title: "Download invoice", style: 'margin-right:20px;' do %>
+          <%= image_tag 'icon-pdf.svg', size: '18x18' %>
+        <% end %>
+
+        <%= link_to history_admin_invoice_path(entity), remote: true, title: "Invoice history", style: 'margin-right:0;' do %>
+          <%= image_tag 'history.png', size: '18x18' %>
+        <% end %>
+      </div>
+    </div>
+  </td>
+</tr>
