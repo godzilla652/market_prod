@@ -61,7 +61,7 @@ gem 'rswag'
 gem 'sass-rails'
 gem 'send_zip'
 gem 'settingslogic'
-gem 'sidekiq', '~> 4.1', '>= 4.1.4'
+gem 'sidekiq', '~> 5.2'
 gem 'statistics2', '~> 0.54'
 gem 'stripe', '~> 2.0' # 1.38
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
