@@ -276,7 +276,9 @@ GEM
     mime-types (3.3)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.1009)
-    mimemagic (0.3.3)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_magick (4.9.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -317,7 +319,7 @@ GEM
     paypal-sdk-rest (1.7.3)
       multi_json (~> 1.0)
       xml-simple
-    pdfkit (0.8.4.1)
+    pdfkit (0.8.7)
     pg (0.21.0)
     polyamorous (2.3.0)
       activerecord (>= 5.0)
